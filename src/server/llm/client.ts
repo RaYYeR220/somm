@@ -43,7 +43,7 @@ function stripFence(text: string): string {
   return (fenced ? fenced[1] : text).trim();
 }
 
-/** Minimal client for any OpenAI-compatible chat-completions endpoint. */
+/** Minimal client for any chat-completions API endpoint. */
 export function createLlm(options: LlmOptions): Llm {
   const doFetch = options.fetch ?? fetch;
   const url = `${options.baseUrl.replace(/\/+$/, "")}/chat/completions`;

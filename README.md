@@ -58,7 +58,7 @@ With fewer than three signals Somm shows no number at all.
 
 ## Run it
 
-Requires Node 22.19 or newer, a Qloo hackathon API key and an OpenAI-compatible chat endpoint.
+Requires Node 22.19 or newer, a Qloo hackathon API key and a chat-completions API endpoint.
 
 ```sh
 npm install
@@ -73,7 +73,7 @@ npx tsx --env-file=.env.local eval/run.ts       # run the sponsorship eval
 | --- | --- |
 | `QLOO_API_KEY` | Qloo hackathon key |
 | `QLOO_BASE_URL` | `https://hackathon.api.qloo.com` |
-| `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` | Any OpenAI-compatible chat completions endpoint |
+| `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` | Any chat-completions API endpoint |
 | `DATA_DIR` | Where the SQLite database lives |
 | `PUBLIC_URL` | Used in media-kit and MCP links |
 | `QLOO_RUN_BUDGET` | Maximum Qloo calls per run (default 140) |
