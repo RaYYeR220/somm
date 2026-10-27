@@ -21,7 +21,7 @@ function SegmentText({ segment }: { segment: ClaimSegment }) {
   );
 }
 
-function PitchBody({ check, showStruck }: { check: ClaimCheck; showStruck: boolean }) {
+export function PitchBody({ check, showStruck }: { check: ClaimCheck; showStruck: boolean }) {
   const lines = useMemo(() => {
     const byLine = new Map<number, ClaimSegment[]>();
     for (const s of check.segments) byLine.set(s.line, [...(byLine.get(s.line) ?? []), s]);

@@ -82,7 +82,7 @@ export function DiligenceForm() {
           ))}
           <input
             id="competitor"
-            className={cx(inputClass, "w-56")}
+            className={cx(inputClass.replace("w-full ", ""), "w-56 shrink-0")}
             value={competitor}
             placeholder="Add and press Enter"
             onChange={(e) => setCompetitor(e.target.value)}

@@ -7,6 +7,7 @@ import { Chip, ScoreRing, SectionHead, Stamp, cx } from "@/components/ui";
 import { FactReceipts, ReportProvider } from "./context";
 import { Drawer } from "./drawer";
 import { FitDetail } from "./fit-board";
+import { PitchBody } from "./pitch-viewer";
 import { LedgerTable } from "./ledger-table";
 
 const usd = (n: number | null) => (n === null ? null : n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }));
@@ -94,15 +95,8 @@ export function DiligenceReport({ result }: { result: DiligenceResult }) {
           <SectionHead title="Decision memos" note="For the offers worth a conversation. Unbacked claims are struck." />
           <div className="grid gap-4 md:grid-cols-2">
             {memos.map((o) => (
-              <article key={o.offer.propertyName} className="rounded-sm border border-line bg-raised/60 p-5 text-[15px] leading-relaxed">
-                {o.memo!.check.segments.map((s, i) => (
-                  <span key={i} className={s.status === "struck" ? "claim-struck" : s.prefix.trim().startsWith("#") ? "display mb-2 block text-xl text-bone" : "text-bone/90"} title={s.reason}>
-                    {s.text.replace(/^## /, "").split(/(\[F\d+\])/g).map((part, j) => {
-                      const m = part.match(/^\[(F\d+)\]$/);
-                      return m ? (s.status === "kept" ? <FactReceipts key={j} factId={m[1]} /> : null) : <span key={j}>{part}</span>;
-                    })}{" "}
-                  </span>
-                ))}
+              <article key={o.offer.propertyName} className="rounded-sm border border-line bg-raised/60 p-5">
+                <PitchBody check={o.memo!.check} showStruck />
               </article>
             ))}
           </div>

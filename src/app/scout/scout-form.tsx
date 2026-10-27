@@ -144,7 +144,7 @@ export function ScoutForm() {
                 <p className="text-xs text-smoke">Somm blocks their competitors in the same category.</p>
                 {exclusives.map((x, i) => (
                   <div key={i} className="flex gap-2">
-                    <select aria-label="Category" className={cx(inputClass, "w-56")} value={x.category} onChange={(e) => setExclusives(exclusives.map((y, j) => (j === i ? { ...y, category: e.target.value } : y)))}>
+                    <select aria-label="Category" className={cx(inputClass.replace("w-full ", ""), "w-56 shrink-0")} value={x.category} onChange={(e) => setExclusives(exclusives.map((y, j) => (j === i ? { ...y, category: e.target.value } : y)))}>
                       {Object.entries(CATEGORY_LABEL).map(([id, label]) => (
                         <option key={id} value={id}>
                           {label}

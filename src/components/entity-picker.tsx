@@ -75,7 +75,7 @@ export function EntityPicker({
       </div>
       <div className="flex gap-2">
         {types.length > 1 && (
-          <select aria-label="Entity type" value={type} onChange={(e) => setType(e.target.value)} className={cx(inputClass, "w-auto")}>
+          <select aria-label="Entity type" value={type} onChange={(e) => setType(e.target.value)} className={cx(inputClass.replace("w-full ", ""), "w-36 shrink-0")}>
             {types.map((t) => (
               <option key={t} value={t}>
                 {TYPE_LABEL[t] ?? t}
