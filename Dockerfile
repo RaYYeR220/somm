@@ -7,6 +7,8 @@ RUN echo "${LITESTREAM_SHA256}  /tmp/litestream.tar.gz" | sha256sum -c - \
     && tar -xzf /tmp/litestream.tar.gz -C /usr/local/bin litestream
 
 FROM node:24-slim AS build
+# better-sqlite3 compiles its native addon when no prebuilt binary matches
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
