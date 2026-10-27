@@ -33,6 +33,7 @@ export type Fingerprint = {
   property: Property;
   tags: TasteTag[];
   demographics: Demographics | null;
+  entityDemographics: { entity: EntityRef; demographics: Demographics; ledgerId: string }[];
   heatmap: HeatCell[];
   crossDomain: Partial<Record<CrossDomain, CrossDomainItem[]>>;
   momentum: Momentum | null;
@@ -58,6 +59,7 @@ export async function buildFingerprint(property: Property, ctx: EngineContext, t
   const trendStep = { key: "momentum", label: "Checking 90-day momentum" };
   const crossStep = { key: "cross_domain", label: "Tasting what fans love across domains" };
   [tagsStep, demoStep, geoStep, trendStep, crossStep].forEach((s) => step(ctx, s, "running"));
+  const entityDemographics: Fingerprint["entityDemographics"] = [];
 
   const tagsTask = (async () => {
     const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 12 });
@@ -73,8 +75,11 @@ export async function buildFingerprint(property: Property, ctx: EngineContext, t
     const calls = await mapLimit(property.entities.slice(0, 3), 3, (entity) =>
       qloo(ctx, "audience_demographics", { entity: entity.id, entity_type: entity.type }),
     );
-    const parsed = calls.map((c) => ({ demo: parseDemographics(c.env), entry: c.entry })).filter((x) => x.demo && x.entry);
+    const parsed = calls
+      .map((c, i) => ({ entity: property.entities[i], demo: parseDemographics(c.env), entry: c.entry }))
+      .filter((x) => x.demo && x.entry);
     const demographics = averageDemographics(parsed.map((x) => x.demo!));
+    entityDemographics.push(...parsed.map((x) => ({ entity: x.entity, demographics: x.demo!, ledgerId: x.entry!.id })));
     if (demographics) {
       const ledgerIds = parsed.map((x) => x.entry!.id);
       const [topAge, topValue] = Object.entries(demographics.age).sort((a, b) => b[1] - a[1])[0] ?? [];
@@ -148,5 +153,5 @@ export async function buildFingerprint(property: Property, ctx: EngineContext, t
   })();
 
   const [tags, demographics, heatmap, momentum, crossDomain] = await Promise.all([tagsTask, demoTask, geoTask, trendTask, crossTask]);
-  return { property, tags, demographics, heatmap, crossDomain, momentum, facts: ctx.facts.all() };
+  return { property, tags, demographics, entityDemographics, heatmap, crossDomain, momentum, facts: ctx.facts.all() };
 }

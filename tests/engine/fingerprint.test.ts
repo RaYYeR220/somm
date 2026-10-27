@@ -102,6 +102,28 @@ describe("parsers", () => {
     const falling = parseTrendSlope({ operation: "trends", status: "ok", series: [trendSeries("x", [30, 20, 10])] });
     expect(rising?.slope).toBeGreaterThan(0);
     expect(falling?.slope).toBeLessThan(0);
-    expect(rising?.points[0].date < rising!.points[2].date).toBe(true);
+    expect(rising!.points[0].date < rising!.points[2].date).toBe(true);
+  });
+});
+
+describe("per-entity demographics", () => {
+  it("keeps each entity's profile so a single teen-skewed act can be gated", async () => {
+    const { gw } = scriptedGateway((op, input) => {
+      if (op !== "audience_demographics") return fullAnswer(op, input);
+      const youth = input.entity === "b" ? 0.5 : -0.2;
+      return okList(op, demographicsResult({ "24_and_younger": youth }, { female: 0 }));
+    });
+    const property = sampleProperty({
+      kind: "lineup",
+      entities: [
+        { id: "a", name: "A", type: "artist" },
+        { id: "b", name: "B", type: "artist" },
+      ],
+    });
+    const fp = await buildFingerprint(property, testContext(gw));
+    expect(fp.entityDemographics.map((d) => [d.entity.id, d.demographics.age["24_and_younger"]])).toEqual([
+      ["a", -0.2],
+      ["b", 0.5],
+    ]);
   });
 });

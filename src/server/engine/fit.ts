@@ -94,7 +94,9 @@ type FitInput = { fp: Fingerprint; brand: EntityRef; category: SponsorCategory; 
 export async function scoreFit({ fp, brand, category, rank }: FitInput, ctx: EngineContext): Promise<FitResult> {
   const property = fp.property;
   const lead = property.entities[0];
-  const components = Object.fromEntries(FIT_COMPONENTS.map((c) => [c, { score: null, facts: [] }])) as FitResult["components"];
+  const components = Object.fromEntries(
+    FIT_COMPONENTS.map((c) => [c, { score: null as number | null, facts: [] as string[] }]),
+  ) as unknown as FitResult["components"];
 
   if (rank) {
     const spread = rank.max - rank.min;

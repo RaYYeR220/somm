@@ -79,8 +79,9 @@ export const PropertySchema = z.object({
   entities: z.array(EntityRefSchema).min(1).max(10),
   market: z.string().min(1),
   exclusives: z.array(z.object({ category: SponsorCategorySchema, holder: z.string().min(1) })),
+  agePolicy: z.enum(["all_ages", "18_plus", "21_plus", "unknown"]).default("unknown"),
 });
-export type Property = z.infer<typeof PropertySchema>;
+export type Property = z.input<typeof PropertySchema>;
 
 export type LedgerEntry = {
   id: string;
@@ -108,6 +109,8 @@ export type FitComponent = (typeof FIT_COMPONENTS)[number];
 export const VERDICTS = ["BLOCKED", "INSUFFICIENT_EVIDENCE", "PASS", "CONSIDER", "PURSUE"] as const;
 export type Verdict = (typeof VERDICTS)[number];
 
+export type GateOutcome = { gate: "exclusivity" | "age_restricted" | "evidence" | "competitor"; outcome: "pass" | "review" | "block"; reason: string };
+
 export type FitResult = {
   brand: EntityRef;
   category: SponsorCategory;
@@ -115,6 +118,7 @@ export type FitResult = {
   score: number | null;
   verdict: Verdict;
   reasons: string[];
+  gates?: GateOutcome[];
 };
 
 export type RunEventKind = "step" | "ledger" | "needs_input" | "fact" | "result" | "error" | "done";

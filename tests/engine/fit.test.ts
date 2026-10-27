@@ -10,6 +10,7 @@ const fingerprint = (): Fingerprint => ({
   property: sampleProperty(),
   tags: [],
   demographics: { age: { "24_and_younger": -0.1, "25_to_29": 0.4, "30_to_34": 0.3 }, gender: { male: 0.2, female: -0.2 } },
+  entityDemographics: [],
   heatmap: [
     { geohash: "dr5ryb", lat: 40.74, lng: -73.87, affinity: 0.99 },
     { geohash: "9q8yyk", lat: 37.77, lng: -122.42, affinity: 0.97 },
