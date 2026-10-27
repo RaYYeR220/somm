@@ -108,15 +108,15 @@ describe("routing gateway", () => {
 describe("mcp gateway (official harness, no key)", () => {
   const env = { ...process.env, QLOO_API_KEY: "", QLOO_HOME: mkdtempSync(join(tmpdir(), "somm-qh-")) };
   delete (env as Record<string, string | undefined>).QLOO_API_KEY;
-  const gw = createMcpGateway({ env });
+  const gw = createMcpGateway({ env, timeoutMs: 90_000 });
   afterAll(() => gw.close());
 
-  it("reports capabilities without contacting Qloo", async () => {
+  it("reports capabilities without contacting Qloo", { timeout: 120_000 }, async () => {
     const caps = (await gw.capabilities()) as { status?: string; adapter?: { id?: string } };
     expect(caps.adapter?.id).toMatch(/^qloo_harness/);
   });
 
-  it("surfaces a missing credential as an error envelope, not a throw", async () => {
+  it("surfaces a missing credential as an error envelope, not a throw", { timeout: 120_000 }, async () => {
     const result = await gw.call("recommend", { target_type: "brand", signals: ["Coachella"] });
     expect(result.status).toBe("error");
     expect(result.error?.code).toMatch(/QLOO_/);

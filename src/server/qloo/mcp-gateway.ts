@@ -61,7 +61,7 @@ export function toEnvelope(op: string, result: ToolResult): Envelope {
 
 /** Talks to the official `qloo mcp` server over stdio; one long-lived child per process. */
 export function createMcpGateway(options: McpGatewayOptions): McpGateway {
-  const timeoutMs = options.timeoutMs ?? 25_000;
+  const timeoutMs = options.timeoutMs ?? 45_000;
   let connecting: Promise<Client> | null = null;
 
   async function connect(): Promise<Client> {
