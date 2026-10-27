@@ -22,6 +22,11 @@ const out = await runEval(deps, JSON.parse(gtText) as GroundTruth, JSON.parse(tr
 mkdirSync(new URL("./out/", import.meta.url), { recursive: true });
 writeFileSync(new URL("./out/detail.json", import.meta.url), JSON.stringify(out, null, 2));
 writeFileSync(new URL("./results.json", import.meta.url), JSON.stringify(out.public, null, 2) + "\n");
+// The site's proof page reads this aggregate copy.
+writeFileSync(
+  new URL("../src/data/eval-summary.json", import.meta.url),
+  JSON.stringify({ status: "done", generatedAt: out.public.generatedAt, summary: out.summary, properties: out.public.properties, traps: out.traps }, null, 2) + "\n",
+);
 
 const pct = (v: number | null) => (v === null ? "–" : v.toFixed(2));
 const label: Record<(typeof METHODS)[number], string> = {
