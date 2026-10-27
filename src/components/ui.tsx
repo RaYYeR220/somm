@@ -25,8 +25,8 @@ export function ButtonLink({ tone = "primary", size, className, ...props }: Comp
 }
 
 export const VERDICT_STYLE: Record<Verdict, { label: string; text: string; ring: string; wash: string }> = {
-  PURSUE: { label: "Pursue", text: "text-ember", ring: "border-ember", wash: "bg-[var(--ember-wash)]" },
-  CONSIDER: { label: "Consider", text: "text-sand", ring: "border-sand/70", wash: "bg-sand/5" },
+  PURSUE: { label: "Pursue", text: "text-ember", ring: "border-ember", wash: "bg-raised/50" },
+  CONSIDER: { label: "Consider", text: "text-sand", ring: "border-sand/70", wash: "bg-raised/30" },
   PASS: { label: "Pass", text: "text-ash", ring: "border-line-strong", wash: "bg-transparent" },
   BLOCKED: { label: "Blocked", text: "text-signal", ring: "border-signal", wash: "bg-[var(--signal-wash)]" },
   INSUFFICIENT_EVIDENCE: { label: "Not enough evidence", text: "text-smoke", ring: "border-dashed border-smoke", wash: "bg-transparent" },
@@ -99,7 +99,7 @@ export function ReceiptChip({ id, onOpen }: { id: string; onOpen?: (id: string) 
 
 export function SectionHead({ title, note, id }: { title: string; note?: ReactNode; id?: string }) {
   return (
-    <div id={id} className="mb-6 flex scroll-mt-24 flex-wrap items-end justify-between gap-x-8 gap-y-2 border-b border-line pb-3">
+    <div id={id} className="mb-6 flex scroll-mt-32 flex-wrap items-end justify-between gap-x-8 gap-y-2 border-b border-line pb-3">
       <h2 className="display text-[clamp(28px,3.4vw,44px)]">{title}</h2>
       {note && <p className="max-w-xl text-sm text-ash">{note}</p>}
     </div>

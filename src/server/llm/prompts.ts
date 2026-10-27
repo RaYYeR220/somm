@@ -112,7 +112,7 @@ export function writePitch(llm: Llm, input: { property: Property; brand: string;
         role: "user",
         content:
           `Write a short sponsorship pitch from ${input.property.name} to ${audience} (category: ${input.category}; Somm verdict: ${input.verdict}).\n` +
-          "Format: a one-line headline starting with '## ', then 3–5 sentences, then 2–3 bullet points of evidence.\n" +
+          "Format: a one-line headline starting with '## ' (no numbers, rankings or superlatives in it), then 3–5 sentences, then 2–3 bullet points of evidence.\n" +
           "Rules: every sentence that contains a number, a ranking or a comparison must end with the id of the fact that supports it, like [F3]. " +
           "Only use these facts and only the brand and property names below; anything else will be struck out automatically.\n\n" +
           `Facts:\n${factList(input.facts)}`,

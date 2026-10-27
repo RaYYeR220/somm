@@ -1,0 +1,30 @@
+// Client-safe category labels (the full catalog with Qloo tag queries lives on the server).
+export const CATEGORY_LABEL: Record<string, string> = {
+  beverage_soft: "Soft drinks & water",
+  energy_drink: "Energy drinks",
+  beer: "Beer",
+  spirits: "Spirits",
+  coffee: "Coffee",
+  qsr: "Quick-service restaurants",
+  food_cpg: "Packaged food & snacks",
+  auto: "Automotive",
+  telecom: "Telecom",
+  fintech_bank: "Banking & cards",
+  payments: "Payments & commerce",
+  crypto: "Crypto",
+  prediction_markets: "Prediction markets",
+  sports_betting: "Sports betting",
+  apparel: "Apparel",
+  footwear: "Footwear",
+  beauty: "Beauty & grooming",
+  wellness_supplements: "Wellness & supplements",
+  fitness_wearables: "Fitness & wearables",
+  consumer_tech: "Consumer tech",
+  software_b2b: "Software & SaaS",
+  travel_hospitality: "Travel & hospitality",
+  streaming_media: "Streaming & media",
+  gaming: "Gaming",
+  retail: "Retail",
+};
+
+export const AGE_RESTRICTED = new Set(["beer", "spirits", "sports_betting"]);

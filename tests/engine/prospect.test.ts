@@ -70,3 +70,10 @@ describe("prospect", () => {
     expect(ctx.events.some((e) => JSON.stringify(e.payload).includes("no Qloo brand tag"))).toBe(true);
   });
 });
+
+describe("client category labels", () => {
+  it("cover every server category with the same label", async () => {
+    const { CATEGORY_LABEL } = await import("@/lib/categories");
+    for (const c of CATEGORIES) expect(CATEGORY_LABEL[c.id], c.id).toBe(c.label);
+  });
+});
