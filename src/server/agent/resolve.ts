@@ -9,7 +9,7 @@ export type Resolution = { resolved: EntityRef[]; pending: PendingChoice[]; miss
 
 const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, " ").trim();
 
-function candidatesFrom(results: unknown, fallback: QlooEntityType): Candidate[] {
+export function candidatesFrom(results: unknown, fallback: QlooEntityType): Candidate[] {
   const list = Array.isArray(results) ? results : Array.isArray((results as { entities?: unknown })?.entities) ? (results as { entities: unknown[] }).entities : [];
   return list.flatMap((item) => {
     const r = item as Record<string, unknown>;
