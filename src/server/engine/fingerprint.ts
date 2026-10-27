@@ -48,7 +48,12 @@ function step(ctx: EngineContext, s: Step, status: "running" | "done" | "empty" 
 
 const isoDate = (d: Date) => d.toISOString().slice(0, 10);
 
-export async function buildFingerprint(property: Property, ctx: EngineContext, today = new Date()): Promise<Fingerprint> {
+export async function buildFingerprint(
+  property: Property,
+  ctx: EngineContext,
+  today = new Date(),
+  options: { light?: boolean } = {},
+): Promise<Fingerprint> {
   const ids = property.entities.map((e) => e.id);
   const own = new Set(ids);
   const lead = property.entities[0];
@@ -58,10 +63,11 @@ export async function buildFingerprint(property: Property, ctx: EngineContext, t
   const geoStep = { key: "heatmap", label: `Mapping where fans live in ${property.market}` };
   const trendStep = { key: "momentum", label: "Checking 90-day momentum" };
   const crossStep = { key: "cross_domain", label: "Tasting what fans love across domains" };
-  [tagsStep, demoStep, geoStep, trendStep, crossStep].forEach((s) => step(ctx, s, "running"));
+  (options.light ? [demoStep, geoStep, trendStep] : [tagsStep, demoStep, geoStep, trendStep, crossStep]).forEach((s) => step(ctx, s, "running"));
   const entityDemographics: Fingerprint["entityDemographics"] = [];
 
   const tagsTask = (async () => {
+    if (options.light) return [];
     const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 12 });
     const tags = parseTags(env);
     if (tags.length && entry) {
@@ -129,6 +135,7 @@ export async function buildFingerprint(property: Property, ctx: EngineContext, t
   })();
 
   const crossTask = (async () => {
+    if (options.light) return {} as Fingerprint["crossDomain"];
     const lists = await mapLimit([...CROSS_DOMAINS], 3, async (domain) => {
       const input: Record<string, unknown> = { target_type: domain, signals: ids, limit: 10 };
       if (domain === "place") input.filter_location = property.market;

@@ -28,7 +28,7 @@ export type EngineContext = {
   facts: FactSink;
   emit: (kind: RunEventKind, payload: unknown) => void;
   transportOf: (op: QlooOp, input: Record<string, unknown>) => LedgerEntry["transport"];
-  budget: { remaining: number };
+  budget: { remaining: number; exhausted?: boolean };
   signal?: AbortSignal;
 };
 
@@ -62,6 +62,10 @@ export type QlooCall = { env: Envelope; entry?: LedgerEntry };
 /** One Qloo call: budget check, gateway, ledger entry, ledger event. */
 export async function qloo(ctx: EngineContext, op: QlooOp, input: Record<string, unknown>): Promise<QlooCall> {
   if (ctx.budget.remaining <= 0) {
+    if (!ctx.budget.exhausted) {
+      ctx.budget.exhausted = true;
+      ctx.emit("step", { key: "budget", label: "Qloo call budget reached", status: "error", detail: "Remaining Qloo lookups in this run were skipped." });
+    }
     return { env: errorEnvelope(op, "RUN_BUDGET", "This run reached its Qloo call budget.") };
   }
   ctx.budget.remaining -= 1;
