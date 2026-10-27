@@ -36,6 +36,7 @@ export const ScoutInputSchema = z
       })
       .optional(),
     categories: z.array(z.string()).max(8).optional(),
+    mode: z.enum(["full", "fingerprint"]).default("full"),
   })
   .refine((v) => v.description || v.property, { message: "Describe the property or list its entities." });
 export type ScoutInput = z.input<typeof ScoutInputSchema>;
@@ -163,6 +164,24 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
   // 2. Who are the fans?
   const fp = (await run.step({ key: "fingerprint", label: "Building the fan fingerprint" }, () => buildFingerprint(property, ctx)))!;
   if (!fp) throw new Error("Could not build the fan fingerprint.");
+
+  if (input.mode === "fingerprint") {
+    const ledger = ctx.ledger.all();
+    const result: ScoutResult = {
+      property,
+      fingerprint: fp,
+      plan: { categories: [], why: "", source: "default" },
+      fits: [],
+      existingPartners: [],
+      pitches: [],
+      ideas: [],
+      baseline: { brands: [] },
+      facts: ctx.facts.all(),
+      ledger,
+      stats: { qlooCalls: ledger.length, cached: ledger.filter((e) => e.transport === "cache").length, durationMs: Date.now() - started },
+    };
+    return { status: "done" as const, result };
+  }
 
   // 3. Which categories are worth prospecting?
   let plan: ScoutResult["plan"] = { categories: input.categories?.length ? input.categories : DEFAULT_CATEGORIES[property.kind], why: "", source: "default" };

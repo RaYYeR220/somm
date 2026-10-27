@@ -66,7 +66,7 @@ export function createMcpGateway(options: McpGatewayOptions): McpGateway {
 
   async function connect(): Promise<Client> {
     const bin = options.bin ?? harnessBin();
-    if (!existsSync(bin)) throw new Error(`Qloo harness not found at ${bin}`);
+    if (!existsSync(/*turbopackIgnore: true*/ bin)) throw new Error(`Qloo harness not found at ${bin}`);
     const transport = new StdioClientTransport({
       command: process.execPath,
       args: [bin, "mcp"],
