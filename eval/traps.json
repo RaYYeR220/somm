@@ -1,0 +1,16 @@
+{
+  "note": "Gate traps derived from eval/ground-truth.json gate_traps. 'expect' is checked against Somm's gate outcome, not its score.",
+  "traps": [
+    { "id": "gt-rollingloud-hennessy", "property": "rollingloud", "agePolicy": "all_ages", "brand": "Hennessy", "category": "spirits", "expect": { "verdict": "BLOCKED" } },
+    { "id": "gt-rollingloud-draftkings", "property": "rollingloud", "agePolicy": "all_ages", "brand": "DraftKings", "category": "sports_betting", "expect": { "verdict": "BLOCKED" } },
+    { "id": "gt-katseye-michelob", "property": { "kind": "artist", "name": "KATSEYE", "entities": [{ "name": "KATSEYE", "type": "artist" }] }, "brand": "Michelob Ultra", "category": "beer", "expect": { "ageGateNot": "pass" } },
+    { "id": "gt-katseye-draftkings", "property": { "kind": "artist", "name": "KATSEYE", "entities": [{ "name": "KATSEYE", "type": "artist" }] }, "brand": "DraftKings", "category": "sports_betting", "expect": { "ageGateNot": "pass" } },
+    { "id": "gt-govball-fanduel", "property": "govball", "brand": "FanDuel", "category": "sports_betting", "expect": { "ageGateNot": "pass" } },
+    { "id": "ex-coachella-pepsi", "property": "coachella", "exclusives": [{ "category": "beverage_soft", "holder": "Coca-Cola" }], "brand": "Pepsi", "category": "beverage_soft", "expect": { "verdict": "BLOCKED" } },
+    { "id": "ex-stagecoach-wrangler", "property": "stagecoach", "exclusives": [{ "category": "apparel", "holder": "American Eagle" }], "brand": "Wrangler", "category": "apparel", "expect": { "verdict": "BLOCKED" } },
+    { "id": "ex-dodgers-polymarket", "property": "dodgers", "exclusives": [{ "category": "prediction_markets", "holder": "Kalshi" }], "brand": "Polymarket", "category": "prediction_markets", "expect": { "verdict": "BLOCKED" } },
+    { "id": "ex-rollingloud-nike", "property": "rollingloud", "exclusives": [{ "category": "apparel", "holder": "Under Armour" }], "brand": "Nike", "category": "apparel", "expect": { "verdict": "BLOCKED" } },
+    { "id": "ex-barcelona-adidas", "property": "barcelona", "exclusives": [{ "category": "apparel", "holder": "Nike" }], "brand": "adidas", "category": "apparel", "expect": { "verdict": "BLOCKED" } },
+    { "id": "ctl-coachella-cocacola", "property": "coachella", "exclusives": [{ "category": "beverage_soft", "holder": "Coca-Cola" }], "brand": "Coca-Cola", "category": "beverage_soft", "expect": { "verdictNot": "BLOCKED" } }
+  ]
+}

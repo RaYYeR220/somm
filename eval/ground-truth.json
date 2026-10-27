@@ -1,0 +1,903 @@
+{
+  "generated": "2026-10-27",
+  "status": "complete v1 - see ground-truth-notes.md for method and caveats",
+  "conventions": {
+    "confidence": "high = show's own notes / transcript / official partner page / official press release; medium = third-party aggregator or secondary press",
+    "control_status": "absent-in-sources = checked against the listed source window and not found (NOT proof of no deal ever); unverified = could not enumerate the full partner roster",
+    "qloo_type": "best-guess entity type for search; 'brand' for teams is a guess and may not resolve"
+  },
+  "properties": [
+    {
+      "id": "huberman",
+      "name": "Huberman Lab",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "Huberman Lab", "qloo_type": "podcast"},
+        {"name": "Andrew Huberman", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "AG1", "category": "supplements", "source": "https://www.hubermanlab.com/episode/unlocking-persistent-motivation-and-extreme-resilience-ross-edgley", "date": "2026-10-26", "confidence": "high", "evidence": "episode timestamps 'Sponsor: AG1'; also on https://www.hubermanlab.com/sponsors"},
+        {"brand": "Eight Sleep", "category": "sleep tech", "source": "https://www.hubermanlab.com/episode/unlocking-persistent-motivation-and-extreme-resilience-ross-edgley", "date": "2026-10-26", "confidence": "high", "evidence": "'Sponsor: Eight Sleep' timestamp"},
+        {"brand": "LMNT", "category": "beverage (electrolyte)", "source": "https://www.hubermanlab.com/episode/unlocking-persistent-motivation-and-extreme-resilience-ross-edgley", "date": "2026-10-26", "confidence": "high", "evidence": "'Sponsor: LMNT' timestamp"},
+        {"brand": "David Protein", "category": "packaged food", "source": "https://www.hubermanlab.com/episode/unlocking-persistent-motivation-and-extreme-resilience-ross-edgley", "date": "2026-10-26", "confidence": "high", "evidence": "'Sponsors: David & Lingo' timestamp; davidprotein.com/huberman"},
+        {"brand": "Lingo (Abbott)", "category": "health tech", "source": "https://www.hubermanlab.com/episode/unlocking-persistent-motivation-and-extreme-resilience-ross-edgley", "date": "2026-10-26", "confidence": "high"},
+        {"brand": "BetterHelp", "category": "telehealth", "source": "https://www.hubermanlab.com/sponsors", "date": "2026-10-27 (accessed; current sponsor list)", "confidence": "high"},
+        {"brand": "Helix Sleep", "category": "mattress", "source": "https://www.hubermanlab.com/sponsors", "date": "2026-10-27 (accessed)", "confidence": "high"},
+        {"brand": "Our Place", "category": "cookware", "source": "https://www.hubermanlab.com/sponsors", "date": "2026-10-27 (accessed)", "confidence": "high"},
+        {"brand": "ROKA", "category": "eyewear", "source": "https://www.hubermanlab.com/sponsors", "date": "2026-10-27 (accessed)", "confidence": "high"},
+        {"brand": "Function Health", "category": "health testing", "source": "https://adalmanac.com/podcasts/pod-huberman-lab", "date": "2026-10-19", "confidence": "medium", "evidence": "aggregator of show notes; functionhealth.com/huberman also on sponsors page"}
+      ],
+      "controls": [
+        {"brand": "Liquid I.V.", "category": "beverage (electrolyte)", "status": "absent-in-sources", "check": "Not on hubermanlab.com/sponsors (accessed 2026-10-27), not in Ad Almanac 10-episode window (Sep 21-Oct 22 2026) or TrackPodcasts (Sep 6-Oct 26 2026). Pre-2025 history not checked."},
+        {"brand": "Casper", "category": "mattress", "status": "absent-in-sources", "check": "Same three lists; Helix and Eight Sleep hold the sleep slots."},
+        {"brand": "Talkspace", "category": "telehealth", "status": "absent-in-sources", "check": "Same three lists; BetterHelp holds therapy slot."},
+        {"brand": "Robinhood", "category": "fintech", "status": "absent-in-sources", "check": "Same three lists; Wealthfront is the listed fintech sponsor."},
+        {"brand": "Bloom Nutrition", "category": "supplements", "status": "absent-in-sources", "check": "Same three lists; AG1 holds greens slot."}
+      ]
+    },
+    {
+      "id": "lex",
+      "name": "Lex Fridman Podcast",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "Lex Fridman Podcast", "qloo_type": "podcast"},
+        {"name": "Lex Fridman", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Shopify", "category": "e-commerce software", "source": "https://podcasts.apple.com/us/podcast/502-psychiatry-insane-asylums-mental-illness-ect-lobotomies/id1434243584?i=1000790254600", "date": "2026-09-17", "confidence": "high", "evidence": "episode #502 notes SPONSORS list"},
+        {"brand": "BetterHelp", "category": "telehealth", "source": "https://podcasts.apple.com/us/podcast/502-psychiatry-insane-asylums-mental-illness-ect-lobotomies/id1434243584?i=1000790254600", "date": "2026-09-17", "confidence": "high"},
+        {"brand": "LMNT", "category": "beverage (electrolyte)", "source": "https://podcasts.apple.com/us/podcast/502-psychiatry-insane-asylums-mental-illness-ect-lobotomies/id1434243584?i=1000790254600", "date": "2026-09-17", "confidence": "high"},
+        {"brand": "Perplexity", "category": "AI software", "source": "https://podcasts.apple.com/us/podcast/502-psychiatry-insane-asylums-mental-illness-ect-lobotomies/id1434243584?i=1000790254600", "date": "2026-09-17", "confidence": "high"},
+        {"brand": "Wispr Flow", "category": "AI software", "source": "https://podcasts.apple.com/us/podcast/502-psychiatry-insane-asylums-mental-illness-ect-lobotomies/id1434243584?i=1000790254600", "date": "2026-09-17", "confidence": "high"},
+        {"brand": "Fin (Intercom)", "category": "B2B software", "source": "https://podcasts.apple.com/us/podcast/502-psychiatry-insane-asylums-mental-illness-ect-lobotomies/id1434243584?i=1000790254600", "date": "2026-09-17", "confidence": "high"},
+        {"brand": "NetSuite", "category": "B2B software", "source": "https://adalmanac.com/podcasts/pod-lex-fridman-podcast", "date": "2026-08-26", "confidence": "medium", "evidence": "aggregator: episodes #499, #501"},
+        {"brand": "Upwork", "category": "freelance marketplace", "source": "https://adalmanac.com/podcasts/pod-lex-fridman-podcast", "date": "2026-07-28", "confidence": "medium", "evidence": "aggregator: episodes #497-#499"},
+        {"brand": "MasterClass", "category": "online education", "source": "https://lexfridman.com/sponsors/ep459-sd?focus=invideoai", "date": "2026 (sponsor directory, accessed 2026-10-27)", "confidence": "medium", "evidence": "listed in show's All Sponsors directory; not seen in the 10 most recent episode notes"}
+      ],
+      "controls": [
+        {"brand": "Liquid I.V.", "category": "beverage (electrolyte)", "status": "absent-in-sources", "check": "Not in lexfridman.com All Sponsors directory or Ad Almanac (#493-#502, Mar-Sep 2026)."},
+        {"brand": "Talkspace", "category": "telehealth", "status": "absent-in-sources", "check": "Same two lists."},
+        {"brand": "Wix", "category": "e-commerce/website software", "status": "absent-in-sources", "check": "Same two lists."},
+        {"brand": "ChatGPT (OpenAI)", "category": "AI software", "status": "absent-in-sources", "check": "Same two lists. Note: OpenAI people appear as guests; not a sponsor."},
+        {"brand": "Fiverr", "category": "freelance marketplace", "status": "unverified", "check": "Absent from both lists; pre-2025 sponsor history not checked."}
+      ]
+    },
+    {
+      "id": "ferriss",
+      "name": "The Tim Ferriss Show",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "The Tim Ferriss Show", "qloo_type": "podcast"},
+        {"name": "Tim Ferriss", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "AG1", "category": "supplements", "source": "https://podcasts.apple.com/us/podcast/887-q-a-with-tim-the-4-hour-workweek-in-a/id863897795?i=1000797339822", "date": "2026-10-20", "confidence": "high", "evidence": "episode #887 'This episode is brought to you by'"},
+        {"brand": "Momentous", "category": "supplements", "source": "https://podcasts.apple.com/us/podcast/887-q-a-with-tim-the-4-hour-workweek-in-a/id863897795?i=1000797339822", "date": "2026-10-20", "confidence": "high"},
+        {"brand": "Our Place", "category": "cookware", "source": "https://podcasts.apple.com/us/podcast/887-q-a-with-tim-the-4-hour-workweek-in-a/id863897795?i=1000797339822", "date": "2026-10-20", "confidence": "high"},
+        {"brand": "Incogni", "category": "privacy software", "source": "https://podcasts.apple.com/us/podcast/887-q-a-with-tim-the-4-hour-workweek-in-a/id863897795?i=1000797339822", "date": "2026-10-20", "confidence": "high"},
+        {"brand": "Shopify", "category": "e-commerce software", "source": "https://getpodperks.com/podcasts/tim/", "date": "2026-10-08", "confidence": "medium", "evidence": "aggregator of show notes (#886, #884); also https://adalmanac.com/podcasts/pod-the-tim-ferriss-show"},
+        {"brand": "Eight Sleep", "category": "sleep tech", "source": "https://adalmanac.com/podcasts/pod-the-tim-ferriss-show", "date": "2026-10-02", "confidence": "medium", "evidence": "aggregator (#885)"},
+        {"brand": "Gusto", "category": "B2B software (payroll)", "source": "https://whosponsorsit.com/podcasts/pod-the-tim-ferriss-show", "date": "2026-10-08", "confidence": "medium"},
+        {"brand": "Timeline (Mitopure)", "category": "supplements", "source": "https://whosponsorsit.com/podcasts/pod-the-tim-ferriss-show", "date": "2026-10-08", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "HexClad", "category": "cookware", "status": "absent-in-sources", "check": "Not in Ad Almanac / PodPerks / WhoSponsorsIt lists (Sep 24-Oct 21 2026). Show has 137 historical sponsors (sponsorable.com) - long history not checked."},
+        {"brand": "Bloom Nutrition", "category": "supplements", "status": "unverified", "check": "Absent from the 2026 lists; long history not checked."},
+        {"brand": "Casper", "category": "mattress", "status": "unverified", "check": "Absent from the 2026 lists; long history not checked."},
+        {"brand": "Wix", "category": "e-commerce/website software", "status": "unverified", "check": "Absent from the 2026 lists; long history not checked."},
+        {"brand": "NordVPN", "category": "privacy software", "status": "unverified", "check": "Absent from the 2026 lists; long history not checked."}
+      ]
+    },
+    {
+      "id": "jre",
+      "name": "The Joe Rogan Experience",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "The Joe Rogan Experience", "qloo_type": "podcast"},
+        {"name": "Joe Rogan", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "DraftKings", "category": "sports betting", "source": "https://www.audacy.com/podcast/the-joe-rogan-experience-e7cec/episodes/2568-ross-edgley-b37e0", "date": "2026-10-20", "confidence": "high", "evidence": "#2568 episode description (promo code ROGAN) + host-read in transcript"},
+        {"brand": "Perplexity", "category": "AI software", "source": "https://www.audacy.com/podcast/the-joe-rogan-experience-e7cec/episodes/2568-ross-edgley-b37e0", "date": "2026-10-20", "confidence": "high"},
+        {"brand": "Visible (Verizon)", "category": "telecom", "source": "https://www.audacy.com/podcast/the-joe-rogan-experience-e7cec/episodes/2568-ross-edgley-b37e0", "date": "2026-10-20", "confidence": "high", "evidence": "also host-read: https://www.adreads.ai/promos/visible-on-the-joe-rogan-experience-2568-ross-edgley--cmvhgubga199zqy0vn7iyuflq"},
+        {"brand": "AG1", "category": "supplements", "source": "https://adalmanac.com/podcasts/pod-the-joe-rogan-experience", "date": "2026-10-23", "confidence": "medium", "evidence": "aggregator (#2562, #2566, #2570)"},
+        {"brand": "Squarespace", "category": "website software", "source": "https://adalmanac.com/podcasts/pod-the-joe-rogan-experience", "date": "2026-10-14", "confidence": "medium"},
+        {"brand": "ZipRecruiter", "category": "jobs marketplace", "source": "https://adalmanac.com/podcasts/pod-the-joe-rogan-experience", "date": "2026-10-15", "confidence": "medium"},
+        {"brand": "BetterHelp", "category": "telehealth", "source": "https://adalmanac.com/podcasts/pod-the-joe-rogan-experience", "date": "2026-10-08", "confidence": "medium"},
+        {"brand": "BlueChew", "category": "telehealth (men's health)", "source": "https://adalmanac.com/podcasts/pod-the-joe-rogan-experience", "date": "2026-10-14", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "FanDuel", "category": "sports betting", "status": "absent-in-sources", "check": "Not in Ad Almanac (#2562-#2570, Oct 7-23 2026); DraftKings holds the betting slot (code ROGAN)."},
+        {"brand": "Mint Mobile", "category": "telecom", "status": "absent-in-sources", "check": "Same window; Visible holds telecom slot."},
+        {"brand": "Wix", "category": "website software", "status": "absent-in-sources", "check": "Same window; Squarespace holds slot."},
+        {"brand": "Indeed", "category": "jobs marketplace", "status": "absent-in-sources", "check": "Same window; ZipRecruiter holds slot."},
+        {"brand": "Hims", "category": "telehealth (men's health)", "status": "unverified", "check": "Absent from Oct 2026 window; earlier history not checked."}
+      ]
+    },
+    {
+      "id": "simmons",
+      "name": "The Bill Simmons Podcast",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "The Bill Simmons Podcast", "qloo_type": "podcast"},
+        {"name": "Bill Simmons", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Michelob Ultra", "category": "alcohol (beer)", "source": "https://podscripts.co/podcasts/the-bill-simmons-podcast/a-giants-revival-browns-believers-a-jets-crash-j-dubs-brutal-injury-and-guess-the-lines-with-cousin-sal", "date": "2026-10-26", "confidence": "high", "evidence": "episode description (Michelob Ultra Courtside, 21+) + host-read 'official beer sponsor of the NBA' (https://www.adreads.ai/podcasts/the-bill-simmons-podcast)"},
+        {"brand": "FanDuel", "category": "sports betting", "source": "https://www.adreads.ai/promos/fanduel-on-the-bill-simmons-podcast-caleb-beats-drake-a-mega-mailbag-eagles-drama-nba-surprises-and-nfl-week-7-with-tom--cmvkoqj642cnpqy0v7exteri3", "date": "2026-10-23", "confidence": "high", "evidence": "host-read 'Ringer 107' segment; description line 'The Ringer is committed to responsible gaming... fanduel.com/playwithaplan'"},
+        {"brand": "State Farm", "category": "insurance", "source": "https://adalmanac.com/podcasts/pod-the-bill-simmons-podcast", "date": "2026-10-09", "confidence": "medium"},
+        {"brand": "PayPal", "category": "fintech", "source": "https://adalmanac.com/podcasts/pod-the-bill-simmons-podcast", "date": "2026-10-16", "confidence": "medium"},
+        {"brand": "Uber Eats", "category": "food delivery", "source": "https://adalmanac.com/podcasts/pod-the-bill-simmons-podcast", "date": "2026-10-14", "confidence": "medium"},
+        {"brand": "Lime", "category": "micromobility", "source": "https://adalmanac.com/podcasts/pod-the-bill-simmons-podcast", "date": "2026-10-21", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "Coors Light", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Not in Ad Almanac (Oct 5-23 2026) or AdReads list; Michelob Ultra holds the beer slot."},
+        {"brand": "BetMGM", "category": "sports betting", "status": "absent-in-sources", "check": "Same lists. DraftKings deliberately NOT used as control: The Ringer had an earlier DraftKings deal (pre-2025, from memory, not re-verified)."},
+        {"brand": "GEICO", "category": "insurance", "status": "absent-in-sources", "check": "Same lists."},
+        {"brand": "Cash App", "category": "fintech", "status": "absent-in-sources", "check": "Same lists."},
+        {"brand": "DoorDash", "category": "food delivery", "status": "absent-in-sources", "check": "Same lists."}
+      ]
+    },
+    {
+      "id": "pmt",
+      "name": "Pardon My Take",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "Pardon My Take", "qloo_type": "podcast"},
+        {"name": "Dan Katz (Big Cat)", "qloo_type": "person"},
+        {"name": "PFT Commenter", "qloo_type": "person"},
+        {"name": "Barstool Sports", "qloo_type": "brand"}
+      ],
+      "sponsors": [
+        {"brand": "DraftKings", "category": "sports betting", "source": "https://exa.ai/library/podcast/8wvrnxdsln3/episode/g920qvw2gd6", "date": "2026-10-21", "confidence": "high", "evidence": "transcript: 'Pardon My Take, presented by DraftKings' + promo code TAKE"},
+        {"brand": "Chevrolet (Chevy Silverado)", "category": "auto", "source": "https://exa.ai/library/podcast/8wvrnxdsln3/episode/g920qvw2gd6", "date": "2026-10-21", "confidence": "high", "evidence": "transcript host-read"},
+        {"brand": "Twisted Tea", "category": "alcohol (hard tea)", "source": "https://www.adreads.ai/podcasts/pardon-my-take?page=2", "date": "2026-10-19", "confidence": "high", "evidence": "host-read transcript 'Who's back of the week brought to you by Twisted Tea' (36 reads)"},
+        {"brand": "Noble", "category": "footwear", "source": "https://www.adreads.ai/podcasts/pardon-my-take?page=2", "date": "2026-10 (detected)", "confidence": "medium"},
+        {"brand": "State Farm", "category": "insurance", "source": "https://adalmanac.com/podcasts/pod-pardon-my-take", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "SimpliSafe", "category": "home security", "source": "https://adalmanac.com/podcasts/pod-pardon-my-take", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "BODYARMOR", "category": "beverage (sports drink)", "source": "https://adalmanac.com/podcasts/pod-pardon-my-take", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "The Farmer's Dog", "category": "pet food", "source": "https://adalmanac.com/podcasts/pod-pardon-my-take", "date": "2026-10-21", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "FanDuel", "category": "sports betting", "status": "absent-in-sources", "check": "Not in Ad Almanac (Oct 2-23 2026) or AdReads pages; DraftKings is presenting sponsor."},
+        {"brand": "Ford", "category": "auto", "status": "absent-in-sources", "check": "Same lists."},
+        {"brand": "White Claw", "category": "alcohol (hard seltzer)", "status": "absent-in-sources", "check": "Same lists."},
+        {"brand": "Gatorade", "category": "beverage (sports drink)", "status": "absent-in-sources", "check": "Same lists."},
+        {"brand": "ADT", "category": "home security", "status": "absent-in-sources", "check": "Same lists."}
+      ]
+    },
+    {
+      "id": "chd",
+      "name": "Call Her Daddy",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "Call Her Daddy", "qloo_type": "podcast"},
+        {"name": "Alex Cooper", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "American Eagle", "category": "apparel", "source": "https://muckrack.com/podcast/call-her-daddy/episodes/8252224-sophia-bush-brooke-davis-breakups-beginnin/", "date": "2026-10-21", "confidence": "high", "evidence": "transcript 0:00 'Call Her Daddy is brought to you by American Eagle'"},
+        {"brand": "Pandora", "category": "jewelry", "source": "https://muckrack.com/podcast/call-her-daddy/episodes/8252224-sophia-bush-brooke-davis-breakups-beginnin/", "date": "2026-10-21", "confidence": "high"},
+        {"brand": "Uber", "category": "rideshare", "source": "https://muckrack.com/podcast/call-her-daddy/episodes/8252224-sophia-bush-brooke-davis-breakups-beginnin/", "date": "2026-10-21", "confidence": "high"},
+        {"brand": "Scotch-Brite (Bright)", "category": "household goods", "source": "https://muckrack.com/podcast/call-her-daddy/episodes/8252224-sophia-bush-brooke-davis-breakups-beginnin/", "date": "2026-10-21", "confidence": "high"},
+        {"brand": "T-Mobile", "category": "telecom", "source": "https://adalmanac.com/podcasts/pod-call-her-daddy", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "Macy's", "category": "retail", "source": "https://adalmanac.com/podcasts/pod-call-her-daddy", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "BetterHelp", "category": "telehealth", "source": "https://adalmanac.com/podcasts/pod-call-her-daddy", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "Ross Dress for Less", "category": "retail", "source": "https://adalmanac.com/podcasts/pod-call-her-daddy", "date": "2026-10-21", "confidence": "medium", "evidence": "listed as 'Ross'"}
+      ],
+      "controls": [
+        {"brand": "Lyft", "category": "rideshare", "status": "absent-in-sources", "check": "Not in Ad Almanac (11 episodes since Sep 18 2026) or the Oct 21 transcript."},
+        {"brand": "Verizon", "category": "telecom", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Abercrombie & Fitch", "category": "apparel", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Nordstrom", "category": "retail", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Talkspace", "category": "telehealth", "status": "unverified", "check": "Absent from sources; ads are dynamically inserted (SiriusXM/Simplecast), so other listeners may hear different brands."}
+      ]
+    },
+    {
+      "id": "armchair",
+      "name": "Armchair Expert with Dax Shepard",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "Armchair Expert with Dax Shepard", "qloo_type": "podcast"},
+        {"name": "Dax Shepard", "qloo_type": "person"},
+        {"name": "Monica Padman", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Quince", "category": "apparel / DTC retail", "source": "https://spoken.md/episode/malcolm-gladwell-4-1000797401179", "date": "2026-10-21", "confidence": "high", "evidence": "transcript host-read 'We get support from Quince'"},
+        {"brand": "YouTube Premium", "category": "streaming", "source": "https://spoken.md/episode/malcolm-gladwell-4-1000797401179", "date": "2026-10-21", "confidence": "high", "evidence": "'This episode is presented by YouTube Premium'"},
+        {"brand": "Allstate", "category": "insurance", "source": "https://adalmanac.com/podcasts/pod-armchair-expert-with-dax-shepard", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "Instagram", "category": "social media", "source": "https://adalmanac.com/podcasts/pod-armchair-expert-with-dax-shepard", "date": "2026-10-21", "confidence": "medium"},
+        {"brand": "AG1", "category": "supplements", "source": "https://adalmanac.com/podcasts/pod-armchair-expert-with-dax-shepard", "date": "2026-10-23", "confidence": "medium"},
+        {"brand": "Squarespace", "category": "website software", "source": "https://adalmanac.com/podcasts/pod-armchair-expert-with-dax-shepard", "date": "2026-10-23", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "Everlane", "category": "apparel / DTC retail", "status": "absent-in-sources", "check": "Not in Ad Almanac (11 episodes since Oct 7 2026) or the Oct 21 transcript."},
+        {"brand": "Netflix", "category": "streaming", "status": "absent-in-sources", "check": "Same. (Spotify avoided as control: show was previously Spotify-exclusive.)"},
+        {"brand": "Progressive", "category": "insurance", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "TikTok", "category": "social media", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Wix", "category": "website software", "status": "absent-in-sources", "check": "Same."}
+      ]
+    },
+    {
+      "id": "twist",
+      "name": "This Week in Startups",
+      "type": "podcast",
+      "year": 2026,
+      "entities": [
+        {"name": "This Week in Startups", "qloo_type": "podcast"},
+        {"name": "Jason Calacanis", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Vanta", "category": "B2B software (compliance)", "source": "https://podscan.fm/podcasts/this-week-in-startups/episodes/jason-mentors-the-next-generation-why-ai-is-bad-at-teaching-aristotle-interview-e2346", "date": "2026-10-05", "confidence": "high", "evidence": "E2346 notes 'This Week In Startups is made possible by: Vanta, DigitalOcean, Sentry, Plaud'"},
+        {"brand": "DigitalOcean", "category": "cloud", "source": "https://podscan.fm/podcasts/this-week-in-startups/episodes/jason-mentors-the-next-generation-why-ai-is-bad-at-teaching-aristotle-interview-e2346", "date": "2026-10-05", "confidence": "high"},
+        {"brand": "Sentry", "category": "developer software", "source": "https://podscan.fm/podcasts/this-week-in-startups/episodes/jason-mentors-the-next-generation-why-ai-is-bad-at-teaching-aristotle-interview-e2346", "date": "2026-10-05", "confidence": "high"},
+        {"brand": "Plaud", "category": "consumer electronics (AI recorder)", "source": "https://podscan.fm/podcasts/this-week-in-startups/episodes/jason-mentors-the-next-generation-why-ai-is-bad-at-teaching-aristotle-interview-e2346", "date": "2026-10-05", "confidence": "high"},
+        {"brand": "PayPal", "category": "fintech", "source": "https://podscan.fm/podcasts/this-week-in-startups/episodes/breaking-down-nvidias-hugging-face-and-poolside-bets-e2331", "date": "2026-09 (E2331)", "confidence": "high", "evidence": "E2331 notes 'made possible by: DigitalOcean, Every.io, PayPal'"},
+        {"brand": "Rippling", "category": "B2B software (HR)", "source": "https://adalmanac.com/podcasts/pod-this-week-in-startups", "date": "2026-10-24", "confidence": "medium"},
+        {"brand": "Odoo", "category": "B2B software (ERP)", "source": "https://adalmanac.com/podcasts/pod-this-week-in-startups", "date": "2026-10-22", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "Drata", "category": "B2B software (compliance)", "status": "absent-in-sources", "check": "Not in E2331/E2346 notes or Ad Almanac (Oct 22-24 2026). Short window."},
+        {"brand": "Datadog", "category": "developer software", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Otter.ai", "category": "AI note-taking", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Stripe", "category": "fintech", "status": "unverified", "check": "Absent from sources; Calacanis/LAUNCH ties to Stripe ecosystem not checked."},
+        {"brand": "Amazon Web Services", "category": "cloud", "status": "unverified", "check": "Absent from sources; history not checked."}
+      ],
+      "caveat": "Mostly B2B sponsors - many may be missing from a consumer taste graph; consider excluding from the primary metric."
+    },
+    {
+      "id": "coachella",
+      "name": "Coachella Valley Music and Arts Festival",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://www.theguardian.com/music/2025/sep/16/coachella-2026-headliners-lineup",
+      "entities": [
+        {"name": "Sabrina Carpenter", "qloo_type": "artist"},
+        {"name": "Justin Bieber", "qloo_type": "artist"},
+        {"name": "Karol G", "qloo_type": "artist"},
+        {"name": "Anyma", "qloo_type": "artist"},
+        {"name": "The xx", "qloo_type": "artist"},
+        {"name": "The Strokes", "qloo_type": "artist"},
+        {"name": "Addison Rae", "qloo_type": "artist"},
+        {"name": "KATSEYE", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "Heineken", "category": "alcohol (beer)", "source": "https://www.theheinekencompany.com/newsroom/heineken-launches-the-clinkerat-this-years-coachella-to-spark-new-connections-between-fans-with-a-simple-cheers/", "date": "2026-03-30", "confidence": "high", "evidence": "'long-standing sponsorship of Coachella'; Sponsor United calls it official beer, 23rd year"},
+        {"brand": "Absolut", "category": "alcohol (vodka)", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high", "evidence": "'returning as the official Vodka of Coachella'"},
+        {"brand": "Coca-Cola", "category": "soft drink", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high", "evidence": "in 'full list of each of the official brand booths'"},
+        {"brand": "American Express", "category": "credit card", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high"},
+        {"brand": "Rivian", "category": "auto (EV)", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high"},
+        {"brand": "Starbucks", "category": "coffee / QSR", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high"},
+        {"brand": "White Claw", "category": "alcohol (hard seltzer)", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high"},
+        {"brand": "Aperol", "category": "alcohol (aperitif)", "source": "https://www.sponsorunited.com/insights/inside-coachella-2026-where-brand-activations-became-cultural-architecture", "date": "2026-04-22", "confidence": "high", "evidence": "'fourth year as Coachella's Official Spritz'"},
+        {"brand": "Alaska Airlines", "category": "airline", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high"},
+        {"brand": "e.l.f. Cosmetics", "category": "beauty", "source": "https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/", "date": "2026-04-10", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Bud Light", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Not in Press-Enterprise official booth list (2026-04-10) or Sponsor United recap; Heineken is the long-tenured official beer (likely category exclusive)."},
+        {"brand": "Tito's Handmade Vodka", "category": "alcohol (vodka)", "status": "absent-in-sources", "check": "Same; Absolut is official vodka. Tito's sponsors Lolla/ACL/Bonnaroo instead."},
+        {"brand": "Pepsi", "category": "soft drink", "status": "absent-in-sources", "check": "Same; Coca-Cola on official list."},
+        {"brand": "Tesla", "category": "auto (EV)", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Dunkin'", "category": "coffee / QSR", "status": "absent-in-sources", "check": "Same; Dunkin' sponsors Gov Ball / Rolling Loud instead."}
+      ],
+      "caveat": "Off-site activations by non-sponsors (e.g., Airbnb x Sabrina Carpenter pop-up, Guess, Soho House) are NOT counted as sponsors."
+    },
+    {
+      "id": "lollapalooza",
+      "name": "Lollapalooza (Chicago)",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://variety.com/2026/shopping/news/lollapalooza-sponsors-activations-giveaways-merch-1236825616/",
+      "entities": [
+        {"name": "Lorde", "qloo_type": "artist"},
+        {"name": "Charli xcx", "qloo_type": "artist"},
+        {"name": "JENNIE", "qloo_type": "artist"},
+        {"name": "Tate McRae", "qloo_type": "artist"},
+        {"name": "The Smashing Pumpkins", "qloo_type": "artist"},
+        {"name": "John Summit", "qloo_type": "artist"},
+        {"name": "Olivia Dean", "qloo_type": "artist"},
+        {"name": "The xx", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "T-Mobile", "category": "telecom", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026 (official '2026 Partners' list)", "confidence": "high", "evidence": "Variety 2026-08-01: name on one of the two main stages"},
+        {"brand": "Bud Light", "category": "alcohol (beer)", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026", "confidence": "high"},
+        {"brand": "Tito's Handmade Vodka", "category": "alcohol (vodka)", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026", "confidence": "high"},
+        {"brand": "Toyota", "category": "auto", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026", "confidence": "high"},
+        {"brand": "Chase", "category": "bank / credit card", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026", "confidence": "high"},
+        {"brand": "Coca-Cola", "category": "soft drink", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026", "confidence": "high"},
+        {"brand": "Snapchat", "category": "social media", "source": "https://www.lollapalooza.com/beyond-the-music", "date": "2026", "confidence": "high"},
+        {"brand": "Bacardi", "category": "alcohol (rum)", "source": "https://www.eventmarketer.com/article/lollapalooza-2026-photo-tour-10-experiences-from-chicago/", "date": "2026-08-07", "confidence": "high"},
+        {"brand": "Uber", "category": "rideshare", "source": "https://www.lollapalooza.com/lineup", "date": "2026 (partner strip)", "confidence": "high"},
+        {"brand": "Liquid I.V.", "category": "beverage (electrolyte)", "source": "https://itsbetterlive.livenationforbrands.com/at-lollapalooza-everyone-had-a-plan-nobody-stuck-to-it/", "date": "2026-08-04", "confidence": "high"},
+        {"brand": "Ulta Beauty", "category": "beauty retail", "source": "https://www.eventmarketer.com/article/lollapalooza-2026-photo-tour-10-experiences-from-chicago/", "date": "2026-08-07", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Verizon", "category": "telecom", "status": "absent-in-sources", "check": "Not on lollapalooza.com 2026 partner lists (beyond-the-music, lineup, aftershows pages). Verizon sponsors Gov Ball instead; T-Mobile likely category-exclusive."},
+        {"brand": "Miller Lite", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Same lists; Miller Lite sponsors ACL instead."},
+        {"brand": "American Express", "category": "credit card", "status": "absent-in-sources", "check": "Same lists; Amex sponsors Coachella/ACL instead."},
+        {"brand": "Lyft", "category": "rideshare", "status": "absent-in-sources", "check": "Same lists; Uber is listed. Lyft sponsors ACL/Gov Ball."},
+        {"brand": "Pepsi", "category": "soft drink", "status": "absent-in-sources", "check": "Same lists."}
+      ]
+    },
+    {
+      "id": "acl",
+      "name": "Austin City Limits Music Festival",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://www.kut.org/austin/2026-05-05/acl-lineup-tickets-2026-austin-city-limits-festival-tx",
+      "entities": [
+        {"name": "Charli xcx", "qloo_type": "artist"},
+        {"name": "Lorde", "qloo_type": "artist"},
+        {"name": "Twenty One Pilots", "qloo_type": "artist"},
+        {"name": "The xx", "qloo_type": "artist"},
+        {"name": "RÜFÜS DU SOL", "qloo_type": "artist"},
+        {"name": "Skrillex", "qloo_type": "artist"},
+        {"name": "Kings of Leon", "qloo_type": "artist"},
+        {"name": "Turnstile", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "American Express", "category": "credit card", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high", "evidence": "'ACL Fest Nights presented by American Express' + partner list"},
+        {"brand": "T-Mobile", "category": "telecom", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Miller Lite", "category": "alcohol (beer)", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Tito's Handmade Vodka", "category": "alcohol (vodka)", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Coca-Cola", "category": "soft drink", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Lyft", "category": "rideshare", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Land Rover Defender", "category": "auto", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high", "evidence": "listed as 'Defender'"},
+        {"brand": "Patrón", "category": "alcohol (tequila)", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Hulu", "category": "streaming", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"},
+        {"brand": "Snapchat", "category": "social media", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high", "evidence": "listed as 'Snap'"},
+        {"brand": "Salesforce", "category": "B2B software", "source": "https://www.aclfestival.com/page/aftershows", "date": "2026", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Bud Light", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Not on aclfestival.com 2026 partner strips (home, lineup, aftershows pages); Miller Lite holds beer. Bud Light sponsors Lolla instead."},
+        {"brand": "Uber", "category": "rideshare", "status": "absent-in-sources", "check": "Same; Lyft listed."},
+        {"brand": "Chase", "category": "bank / credit card", "status": "absent-in-sources", "check": "Same; Amex listed."},
+        {"brand": "Toyota", "category": "auto", "status": "absent-in-sources", "check": "Same; Defender listed."},
+        {"brand": "Verizon", "category": "telecom", "status": "absent-in-sources", "check": "Same; T-Mobile listed."}
+      ]
+    },
+    {
+      "id": "govball",
+      "name": "The Governors Ball Music Festival",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://newsroom.livenation.com/news/governors-ball-2026-lineup-announced/",
+      "entities": [
+        {"name": "Lorde", "qloo_type": "artist"},
+        {"name": "Stray Kids", "qloo_type": "artist"},
+        {"name": "A$AP Rocky", "qloo_type": "artist"},
+        {"name": "Kali Uchis", "qloo_type": "artist"},
+        {"name": "JENNIE", "qloo_type": "artist"},
+        {"name": "KATSEYE", "qloo_type": "artist"},
+        {"name": "Baby Keem", "qloo_type": "artist"},
+        {"name": "Dominic Fike", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "Verizon", "category": "telecom", "source": "https://www.governorsballmusicfestival.com/lineup", "date": "2026 (official partner strip)", "confidence": "high", "evidence": "Pollstar 2026-06-05: cabana program 'presented by Verizon'"},
+        {"brand": "Citi", "category": "bank / credit card", "source": "https://www.governorsballmusicfestival.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Coca-Cola", "category": "soft drink", "source": "https://www.bizbash.com/experiential-marketing/gov-ball-2026-see-how-brands-engaged-music-fans-at-the-nyc-festival", "date": "2026-06-10", "confidence": "high"},
+        {"brand": "Dunkin'", "category": "coffee / QSR", "source": "https://www.bizbash.com/experiential-marketing/gov-ball-2026-see-how-brands-engaged-music-fans-at-the-nyc-festival", "date": "2026-06-10", "confidence": "high"},
+        {"brand": "DoorDash", "category": "food delivery", "source": "https://www.campaignlive.com/article/gov-ball-newcomers-four-brands-made-mark-festival/1961036", "date": "2026-06-09", "confidence": "high"},
+        {"brand": "Samsung", "category": "consumer electronics", "source": "https://news.pollstar.com/2026/06/05/build-it-and-brands-will-come-how-governors-ball-sponsors-are-bringing-in-eight-figures-annually-growing/", "date": "2026-06-05", "confidence": "high"},
+        {"brand": "Hennessy", "category": "alcohol (cognac)", "source": "https://www.bizbash.com/experiential-marketing/gov-ball-2026-see-how-brands-engaged-music-fans-at-the-nyc-festival", "date": "2026-06-10", "confidence": "high"},
+        {"brand": "Corona", "category": "alcohol (beer)", "source": "https://www.governorsballmusicfestival.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Lyft", "category": "rideshare", "source": "https://www.governorsballmusicfestival.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Tinder", "category": "dating app", "source": "https://www.campaignlive.com/article/gov-ball-newcomers-four-brands-made-mark-festival/1961036", "date": "2026-06-09", "confidence": "high"},
+        {"brand": "PacSun", "category": "apparel retail", "source": "https://www.governorsballmusicfestival.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Maybelline", "category": "beauty", "source": "https://www.bizbash.com/experiential-marketing/gov-ball-2026-see-how-brands-engaged-music-fans-at-the-nyc-festival", "date": "2026-06-10", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "T-Mobile", "category": "telecom", "status": "absent-in-sources", "check": "Not on governorsballmusicfestival.com 2026 partner strip or BizBash/Pollstar/Campaign recaps; Verizon holds telecom. T-Mobile sponsors Lolla/ACL."},
+        {"brand": "Chase", "category": "bank / credit card", "status": "absent-in-sources", "check": "Same; Citi holds banking."},
+        {"brand": "Uber Eats", "category": "food delivery", "status": "absent-in-sources", "check": "Same; DoorDash listed."},
+        {"brand": "Bud Light", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Same; Corona listed."},
+        {"brand": "Starbucks", "category": "coffee / QSR", "status": "absent-in-sources", "check": "Same; Dunkin' listed."}
+      ]
+    },
+    {
+      "id": "bonnaroo",
+      "name": "Bonnaroo Music & Arts Festival",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://variety.com/2025/music/news/skrillex-the-strokes-noah-kahan-bonnaroo-2026-lineup-1236597377/",
+      "entities": [
+        {"name": "Skrillex", "qloo_type": "artist"},
+        {"name": "The Strokes", "qloo_type": "artist"},
+        {"name": "RÜFÜS DU SOL", "qloo_type": "artist"},
+        {"name": "Noah Kahan", "qloo_type": "artist"},
+        {"name": "Teddy Swims", "qloo_type": "artist"},
+        {"name": "Turnstile", "qloo_type": "artist"},
+        {"name": "Kesha", "qloo_type": "artist"},
+        {"name": "Role Model", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "Tito's Handmade Vodka", "category": "alcohol (vodka)", "source": "https://www.bonnaroo.com/lineup", "date": "2026 (official partner strip)", "confidence": "high"},
+        {"brand": "Coca-Cola", "category": "soft drink", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Jack Daniel's", "category": "alcohol (whiskey)", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Espolòn", "category": "alcohol (tequila)", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Sierra Nevada", "category": "alcohol (beer)", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Venmo", "category": "fintech", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Hulu", "category": "streaming", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Five Below", "category": "discount retail", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"},
+        {"brand": "Ross Dress for Less", "category": "discount retail", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high", "evidence": "listed as 'Ross'"},
+        {"brand": "Cayman Jack", "category": "alcohol (RTD cocktail)", "source": "https://www.bonnaroo.com/lineup", "date": "2026", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Jim Beam", "category": "alcohol (whiskey)", "status": "absent-in-sources", "check": "Not on bonnaroo.com 2026 partner strip (home + lineup pages); Jack Daniel's holds whiskey. Jim Beam sponsors ACL/Gov Ball."},
+        {"brand": "Patrón", "category": "alcohol (tequila)", "status": "absent-in-sources", "check": "Same; Espolòn holds tequila."},
+        {"brand": "Bud Light", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Pepsi", "category": "soft drink", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Cash App", "category": "fintech", "status": "absent-in-sources", "check": "Same; Venmo listed."}
+      ]
+    },
+    {
+      "id": "stagecoach",
+      "name": "Stagecoach Festival",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://www.eventmarketer.com/article/stagecoach-2026-activations/",
+      "entities": [
+        {"name": "Post Malone", "qloo_type": "artist"},
+        {"name": "Lainey Wilson", "qloo_type": "artist"},
+        {"name": "Cody Johnson", "qloo_type": "artist"},
+        {"name": "Ella Langley", "qloo_type": "artist"},
+        {"name": "Bailey Zimmerman", "qloo_type": "artist"},
+        {"name": "Diplo", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "American Eagle", "category": "apparel", "source": "https://www.eventmarketer.com/article/jeans-country-american-eagle-first-stagecoach-activation/", "date": "2026-05-07", "confidence": "high", "evidence": "'exclusive apparel and denim sponsor'"},
+        {"brand": "Bud Light", "category": "alcohol (beer)", "source": "https://news.pollstar.com/2026/03/20/the-women-bringing-stagecoach-to-life/", "date": "2026-03-20", "confidence": "high", "evidence": "'The Bud Light Stage'; Event Marketer: Bud Light x Post Malone bar on grounds"},
+        {"brand": "Toyota", "category": "auto", "source": "https://news.pollstar.com/2026/03/20/the-women-bringing-stagecoach-to-life/", "date": "2026-03-20", "confidence": "high", "evidence": "'Toyota Music Den'"},
+        {"brand": "Monster Energy", "category": "energy drink", "source": "https://www.eventmarketer.com/article/stagecoach-2026-activations/", "date": "2026-05-06", "confidence": "high", "evidence": "'Returning as Stagecoach's Official Energy Drink Partner'"},
+        {"brand": "Malibu", "category": "alcohol (rum)", "source": "https://news.pollstar.com/2026/03/20/the-women-bringing-stagecoach-to-life/", "date": "2026-03-20", "confidence": "high", "evidence": "'Malibu Beach House'"},
+        {"brand": "Boot Barn", "category": "western apparel retail", "source": "https://news.pollstar.com/2026/03/20/the-women-bringing-stagecoach-to-life/", "date": "2026-03-20", "confidence": "high", "evidence": "'Mustang Stage, presented by Boot Barn'"},
+        {"brand": "e.l.f. Cosmetics", "category": "beauty", "source": "https://news.pollstar.com/2026/03/20/the-women-bringing-stagecoach-to-life/", "date": "2026-03-20", "confidence": "high"},
+        {"brand": "Código 1530", "category": "alcohol (tequila)", "source": "https://www.eventmarketer.com/article/stagecoach-2026-activations/", "date": "2026-05-06", "confidence": "high"},
+        {"brand": "Electrolit", "category": "beverage (electrolyte)", "source": "https://www.eventmarketer.com/article/stagecoach-2026-activations/", "date": "2026-05-06", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Wrangler", "category": "apparel (denim)", "status": "absent-in-sources", "check": "Not in Pollstar / Event Marketer / Adweek 2026 coverage; American Eagle is EXCLUSIVE apparel+denim sponsor. stagecoachfestival.com partner page not fetched."},
+        {"brand": "Red Bull", "category": "energy drink", "status": "absent-in-sources", "check": "Same; Monster is official energy drink."},
+        {"brand": "Coors Light", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Same."},
+        {"brand": "Ford", "category": "auto", "status": "unverified", "check": "Absent from press coverage; Ford is a common country-music sponsor - partner page not checked."},
+        {"brand": "Patrón", "category": "alcohol (tequila)", "status": "absent-in-sources", "check": "Same press coverage."}
+      ]
+    },
+    {
+      "id": "primavera",
+      "name": "Primavera Sound Barcelona",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas",
+      "entities": [
+        {"name": "The Cure", "qloo_type": "artist"},
+        {"name": "Doja Cat", "qloo_type": "artist"},
+        {"name": "Gorillaz", "qloo_type": "artist"},
+        {"name": "The xx", "qloo_type": "artist"},
+        {"name": "Addison Rae", "qloo_type": "artist"},
+        {"name": "Massive Attack", "qloo_type": "artist"},
+        {"name": "My Bloody Valentine", "qloo_type": "artist"},
+        {"name": "Skrillex", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "Estrella Damm", "category": "alcohol (beer)", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high", "evidence": "'key strategic partners: Estrella Damm, Revolut, CUPRA and Occident'"},
+        {"brand": "Revolut", "category": "fintech", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "CUPRA", "category": "auto", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Levi's", "category": "apparel (denim)", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "adidas", "category": "apparel / sportswear", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Jameson", "category": "alcohol (whiskey)", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Aperol", "category": "alcohol (aperitif)", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Red Bull", "category": "energy drink", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Vueling", "category": "airline", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Zalando", "category": "fashion e-commerce", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"},
+        {"brand": "Magnum", "category": "ice cream", "source": "https://www.primaverasound.com/en/news/primavera-sound-barcelona-2026-despliega-desde-hoy-una-24-edicion-con-una-programacion-musical-incomparable-y-todas-las-entradas-agotadas", "date": "2026-06-01", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Mahou", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Not in Primavera's own 2026 partner credits (2025-09-25, 2025-12-04, 2026-06-01 news posts); Estrella Damm is key partner."},
+        {"brand": "BBVA", "category": "bank / fintech", "status": "absent-in-sources", "check": "Same credits; Revolut is key partner."},
+        {"brand": "Nike", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Same credits; adidas listed."},
+        {"brand": "Monster Energy", "category": "energy drink", "status": "absent-in-sources", "check": "Same credits; Red Bull listed."},
+        {"brand": "Ryanair", "category": "airline", "status": "absent-in-sources", "check": "Same credits; Vueling listed."}
+      ]
+    },
+    {
+      "id": "rollingloud",
+      "name": "Rolling Loud (Orlando)",
+      "type": "festival",
+      "year": 2026,
+      "lineup_source": "https://about.underarmour.com/en/stories/2026/04/under-armour-brings-fit-for-the-pit-experience-to-rolling-loud-2.html",
+      "entities": [
+        {"name": "Don Toliver", "qloo_type": "artist"},
+        {"name": "Playboi Carti", "qloo_type": "artist"},
+        {"name": "NBA YoungBoy", "qloo_type": "artist"},
+        {"name": "Destroy Lonely", "qloo_type": "artist"},
+        {"name": "Chief Keef", "qloo_type": "artist"},
+        {"name": "Young Thug", "qloo_type": "artist"}
+      ],
+      "sponsors": [
+        {"brand": "Under Armour", "category": "apparel / sportswear", "source": "https://about.underarmour.com/en/stories/2026/04/under-armour-brings-fit-for-the-pit-experience-to-rolling-loud-2.html", "date": "2026-05-01", "confidence": "high", "evidence": "'exclusive performance apparel partner' + 'official main stage sponsor'"},
+        {"brand": "Verizon", "category": "telecom", "source": "https://stagehoppers.com/rollingloud2026/", "date": "2026-05-13", "confidence": "high", "evidence": "'Verizon Stage'"},
+        {"brand": "Red Bull", "category": "energy drink", "source": "https://www.antimusic.com/p/26/p0509rolling_loud_orlando_day_1_recap.shtml", "date": "2026-05-09", "confidence": "high", "evidence": "official day-1 announcement: 'Red Bull's Gravitron activation'"},
+        {"brand": "Hennessy", "category": "alcohol (cognac)", "source": "https://www.antimusic.com/p/26/p0509rolling_loud_orlando_day_1_recap.shtml", "date": "2026-05-09", "confidence": "high", "evidence": "'Hennessy Social Club'"},
+        {"brand": "Sprite", "category": "soft drink", "source": "https://www.antimusic.com/p/26/p0509rolling_loud_orlando_day_1_recap.shtml", "date": "2026-05-09", "confidence": "high", "evidence": "'The Loud Theater, presented in partnership with Cinemark and Sprite'"},
+        {"brand": "Dunkin'", "category": "coffee / QSR", "source": "https://stagehoppers.com/rollingloud2026/", "date": "2026-05-13", "confidence": "medium", "evidence": "fan-blog recap: 'Dunkin' Refresherland'"},
+        {"brand": "7-Eleven (Slurpee)", "category": "convenience retail", "source": "https://stagehoppers.com/rollingloud2026/", "date": "2026-05-13", "confidence": "medium"},
+        {"brand": "White Claw", "category": "alcohol (hard seltzer)", "source": "https://stagehoppers.com/rollingloud2026/", "date": "2026-05-13", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "Nike", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Not in UA release, official day-1 recap or Stage Hoppers recap; Under Armour is EXCLUSIVE performance-apparel partner. 2026.rollingloud.com/sponsors page did not render a list."},
+        {"brand": "T-Mobile", "category": "telecom", "status": "absent-in-sources", "check": "Same sources; Verizon has stage naming."},
+        {"brand": "Monster Energy", "category": "energy drink", "status": "absent-in-sources", "check": "Same sources; Red Bull listed."},
+        {"brand": "Mountain Dew", "category": "soft drink", "status": "absent-in-sources", "check": "Same sources; Sprite (Coca-Co.) listed."},
+        {"brand": "Rémy Martin", "category": "alcohol (cognac)", "status": "unverified", "check": "Absent from sources; Rolling Loud had other cognac partners in past editions - not checked."}
+      ],
+      "caveat": "Young-skewing hip-hop audience; on-site alcohol confined to 21+ areas, and tobacco/nicotine brands (Backwoods, Zig-Zag, Geek Bar, ON!) appeared in the 21+ 'Rolling Zone' per Stage Hoppers - deliberately NOT listed as sponsors here; see gate_traps."
+    },
+    {
+      "id": "intermiami",
+      "name": "Inter Miami CF",
+      "type": "sports_team",
+      "year": 2026,
+      "entities": [
+        {"name": "Inter Miami CF", "qloo_type": "brand", "note": "team-as-brand; may not resolve"},
+        {"name": "Lionel Messi", "qloo_type": "person"},
+        {"name": "Luis Suárez", "qloo_type": "person"},
+        {"name": "Rodrigo De Paul", "qloo_type": "person"},
+        {"name": "Casemiro", "qloo_type": "person"},
+        {"name": "David Beckham", "qloo_type": "person", "note": "co-owner"}
+      ],
+      "sponsors": [
+        {"brand": "Royal Caribbean", "category": "travel (cruise)", "source": "https://www.intermiamicf.com/news/inter-miami-cf-unveils-cenit-third-kit-collection-celebrating-new-home-and-club-reaching-new-heights", "date": "2026-07-30", "confidence": "high", "evidence": "Main Partner + Official Jersey Partner (front of shirt)"},
+        {"brand": "Nubank (Nu)", "category": "fintech", "source": "https://nu.com/en/newsroom/company/nu-and-inter-miami-cf-announce-multiyear-partnership", "date": "2026-03-04", "confidence": "high", "evidence": "stadium naming rights (Nu Stadium) + back-of-jersey from Aug 2026"},
+        {"brand": "Lowe's", "category": "home improvement retail", "source": "https://www.intermiamicf.com/news/inter-miami-cf-unveils-cenit-third-kit-collection-celebrating-new-home-and-club-reaching-new-heights", "date": "2026-07-30", "confidence": "high", "evidence": "Official Jersey Sleeve Partner"},
+        {"brand": "adidas", "category": "apparel / sportswear", "source": "https://www.intermiamicf.com/news/inter-miami-cf-and-adidas-announce-long-term-partnership", "date": "2026-03-24", "confidence": "high", "evidence": "new five-year kit partnership"},
+        {"brand": "Modelo", "category": "alcohol (beer)", "source": "https://www.intermiamicf.com/club/partners", "date": "2026 (partners page, accessed 2026-10-27)", "confidence": "high"},
+        {"brand": "Hyundai", "category": "auto", "source": "https://www.intermiamicf.com/club/partners", "date": "2026", "confidence": "high", "evidence": "also 'Hyundai Club' at Nu Stadium (kit release)"},
+        {"brand": "Marriott Bonvoy", "category": "hospitality", "source": "https://www.intermiamicf.com/club/partners", "date": "2026", "confidence": "high"},
+        {"brand": "American Airlines", "category": "airline", "source": "https://www.intermiamicf.com/club/partners", "date": "2026", "confidence": "high"},
+        {"brand": "Mastercard", "category": "payments", "source": "https://www.intermiamicf.com/club/partners", "date": "2026", "confidence": "high"},
+        {"brand": "Red Bull", "category": "energy drink", "source": "https://www.intermiamicf.com/club/partners", "date": "2026", "confidence": "high"}
+      ],
+      "controls": [
+        {"brand": "Carnival Cruise Line", "category": "travel (cruise)", "status": "absent-in-sources", "check": "Not on intermiamicf.com/club/partners (accessed 2026-10-27); Royal Caribbean is jersey partner."},
+        {"brand": "The Home Depot", "category": "home improvement retail", "status": "absent-in-sources", "check": "Same partner page; Lowe's is sleeve partner."},
+        {"brand": "Nike", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Same; adidas is kit partner (MLS league-wide adidas deal - kit is not a free club choice)."},
+        {"brand": "Heineken", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Same; Modelo listed."},
+        {"brand": "Visa", "category": "payments", "status": "absent-in-sources", "check": "Same; Mastercard listed."},
+        {"brand": "Delta Air Lines", "category": "airline", "status": "absent-in-sources", "check": "Same; American Airlines listed."}
+      ],
+      "caveat": "adidas is MLS's league-wide supplier, so its presence is weak revealed preference; consider excluding kit suppliers from scoring for all teams."
+    },
+    {
+      "id": "warriors",
+      "name": "Golden State Warriors",
+      "type": "sports_team",
+      "year": 2026,
+      "season": "2025-26 and 2026-27",
+      "entities": [
+        {"name": "Golden State Warriors", "qloo_type": "brand", "note": "team-as-brand; may not resolve"},
+        {"name": "Stephen Curry", "qloo_type": "person"},
+        {"name": "Draymond Green", "qloo_type": "person"},
+        {"name": "Jimmy Butler", "qloo_type": "person"},
+        {"name": "Steve Kerr", "qloo_type": "person", "note": "head coach"}
+      ],
+      "sponsors": [
+        {"brand": "Rakuten", "category": "e-commerce / cashback", "source": "https://global.rakuten.com/corp/news/press/2026/0618_01.html", "date": "2026-06-18", "confidence": "high", "evidence": "jersey badge partner 2017-18 through 2025-26; extended as non-badge partner"},
+        {"brand": "IREN", "category": "AI cloud / tech", "source": "https://www.nbcsportsbayarea.com/nba/golden-state-warriors/iren-jersey-patch-sponsorship/1945861/", "date": "2026-06-25", "confidence": "high", "evidence": "jersey badge from 2026-27"},
+        {"brand": "Kaiser Permanente", "category": "healthcare", "source": "https://newsroom.sephora.com/warriors-announce-partnership-with-sephora-u-s/", "date": "2025-11-18", "confidence": "high", "evidence": "'2025-26 season, presented by Kaiser Permanente'"},
+        {"brand": "Sephora", "category": "beauty retail", "source": "https://newsroom.sephora.com/warriors-announce-partnership-with-sephora-u-s/", "date": "2025-11-18", "confidence": "high", "evidence": "official fragrance partner of the Warriors and Chase Center"},
+        {"brand": "Carta", "category": "B2B fintech", "source": "https://carta.com/blog/carta-golden-state-warriors-partnership/", "date": "2025-10-10", "confidence": "high"},
+        {"brand": "RingCentral", "category": "B2B software", "source": "https://www.nasdaq.com/press-release/golden-state-warriors-name-ringcentral-official-agentic-ai-powered-voice-platform-fan", "date": "2026-10-22", "confidence": "high"},
+        {"brand": "Chase (JPMorgan Chase)", "category": "bank", "source": "https://www.chasecenter.com/news/know-before-you-go-2025-26-gsw-regular-season/", "date": "2025-26 (arena name)", "confidence": "medium", "evidence": "arena naming rights (Chase Center); the deal itself was not re-verified in this pass"}
+      ],
+      "controls": [
+        {"brand": "Bank of America", "category": "bank", "status": "unverified", "check": "Not in any 2025-26 Warriors partner release found; nba.com/warriors partners page failed to load, so full roster unchecked. Chase holds arena naming (bank category likely exclusive)."},
+        {"brand": "Ulta Beauty", "category": "beauty retail", "status": "unverified", "check": "Same; Sephora is official fragrance partner."},
+        {"brand": "Robinhood", "category": "fintech", "status": "unverified", "check": "Same; Robinhood holds patches for Heat/Grizzlies/Wizards (Blinkfire 2025-11-18), not GSW."},
+        {"brand": "Sutter Health", "category": "healthcare", "status": "unverified", "check": "Same; Kaiser Permanente is season presenting partner."},
+        {"brand": "Coinbase", "category": "crypto / fintech", "status": "unverified", "check": "Same."}
+      ]
+    },
+    {
+      "id": "dodgers",
+      "name": "Los Angeles Dodgers",
+      "type": "sports_team",
+      "year": 2026,
+      "entities": [
+        {"name": "Los Angeles Dodgers", "qloo_type": "brand", "note": "team-as-brand; may not resolve"},
+        {"name": "Shohei Ohtani", "qloo_type": "person"},
+        {"name": "Mookie Betts", "qloo_type": "person"},
+        {"name": "Freddie Freeman", "qloo_type": "person"},
+        {"name": "Yoshinobu Yamamoto", "qloo_type": "person"},
+        {"name": "Roki Sasaki", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "UNIQLO", "category": "apparel", "source": "https://www.mlb.com/press-release/press-release-dodgers-and-uniqlo-announce-historic-partnership", "date": "2026-03-25", "confidence": "high", "evidence": "'UNIQLO Field at Dodger Stadium'"},
+        {"brand": "Oura", "category": "health wearable", "source": "https://www.businesswire.com/news/home/20260909529473/en/Los-Angeles-Dodgers-and-URA-Announce-Multi-Year-Partnership", "date": "2026-09-09", "confidence": "high"},
+        {"brand": "Kalshi", "category": "prediction market (betting-adjacent)", "source": "https://www.mlb.com/press-release/los-angeles-dodgers-and-kalshi-announce-multi-year-partnership", "date": "2026-08-25", "confidence": "high", "evidence": "'Official and Exclusive Prediction Market Partner'"},
+        {"brand": "PrizePicks", "category": "daily fantasy sports", "source": "https://www.mlb.com/press-release/los-angeles-dodgers-and-prizepicks-announce-partnership-agreement", "date": "2025-06-11", "confidence": "high"},
+        {"brand": "ANA (All Nippon Airways)", "category": "airline", "source": "https://www.anahd.co.jp/group/en/pr/pdf/20250314.pdf", "date": "2025-03-13", "confidence": "high", "evidence": "'Official Japanese Airline Partner', multi-year extension"},
+        {"brand": "Archer", "category": "packaged food (meat snacks)", "source": "https://www.mlb.com/dodgers/press-release/press-release-los-angeles-dodgers-and-archer-meat-snacks-announce-partnership-agreement", "date": "2025-04-09", "confidence": "high"},
+        {"brand": "Budweiser", "category": "alcohol (beer)", "source": "https://www.blinkfire.com/publisher/team/baseball_19/los-angeles-dodgers/sponsors", "date": "2026-09/10 (Blinkfire 30-day window)", "confidence": "medium", "evidence": "third-party tracker of sponsor tags in team social posts"}
+      ],
+      "controls": [
+        {"brand": "H&M", "category": "apparel", "status": "unverified", "check": "No Dodgers partnership release found in this pass; Dodgers have ~92 sponsors (Blinkfire) and the full roster was not enumerated."},
+        {"brand": "WHOOP", "category": "health wearable", "status": "unverified", "check": "Same; Oura is 'Official Health Wearable'."},
+        {"brand": "Polymarket", "category": "prediction market", "status": "absent-in-sources", "check": "Kalshi deal is explicitly 'Exclusive' in the category (2026-08-25 release), so Polymarket cannot be a partner."},
+        {"brand": "Underdog Fantasy", "category": "daily fantasy sports", "status": "unverified", "check": "PrizePicks is 'Official Daily Fantasy Partner'; exclusivity not stated."},
+        {"brand": "Japan Airlines (JAL)", "category": "airline", "status": "unverified", "check": "ANA is 'Official Japanese Airline Partner' - category likely exclusive."}
+      ],
+      "caveat": "Nike, New Era and Fanatics appear in Blinkfire's top sponsors but are MLB league-wide suppliers; Guggenheim (sleeve patch) is the owner - all excluded."
+    },
+    {
+      "id": "realmadrid",
+      "name": "Real Madrid CF",
+      "type": "sports_team",
+      "year": 2026,
+      "season": "2025-26 / 2026-27",
+      "entities": [
+        {"name": "Real Madrid", "qloo_type": "brand", "note": "team-as-brand; may not resolve"},
+        {"name": "Kylian Mbappé", "qloo_type": "person"},
+        {"name": "Vinícius Júnior", "qloo_type": "person"},
+        {"name": "Jude Bellingham", "qloo_type": "person"},
+        {"name": "Federico Valverde", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Emirates", "category": "airline", "source": "https://www.insideworldfootball.com/2026/10/09/real-madrid-agree-3-year-deal-with-uber-eats/", "date": "2026-10-09", "confidence": "high", "evidence": "'Emirates as front-of-shirt sponsor'; realmadrid.com sponsor news: 'Real Madrid and Emirates extend their historic partnership until 2031'"},
+        {"brand": "adidas", "category": "apparel / sportswear", "source": "https://en.as.com/soccer/real-madrid-release-202526-adidas-kit-check-out-los-blancos-new-uniform-n/", "date": "2025-06-06", "confidence": "high", "evidence": "kit supplier; realmadrid.com: 'Real Madrid and adidas extend the most successful partnership in world football'"},
+        {"brand": "HP", "category": "consumer electronics / PCs", "source": "https://www.realmadrid.com/en-US/the-club/sponsors/hp", "date": "2025-26 (sleeve on 2025-26 kit per AS 2025-06-06)", "confidence": "high", "evidence": "first-ever sleeve sponsor"},
+        {"brand": "Uber Eats", "category": "food delivery", "source": "https://www.realmadrid.com/en-US/news/club/sponsors/uber-eats-nuevo-patrocinador-oficial-del-real-madrid-07-10-2026", "date": "2026-10-07", "confidence": "high", "evidence": "official delivery partner in Spain to June 2029; also adds Uber as official partner"},
+        {"brand": "Adobe", "category": "software", "source": "https://www.realmadrid.com/en-US/news/club/sponsors?page=0", "date": "2026 (news index)", "confidence": "medium", "evidence": "headline 'Real Madrid and Adobe extend partnership'"},
+        {"brand": "Sanitas", "category": "health insurance", "source": "https://www.realmadrid.com/en-US/news/club/sponsors?page=0", "date": "2026 (news index)", "confidence": "medium", "evidence": "headline 'Real Madrid players receive digital cards from Sanitas'"}
+      ],
+      "controls": [
+        {"brand": "Qatar Airways", "category": "airline", "status": "absent-in-sources", "check": "Not in realmadrid.com sponsor news index (page 0) or Inside World Football's list of main partners; Emirates holds shirt to 2031."},
+        {"brand": "Nike", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Same; adidas is kit partner."},
+        {"brand": "Dell", "category": "consumer electronics / PCs", "status": "absent-in-sources", "check": "Same; HP holds sleeve/tech."},
+        {"brand": "Just Eat", "category": "food delivery", "status": "absent-in-sources", "check": "Same; Uber Eats official delivery partner (category exclusive in Spain)."},
+        {"brand": "Spotify", "category": "audio streaming", "status": "absent-in-sources", "check": "Same; Spotify is FC Barcelona's main partner (natural rival-club control)."}
+      ]
+    },
+    {
+      "id": "barcelona",
+      "name": "FC Barcelona",
+      "type": "sports_team",
+      "year": 2026,
+      "season": "2025-26 / 2026-27",
+      "entities": [
+        {"name": "FC Barcelona", "qloo_type": "brand", "note": "team-as-brand; may not resolve"},
+        {"name": "Lamine Yamal", "qloo_type": "person"},
+        {"name": "Robert Lewandowski", "qloo_type": "person"},
+        {"name": "Pedri", "qloo_type": "person"},
+        {"name": "Raphinha", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Spotify", "category": "audio streaming", "source": "https://www.fcbarcelona.com/en/news/4383962/fc-barcelona-and-spotify-extend-sponsorship-agreement-through-to-2030", "date": "2025-10-17", "confidence": "high", "evidence": "front of shirt to 2030; Spotify Camp Nou naming to 2034"},
+        {"brand": "Nike", "category": "apparel / sportswear", "source": "https://foundation.fcbarcelona.com/en/card/4222576/fc-barcelona-and-nike-a-renewed-strategic-alliance", "date": "2025-02-24", "confidence": "high", "evidence": "Main Partner and Official Technical Partner"},
+        {"brand": "Estrella Damm", "category": "alcohol (beer)", "source": "https://www.sportcal.com/sponsorship/globaldata-report-laliga-to-bag-157m-in-sponsorship-revenue-for-2025-26/", "date": "2025-10-24", "confidence": "high", "evidence": "named among Barcelona's most significant deals; official beer (5-yr extension Dec 2023 per sportskhabri)"},
+        {"brand": "CUPRA", "category": "auto", "source": "https://sportskhabri.com/fc-barcelona-sponsors/", "date": "2025-08-13", "confidence": "medium", "evidence": "secondary source: official automotive partner renewed to 2029"},
+        {"brand": "Ambilight TV (Philips)", "category": "consumer electronics (TV)", "source": "https://www.sportcal.com/sponsorship/globaldata-report-laliga-to-bag-157m-in-sponsorship-revenue-for-2025-26/", "date": "2025-10-24", "confidence": "high", "evidence": "sleeve sponsor"}
+      ],
+      "controls": [
+        {"brand": "Apple Music", "category": "audio streaming", "status": "absent-in-sources", "check": "Not in Barcelona sources above; Spotify holds shirt + stadium."},
+        {"brand": "adidas", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Nike has exclusivity in technical products to 2038; adidas is Real Madrid's supplier."},
+        {"brand": "Mahou", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Estrella Damm official beer for 25+ years."},
+        {"brand": "BMW", "category": "auto", "status": "unverified", "check": "CUPRA is official car partner; fcbarcelona.com/en/sponsors page did not render a list."},
+        {"brand": "Samsung", "category": "consumer electronics (TV)", "status": "unverified", "check": "Absent from sources; sponsors page did not render."}
+      ]
+    },
+    {
+      "id": "mclaren",
+      "name": "McLaren Mastercard Formula 1 Team",
+      "type": "sports_team",
+      "year": 2026,
+      "entities": [
+        {"name": "McLaren", "qloo_type": "brand", "note": "also the road-car brand; disambiguate"},
+        {"name": "Lando Norris", "qloo_type": "person"},
+        {"name": "Oscar Piastri", "qloo_type": "person"}
+      ],
+      "sponsors": [
+        {"brand": "Mastercard", "category": "payments", "source": "https://www.mclaren.com/racing/formula-1/2025/mastercard-official-naming-partner-mclaren-formula-1-team-from-2026/", "date": "2025-08-27 (effective 2026)", "confidence": "high", "evidence": "Official Naming Partner"},
+        {"brand": "Google (Chrome / Android / Gemini)", "category": "tech / consumer software", "source": "https://www.mclaren.com/racing/formula-1/2026/mclaren-racing-launches-first-of-its-kind-fan-event-in-miami/", "date": "2026-03-10", "confidence": "high", "evidence": "presenting partner 'Google Gemini'"},
+        {"brand": "OKX", "category": "crypto exchange", "source": "https://www.pitdebrief.com/post/f1-2026-list-of-partners-sponsors-for-each-of-11-teams/", "date": "2026-03-03", "confidence": "high", "evidence": "current partner list; f1salaries.com (2026-09-30) lists as Official Primary Partner"},
+        {"brand": "Monster Energy", "category": "energy drink", "source": "https://www.pitdebrief.com/post/f1-2026-list-of-partners-sponsors-for-each-of-11-teams/", "date": "2026-03-03", "confidence": "high"},
+        {"brand": "Jack Daniel's", "category": "alcohol (whiskey)", "source": "https://www.pitdebrief.com/post/f1-2026-list-of-partners-sponsors-for-each-of-11-teams/", "date": "2026-03-03", "confidence": "high"},
+        {"brand": "PUMA", "category": "apparel / sportswear", "source": "https://www.mclaren.com/racing/formula-1/2026/mclaren-racing-launches-first-of-its-kind-fan-event-in-miami/", "date": "2026-03-10", "confidence": "high", "evidence": "kit partner from Jan 2026 (replaced Castore)"},
+        {"brand": "Hilton", "category": "hospitality", "source": "https://www.mclaren.com/racing/formula-1/2026/mclaren-racing-launches-first-of-its-kind-fan-event-in-miami/", "date": "2026-03-10", "confidence": "high"},
+        {"brand": "Dell Technologies", "category": "consumer electronics / PCs", "source": "https://www.mclaren.com/racing/formula-1/2026/mclaren-racing-launches-first-of-its-kind-fan-event-in-miami/", "date": "2026-03-10", "confidence": "high"},
+        {"brand": "T-Mobile", "category": "telecom", "source": "https://www.pitdebrief.com/post/f1-2026-list-of-partners-sponsors-for-each-of-11-teams/", "date": "2026-03-03", "confidence": "high"},
+        {"brand": "Etihad Airways", "category": "airline", "source": "https://www.pitdebrief.com/post/f1-2026-list-of-partners-sponsors-for-each-of-11-teams/", "date": "2026-03-03", "confidence": "high", "evidence": "joined for 2026"},
+        {"brand": "LEGO", "category": "toys", "source": "https://f1salaries.com/sponsors/mclaren/", "date": "2026-09-30", "confidence": "medium"}
+      ],
+      "controls": [
+        {"brand": "Visa", "category": "payments", "status": "absent-in-sources", "check": "Not in Pit Debrief / F1 Salaries McLaren 2026 lists; Visa is title partner of rival Racing Bulls."},
+        {"brand": "Coinbase", "category": "crypto exchange", "status": "absent-in-sources", "check": "Same lists; OKX holds crypto."},
+        {"brand": "Red Bull", "category": "energy drink", "status": "absent-in-sources", "check": "Same lists; Monster holds energy (Red Bull owns rival teams)."},
+        {"brand": "Heineken", "category": "alcohol (beer)", "status": "absent-in-sources", "check": "Same lists; Heineken is an F1 series-level partner, not McLaren."},
+        {"brand": "Nike", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Same lists; PUMA is kit partner."},
+        {"brand": "Marriott Bonvoy", "category": "hospitality", "status": "absent-in-sources", "check": "Same lists; Hilton listed."}
+      ],
+      "caveat": "Principal partner British American Tobacco (nicotine) and lottery operator Allwyn are real 2026 partners but excluded from the scored sponsor list (restricted categories)."
+    },
+    {
+      "id": "wrexham",
+      "name": "Wrexham AFC",
+      "type": "sports_team",
+      "year": 2025,
+      "season": "2025-26",
+      "entities": [
+        {"name": "Wrexham AFC", "qloo_type": "brand", "note": "team-as-brand; may not resolve"},
+        {"name": "Ryan Reynolds", "qloo_type": "person", "note": "co-owner"},
+        {"name": "Rob McElhenney", "qloo_type": "person", "note": "co-owner"},
+        {"name": "Welcome to Wrexham", "qloo_type": "tv_show"}
+      ],
+      "sponsors": [
+        {"brand": "United Airlines", "category": "airline", "source": "https://united.mediaroom.com/news-releases?item=125399", "date": "2025-07-31", "confidence": "high", "evidence": "front-of-shirt on 2025/26 kits"},
+        {"brand": "HP", "category": "consumer electronics / PCs", "source": "https://united.mediaroom.com/news-releases?item=125399", "date": "2025-07-31", "confidence": "high", "evidence": "sleeve sponsor"},
+        {"brand": "Meta Quest", "category": "consumer electronics (VR)", "source": "https://www.businesswire.com/news/home/20250709312379/en/Wrexham-AFC-and-Macron-Present-New-Home-Kit-for-the-202526-Season", "date": "2025-07-09", "confidence": "high", "evidence": "back-of-shirt sponsor"},
+        {"brand": "Macron", "category": "apparel / sportswear", "source": "https://www.businesswire.com/news/home/20250709312379/en/Wrexham-AFC-and-Macron-Present-New-Home-Kit-for-the-202526-Season", "date": "2025-07-09", "confidence": "high", "evidence": "kit supplier, partnership extended"}
+      ],
+      "controls": [
+        {"brand": "Delta Air Lines", "category": "airline", "status": "absent-in-sources", "check": "Not on 2025/26 kits or in kit-launch releases; United is front-of-shirt."},
+        {"brand": "Dell", "category": "consumer electronics / PCs", "status": "absent-in-sources", "check": "Same; HP holds sleeve."},
+        {"brand": "Apple", "category": "consumer electronics", "status": "absent-in-sources", "check": "Same; Meta Quest holds back-of-shirt."},
+        {"brand": "Nike", "category": "apparel / sportswear", "status": "absent-in-sources", "check": "Same; Macron is kit supplier."},
+        {"brand": "Mint Mobile", "category": "telecom", "status": "unverified", "check": "Not in 2025/26 kit sources; Reynolds-associated brand - full partner page not checked. Useful as an owner-affinity confound probe."}
+      ],
+      "caveat": "Only 4 verified sponsors; club partner page not fetched. Team entities are owners/show, not players (no star players)."
+    }
+  ],
+  "gate_traps": [
+    {
+      "id": "gt-rollingloud-hennessy",
+      "kind": "age_restricted",
+      "property": "Rolling Loud (Orlando) 2026",
+      "brand": "Hennessy",
+      "rule": "DISCUS Code 2A.2 (fixed advertising at venues): only at venues/events where >= threshold of attendees are reasonably expected to be 21+. Rolling Loud GA is all-ages.",
+      "threshold": "73.8% of attendees 21+",
+      "source": "https://distilledspirits.org/wp-content/uploads/2025/09/Final-2025-DISCUS-Code.pdf ; age policy: https://florida.rollingloud.com/tickets/ ('All ages are permitted entry with a GA ticket')",
+      "expected": "flag / restrict to 21+-gated zones - NOT a clean pass",
+      "note": "Hennessy really did activate (Hennessy Social Club, 2026-05-09 recap). Tests that the gate distinguishes property-wide sponsorship from 21+-zone activation; a naive 'revealed preference = OK' would wave it through."
+    },
+    {
+      "id": "gt-rollingloud-draftkings",
+      "kind": "age_restricted",
+      "property": "Rolling Loud (Orlando) 2026",
+      "brand": "DraftKings",
+      "rule": "AGA Responsible Marketing Code for Sports Wagering: place only where >= threshold of audience reasonably expected 21+; no entertainers/music that appeal primarily to under-21s.",
+      "threshold": "73.6% of audience 21+",
+      "source": "https://www.americangaming.org/wp-content/uploads/2025/04/AGA_RMCSW_2024.pdf ; https://florida.rollingloud.com/tickets/",
+      "expected": "block"
+    },
+    {
+      "id": "gt-katseye-michelob",
+      "kind": "age_restricted",
+      "property": "KATSEYE (artist; on Coachella 2026 and Gov Ball 2026 lineups)",
+      "brand": "Michelob Ultra",
+      "rule": "Beer Institute / Brewers Association codes: beer ads only in media where >= threshold of audience is of legal drinking age.",
+      "threshold": "73.6% of audience 21+",
+      "source": "https://www.beerinstitute.org/press-releases/beer-institute-and-brewers-association-revise-advertising-standards-based-on-updated-u-s-census-data/",
+      "expected": "block an artist-level (entity) deal; festival-level deal decided by festival audience",
+      "note": "Audience-age composition of KATSEYE's fan base is NOT sourced here (assumed teen-heavy girl-group fandom) - the engine's own age-skew estimate must decide. Tests entity-level gating inside a multi-artist property."
+    },
+    {
+      "id": "gt-katseye-draftkings",
+      "kind": "age_restricted",
+      "property": "KATSEYE (artist)",
+      "brand": "DraftKings",
+      "rule": "AGA code: 'Advertising should not ... feature entertainers, athletes, influencers or music that appeal primarily to audiences below the age of 21.'",
+      "threshold": "73.6% of audience 21+",
+      "source": "https://americangaming.org/wp-content/uploads/2025/03/AGA-Responsible-SB-Marketing-Code.pdf",
+      "expected": "block",
+      "note": "Same unsourced audience-age assumption as above."
+    },
+    {
+      "id": "gt-govball-fanduel",
+      "kind": "age_restricted",
+      "property": "Governors Ball 2026",
+      "brand": "FanDuel",
+      "rule": "AGA 21+ audience-composition standard; Gov Ball says its demographic is 'predominantly 18 to 34' - the 18-20 share is unknown.",
+      "threshold": "73.6% of audience 21+",
+      "source": "https://news.pollstar.com/2026/06/05/build-it-and-brands-will-come-how-governors-ball-sponsors-are-bringing-in-eight-figures-annually-growing/ ; https://www.americangaming.org/wp-content/uploads/2025/04/AGA_RMCSW_2024.pdf",
+      "expected": "needs_audience_data (must not silently pass)",
+      "note": "Ambiguity case: no sportsbook is on Gov Ball's 2026 partner list while several spirits brands are."
+    },
+    {
+      "id": "ex-coachella-pepsi",
+      "kind": "exclusivity",
+      "property": "Coachella 2026 (also applies to Stagecoach 2026)",
+      "brand": "Pepsi",
+      "rule": "AEG-Coca-Cola multiyear renewal makes Coca-Cola 'the exclusive soft drink partner' of AEG Presents festivals including Coachella and Stagecoach. Coca-Cola is on Coachella 2026's official booth list.",
+      "threshold": "category exclusivity: soft drinks",
+      "source": "https://aegworldwide.com/press-center/press-releases/coca-cola-and-aeg-expand-long-standing-partnership-across-iconic-sports",
+      "expected": "block",
+      "note": "Deal announced 2023-10-10 as multiyear; term end not stated - confirm still in force (Coke present at Coachella 2026 per https://www.pressenterprise.com/2026/04/10/coachella-2026-your-guide-to-brand-activations-freebies-at-the-festival/)."
+    },
+    {
+      "id": "ex-stagecoach-wrangler",
+      "kind": "exclusivity",
+      "property": "Stagecoach 2026",
+      "brand": "Wrangler",
+      "rule": "American Eagle is Stagecoach's 'exclusive apparel and denim sponsor'.",
+      "threshold": "category exclusivity: apparel / denim",
+      "source": "https://www.eventmarketer.com/article/jeans-country-american-eagle-first-stagecoach-activation/",
+      "expected": "block"
+    },
+    {
+      "id": "ex-dodgers-polymarket",
+      "kind": "exclusivity",
+      "property": "Los Angeles Dodgers 2026",
+      "brand": "Polymarket",
+      "rule": "Kalshi named 'the Official and Exclusive Prediction Market Partner of the Dodgers' (multi-year).",
+      "threshold": "category exclusivity: prediction markets",
+      "source": "https://www.mlb.com/press-release/los-angeles-dodgers-and-kalshi-announce-multi-year-partnership",
+      "expected": "block",
+      "note": "Prediction markets also sit in a grey zone for age gates (AGA code covers sportsbooks, not CFTC event contracts) - worth a second, age-related test."
+    },
+    {
+      "id": "ex-rollingloud-nike",
+      "kind": "exclusivity",
+      "property": "Rolling Loud (Orlando) 2026",
+      "brand": "Nike",
+      "rule": "Under Armour is 'the exclusive performance apparel partner of Rolling Loud 2026'.",
+      "threshold": "category exclusivity: performance apparel",
+      "source": "https://about.underarmour.com/en/stories/2026/04/under-armour-brings-fit-for-the-pit-experience-to-rolling-loud-2.html",
+      "expected": "block (performance apparel); lifestyle footwear is ambiguous"
+    },
+    {
+      "id": "ex-glastonbury-ee",
+      "kind": "exclusivity",
+      "property": "Glastonbury Festival 2025",
+      "brand": "EE",
+      "rule": "Vodafone, official connectivity partner, 'gained exclusivity on-site and within the official app'.",
+      "threshold": "category exclusivity: mobile network",
+      "source": "https://www.computerweekly.com/news/366627001/Glastonbury-hits-higher-note-for-mobile-performance",
+      "expected": "block",
+      "note": "Glastonbury not in properties[] (fewer than 3 verifiable sponsors; 2026 is a fallow year)."
+    },
+    {
+      "id": "ex-barcelona-adidas",
+      "kind": "exclusivity",
+      "property": "FC Barcelona",
+      "brand": "adidas",
+      "rule": "Nike 'will maintain exclusivity in technical products' (agreement to 2038).",
+      "threshold": "category exclusivity: technical sportswear",
+      "source": "https://foundation.fcbarcelona.com/en/card/4222576/fc-barcelona-and-nike-a-renewed-strategic-alliance",
+      "expected": "block"
+    }
+  ],
+  "codes": [
+    {
+      "name": "Beer Institute Advertising and Marketing Code",
+      "threshold": "73.6% of audience of legal drinking age (21+) for magazines, newspapers, TV, radio and digital placements (since 2022-07-26; was 71.6% from May 2011)",
+      "source": "https://www.beerinstitute.org/press-releases/beer-institute-and-brewers-association-revise-advertising-standards-based-on-updated-u-s-census-data/",
+      "code_page": "https://www.beerinstitute.org/policy-responsibility/responsibility/advertising-marketing-code/",
+      "note": "The 71.6% figure in the task brief is the superseded 2011 value."
+    },
+    {
+      "name": "Brewers Association Marketing and Advertising Code",
+      "threshold": "'Advertising and marketing materials should only be placed in media where at least 73.6% of the audience is expected to be of legal drinking age.' (amended July 2022)",
+      "source": "https://www.brewersassociation.org/wp-content/uploads/2017/04/BA_Advertising_Code_Overview.pdf"
+    },
+    {
+      "name": "DISCUS Code of Responsible Practices for Beverage Alcohol Advertising and Marketing",
+      "threshold": "73.8% of audience reasonably expected to be 21+ (media placement, Section 2A.1) and 73.8% of attendees for fixed ads at venues (2A.2); since 2023-05-25, previously 71.6%",
+      "source": "https://distilledspirits.org/wp-content/uploads/2025/09/Final-2025-DISCUS-Code.pdf",
+      "change_notice": "https://distilledspirits.org/news/leading-spirits-trade-associations-update-advertising-guidelines-based-on-newly-released-census-data/",
+      "note": "Also bans college-campus marketing (2A.3) and states demographics alone are NOT sufficient for podcasts/apps - directly relevant to podcast properties. Applies to DISCUS members' beer and wine brands too."
+    },
+    {
+      "name": "American Gaming Association Responsible Marketing Code for Sports Wagering",
+      "threshold": "'only where at least 73.6 percent of the audience is reasonably expected to be 21 years or older' + no entertainers/athletes/influencers/music appealing primarily to under-21s; no college partnerships",
+      "source": "https://www.americangaming.org/wp-content/uploads/2025/04/AGA_RMCSW_2024.pdf",
+      "note": "Text 'Updated: March 28, 2023'; covers sportsbooks, not DFS (PrizePicks) or prediction markets (Kalshi)."
+    }
+  ]
+}
