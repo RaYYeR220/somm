@@ -42,11 +42,11 @@ const diligences: DiligenceInput[] = [
   },
   {
     workspace,
-    brand: { name: "Michelob Ultra", category: "beer", competitors: ["Bud Light", "Coors Light"] },
+    brand: { name: "Michelob Ultra", category: "beer", competitors: ["Coors Light", "Miller Lite", "Modelo"] },
     offersText: [
       "KATSEYE fan meet-and-greet tour, title sponsorship across six cities, $150,000.",
       "The Bill Simmons Podcast — season-long beer category partner, $120,000.",
-      "Stagecoach 2026 — official light beer of the Palomino stage, $300,000.",
+      "Stagecoach 2026 — official light beer of the Palomino stage, $300,000. Current partners include Bud Light and Monster Energy.",
     ].join("\n\n"),
   },
 ];
