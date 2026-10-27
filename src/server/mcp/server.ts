@@ -5,12 +5,31 @@ import { ENTITY_TYPES, PROPERTY_KINDS, type Fact, type FitResult, type LedgerEnt
 import type { AgentDeps } from "@/server/agent/deps";
 import { startDiligence, type DiligenceResult } from "@/server/agent/diligence";
 import { startScout, type ScoutResult } from "@/server/agent/scout";
+import { newId } from "@/server/agent/run-store";
+import { clientKey, createRateLimiter } from "@/server/api/rate-limit";
 import { CATEGORIES } from "@/server/engine/categories";
 
 const CATEGORY_IDS = CATEGORIES.map((c) => c.id) as [string, ...string[]];
 const entities = z.array(z.object({ name: z.string().min(1), type: z.enum(ENTITY_TYPES) })).min(1).max(10).describe("Named entities that represent the audience: the show, hosts, headline artists, star players.");
 
 type Options = { publicUrl: string };
+
+/** Each MCP call gets its own workspace, so no browser cookie can ever claim its runs. */
+const mcpWorkspace = () => newId("mcp");
+
+const toolCallLimiter = createRateLimiter(Number(process.env.MCP_CALLS_PER_HOUR ?? 30));
+
+/** True when this request carries a tool call and the caller is over its hourly budget. */
+export async function mcpRateLimited(request: Request): Promise<boolean> {
+  if (request.method !== "POST") return false;
+  const body = (await request.clone().json().catch(() => null)) as unknown;
+  const messages = Array.isArray(body) ? body : [body];
+  const calls = messages.filter((m) => (m as { method?: unknown } | null)?.method === "tools/call").length;
+  if (calls === 0) return false;
+  const key = clientKey(request);
+  for (let i = 0; i < calls; i++) if (!toolCallLimiter.take(key)) return true;
+  return false;
+}
 
 function receipts(ledger: LedgerEntry[], factIds: string[], facts: Fact[]) {
   const ids = new Set(factIds.flatMap((id) => facts.find((f) => f.id === id)?.ledgerIds ?? []));
@@ -42,7 +61,7 @@ function buildServer(deps: AgentDeps, options: Options): McpServer {
       inputSchema: { property_name: z.string().min(1), kind: z.enum(PROPERTY_KINDS), entities, market: z.string().default("United States") },
     },
     async (args) => {
-      const { runId, done } = await startScout({ workspace: "mcp", mode: "fingerprint", property: { kind: args.kind, name: args.property_name, market: args.market, entities: args.entities } }, deps);
+      const { runId, done } = await startScout({ workspace: mcpWorkspace(), mode: "fingerprint", property: { kind: args.kind, name: args.property_name, market: args.market, entities: args.entities } }, deps);
       await done;
       const run = deps.store.get(runId)!;
       const r = run.result as ScoutResult | null;
@@ -71,7 +90,7 @@ function buildServer(deps: AgentDeps, options: Options): McpServer {
       },
     },
     async (args) => {
-      const { runId, done } = await startScout({ workspace: "mcp", categories: args.categories, property: { kind: args.kind, name: args.property_name, entities: args.entities, exclusives: args.exclusives } }, deps);
+      const { runId, done } = await startScout({ workspace: mcpWorkspace(), categories: args.categories, property: { kind: args.kind, name: args.property_name, entities: args.entities, exclusives: args.exclusives } }, deps);
       await done;
       const run = deps.store.get(runId)!;
       const r = run.result as ScoutResult | null;
@@ -103,7 +122,7 @@ function buildServer(deps: AgentDeps, options: Options): McpServer {
     async (args) => {
       const { runId, done } = await startDiligence(
         {
-          workspace: "mcp",
+          workspace: mcpWorkspace(),
           brand: { name: args.brand, category: args.category, competitors: args.competitors },
           offers: [{ propertyName: args.property_name, kind: args.kind, entities: args.entities, askUsd: null, deliverables: null, currentSponsors: args.current_sponsors }],
         },
@@ -121,7 +140,7 @@ function buildServer(deps: AgentDeps, options: Options): McpServer {
       inputSchema: { brand: z.string().min(1), category: z.enum(CATEGORY_IDS), competitors: z.array(z.string()).max(10).default([]), offer_text: z.string().min(1).max(12_000) },
     },
     async (args) => {
-      const { runId, done } = await startDiligence({ workspace: "mcp", brand: { name: args.brand, category: args.category, competitors: args.competitors }, offersText: args.offer_text }, deps);
+      const { runId, done } = await startDiligence({ workspace: mcpWorkspace(), brand: { name: args.brand, category: args.category, competitors: args.competitors }, offersText: args.offer_text }, deps);
       await done;
       return diligenceOut(deps, runId, reportUrl);
     },
@@ -147,6 +166,12 @@ function diligenceOut(deps: AgentDeps, runId: string, reportUrl: (id: string) =>
 
 /** Stateless streamable-HTTP MCP endpoint: one server per request, no sessions. */
 export async function handleMcp(request: Request, deps: AgentDeps, options: Options): Promise<Response> {
+  if (await mcpRateLimited(request)) {
+    return new Response(JSON.stringify({ jsonrpc: "2.0", id: null, error: { code: -32029, message: "Too many tool calls from this address; try again later." } }), {
+      status: 429,
+      headers: { "content-type": "application/json" },
+    });
+  }
   const server = buildServer(deps, options);
   const transport = new WebStandardStreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true });
   await server.connect(transport);

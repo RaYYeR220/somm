@@ -18,9 +18,13 @@ function setup() {
   return { deps, api: createApi(deps, { publicUrl: "https://somm.test" }) };
 }
 
-const post = (path: string, body: unknown, ws = "ws-1") =>
+const post = (path: string, body: unknown, ws = WS1) =>
   new Request(`https://somm.test${path}`, { method: "POST", headers: { "content-type": "application/json", cookie: `somm_ws=${ws}` }, body: JSON.stringify(body) });
-const get = (path: string, ws = "ws-1") => new Request(`https://somm.test${path}`, { headers: { cookie: `somm_ws=${ws}` } });
+const get = (path: string, ws = WS1) => new Request(`https://somm.test${path}`, { headers: { cookie: `somm_ws=${ws}` } });
+
+const WS1 = "a".repeat(32);
+const WSA = "b".repeat(32);
+const WSB = "c".repeat(32);
 
 const scoutBody = { property: { kind: "podcast", name: "Founders Weekly", market: "United States", entities: [{ name: "Founders Weekly", type: "podcast" }] } };
 
@@ -76,9 +80,9 @@ describe("api", () => {
 
   it("only lets the creating workspace publish a kit from its run", async () => {
     const { api } = setup();
-    const { runId } = await (await api.postScout(post("/api/scout", scoutBody, "ws-a"))).json();
-    await readSse(await api.streamEvents(runId, get(`/api/runs/${runId}/events`, "ws-a")));
-    expect((await api.createKit(post("/api/kits", { runId, title: "x" }, "ws-b"))).status).toBe(403);
+    const { runId } = await (await api.postScout(post("/api/scout", scoutBody, WSA))).json();
+    await readSse(await api.streamEvents(runId, get(`/api/runs/${runId}/events`, WSA)));
+    expect((await api.createKit(post("/api/kits", { runId, title: "x" }, WSB))).status).toBe(403);
   });
 
   it("reports health without exposing keys", async () => {

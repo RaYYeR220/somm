@@ -18,7 +18,12 @@ export function createRateLimiter(perHour: number) {
   };
 }
 
+/**
+ * The client address as seen by the platform proxy. Entries left of the ones our trusted proxies
+ * appended are client-controlled, so count from the right (TRUSTED_PROXY_HOPS, default 1).
+ */
 export function clientKey(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || request.headers.get("x-real-ip") || "local";
+  const hops = Math.max(1, Number(process.env.TRUSTED_PROXY_HOPS ?? 1) || 1);
+  const chain = (request.headers.get("x-forwarded-for") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  return chain[chain.length - hops] ?? chain[0] ?? "local";
 }

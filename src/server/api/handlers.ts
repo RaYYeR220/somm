@@ -19,10 +19,11 @@ const json = (data: unknown, status = 200) =>
 
 const problem = (status: number, message: string) => json({ error: message }, status);
 
-function workspaceOf(request: Request): string {
+/** Workspace ids are 32 hex chars issued by the proxy; anything else gets a one-off workspace. */
+export function workspaceOf(request: Request): string {
   const cookie = request.headers.get("cookie") ?? "";
-  const match = cookie.match(new RegExp(`(?:^|;\\s*)${WORKSPACE_COOKIE}=([A-Za-z0-9_-]{2,64})`));
-  // No cookie: a one-off workspace that can never match someone else's runs.
+  const match = cookie.match(new RegExp(`(?:^|;\\s*)${WORKSPACE_COOKIE}=([a-f0-9]{32})(?:;|$)`));
+  // No valid cookie: a one-off workspace that can never match someone else's runs.
   return match?.[1] ?? `anon_${randomBytes(9).toString("base64url")}`;
 }
 
