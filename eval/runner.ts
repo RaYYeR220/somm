@@ -77,7 +77,14 @@ export async function runEval(deps: AgentDeps, gt: GroundTruth, trapFile: TrapFi
     return { p, ctx, property, fp };
   });
 
-  const properties = [];
+  const properties: {
+    id: string;
+    name: string;
+    type: GroundTruth["properties"][number]["type"];
+    counts: { sponsors: number; controls: number; resolvedSponsors: number; resolvedControls: number; entities: number };
+    auc: Record<Method, number | null>;
+    detail: { name: string; matched: string; positive: boolean; scores: Record<Method, number | null> }[];
+  }[] = [];
   for (let i = 0; i < prepared.length; i++) {
     const { p, ctx, property, fp } = prepared[i];
     const other = prepared[(i + 1) % prepared.length];
