@@ -42,7 +42,7 @@ type ContextOptions = {
   signal?: AbortSignal;
 };
 
-const HTTP_OPS = new Set<QlooOp>(["search", "insights_raw"]);
+const HTTP_OPS = new Set<QlooOp>(["search", "insights_raw", "tags_raw"]);
 
 export function createEngineContext(options: ContextOptions): EngineContext {
   return {

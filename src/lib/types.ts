@@ -12,6 +12,7 @@ export const QLOO_OPS = [
   "find_tags",
   "search",
   "insights_raw",
+  "tags_raw",
 ] as const;
 export type QlooOp = (typeof QLOO_OPS)[number];
 

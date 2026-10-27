@@ -16,7 +16,7 @@ export function errorEnvelope(operation: string, code: string, summary: string, 
   };
 }
 
-const HTTP_OPS: ReadonlySet<QlooOp> = new Set(["search", "insights_raw"]);
+const HTTP_OPS: ReadonlySet<QlooOp> = new Set(["search", "insights_raw", "tags_raw"]);
 
 /** The harness MCP server owns the nine workflows; direct HTTP covers the rest. */
 export function createRoutingGateway(mcp: QlooGateway, http: QlooGateway): QlooGateway {

@@ -8,7 +8,7 @@ type HttpGatewayOptions = {
   timeoutMs?: number;
 };
 
-const PATHS = { search: "/search", insights_raw: "/v2/insights" } as const;
+const PATHS = { search: "/search", insights_raw: "/v2/insights", tags_raw: "/v2/tags" } as const;
 
 function toQuery(input: Record<string, unknown>): URLSearchParams {
   const params = new URLSearchParams();
@@ -44,10 +44,10 @@ export function createHttpGateway(options: HttpGatewayOptions): QlooGateway {
   const base = options.baseUrl.replace(/\/+$/, "");
   return {
     async call(op, input, ctx) {
-      if (op !== "search" && op !== "insights_raw") {
+      if (!(op in PATHS)) {
         return errorEnvelope(op, "QLOO_UNSUPPORTED", `${op} is served by the harness workflows.`);
       }
-      const path = PATHS[op];
+      const path = PATHS[op as keyof typeof PATHS];
       const url = `${base}${path}?${toQuery(input)}`;
       const signal = AbortSignal.any([
         AbortSignal.timeout(options.timeoutMs ?? 20_000),
