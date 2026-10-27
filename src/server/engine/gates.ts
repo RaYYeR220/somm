@@ -66,6 +66,9 @@ function ageGate(fit: FitResult, ctx: GateContext): GateOutcome | null {
   const cite = code ? ` ${code.name} requires ${code.threshold}.` : "";
   const { property, fp } = ctx;
 
+  if (property.agePolicy === "21_plus") {
+    return { gate: "age_restricted", outcome: "pass", reason: `${property.name} admits 21+ only, which satisfies the adult-composition rule on site.${cite}` };
+  }
   if (property.agePolicy === "all_ages") {
     return {
       gate: "age_restricted",
@@ -97,10 +100,11 @@ function ageGate(fit: FitResult, ctx: GateContext): GateOutcome | null {
       reason: `Some youth skew (${signed(youth)} affinity, ages 24 and younger).${acts}${cite} Confirm with measured audience composition before signing.`,
     };
   }
+  // Taste affinity can lower the risk but never prove composition, so this is a review, not a pass.
   return {
     gate: "age_restricted",
-    outcome: "pass",
-    reason: `No youth skew in Qloo's age affinity (${signed(youth)}).${cite} Confirm composition with measured data before signing.`,
+    outcome: "review",
+    reason: `No youth skew in Qloo's age affinity (${signed(youth)}), but taste data can't prove audience composition.${cite} Get measured audience data before signing.`,
   };
 }
 

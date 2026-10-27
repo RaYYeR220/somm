@@ -149,3 +149,25 @@ describe("detectInjection", () => {
     expect(spans[0]).toMatch(/ignore previous instructions/i);
   });
 });
+
+describe("age gate never silently passes", () => {
+  it("still asks for measured composition when Qloo shows no youth skew", () => {
+    const out = applyGates(fit({ category: "sports_betting" }), { property: sampleProperty(), fp: fp(-0.4) });
+    expect(out.gates?.find((g) => g.gate === "age_restricted")?.outcome).toBe("review");
+    expect(out.verdict).toBe("CONSIDER");
+  });
+
+  it("passes at a property that gates entry at 21+", () => {
+    const property = sampleProperty({ agePolicy: "21_plus" });
+    const out = applyGates(fit({ category: "beer" }), { property, fp: fp(0.4, property) });
+    expect(out.gates?.find((g) => g.gate === "age_restricted")?.outcome).toBe("pass");
+    expect(out.verdict).toBe("PURSUE");
+  });
+});
+
+describe("prediction markets", () => {
+  it("has a catalog category so exclusivity can be checked", async () => {
+    const { CATEGORIES } = await import("@/server/engine/categories");
+    expect(CATEGORIES.some((c) => c.id === "prediction_markets")).toBe(true);
+  });
+});

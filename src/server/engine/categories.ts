@@ -22,6 +22,7 @@ export const CATEGORIES: CategoryDef[] = [
   { id: "fintech_bank", label: "Banking & cards", tagQueries: ["bank", "credit card"], ageRestricted: false },
   { id: "payments", label: "Payments & commerce", tagQueries: ["payments", "ecommerce platform"], ageRestricted: false },
   { id: "crypto", label: "Crypto", tagQueries: ["cryptocurrency exchange"], ageRestricted: false },
+  { id: "prediction_markets", label: "Prediction markets", tagQueries: ["prediction market"], ageRestricted: false },
   { id: "sports_betting", label: "Sports betting", tagQueries: ["sports betting", "online gambling"], ageRestricted: true },
   { id: "apparel", label: "Apparel", tagQueries: ["apparel", "clothing"], ageRestricted: false },
   { id: "footwear", label: "Footwear", tagQueries: ["sneakers", "footwear"], ageRestricted: false },
