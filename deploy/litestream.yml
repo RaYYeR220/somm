@@ -1,0 +1,5 @@
+# SQLite database replicated to Cloud Storage; LITESTREAM_REPLICA_URL is set by entrypoint.sh
+dbs:
+  - path: ${DATA_DIR}/somm.sqlite
+    replica:
+      url: ${LITESTREAM_REPLICA_URL}

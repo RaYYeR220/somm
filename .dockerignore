@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+data
+fixtures
+eval/out
+tests
+test-results
+playwright-report
+variants
+.env*
+!.env.example
