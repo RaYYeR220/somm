@@ -193,8 +193,9 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
   // 4. Which brands do these fans already over-index for?
   const prospects = (await run.step({ key: "prospect", label: "Prospecting brands per category" }, () => prospect(property, plan.categories, ctx))) ?? ({ categories: [], existingPartners: [] } as ProspectResult);
 
-  // 5. Score the strongest candidates.
-  const toScore = prospects.categories.flatMap((cat) => {
+  // 5. Score the strongest candidates. A brand found in several categories is scored once,
+  //    in the category where it ranks highest.
+  const ranked = prospects.categories.flatMap((cat) => {
     const affinities = cat.candidates.map((c) => c.affinity);
     const min = Math.min(...affinities);
     const max = Math.max(...affinities);
@@ -204,6 +205,12 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
       rank: { value: candidate.affinity, min, max, position: index + 1, of: cat.candidates.length, ledgerId: candidate.ledgerId } satisfies RankEvidence,
     }));
   });
+  const best = new Map<string, (typeof ranked)[number]>();
+  for (const item of ranked) {
+    const seen = best.get(item.candidate.entity.id);
+    if (!seen || item.rank.position < seen.rank.position) best.set(item.candidate.entity.id, item);
+  }
+  const toScore = [...best.values()];
   const scored =
     (await run.step(
       { key: "score", label: `Scoring ${toScore.length} brands` },

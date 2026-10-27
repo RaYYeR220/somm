@@ -135,3 +135,21 @@ describe("diligence run", () => {
     expect(result.alternatives.length).toBeGreaterThan(0);
   });
 });
+
+describe("scout dedupe", () => {
+  it("scores a brand once even when it appears in two categories", async () => {
+    const { d } = deps();
+    const shared = (op: Parameters<typeof fakeQloo>[0], input: Record<string, unknown>) =>
+      op === "recommend" && input.target_type === "brand"
+        ? { operation: op, status: "ok" as const, results: [{ entity_id: "brand-same", name: "Same Brand", type: "urn:entity:brand", affinity: 0.9 }] }
+        : fakeQloo(op, input);
+    d.gw = scriptedGateway(shared).gw;
+    const { runId, done } = await startScout(
+      { workspace: "ws", categories: ["coffee", "energy_drink"], property: { kind: "podcast", name: "Founders Weekly", market: "United States", entities: [{ name: "Founders Weekly", type: "podcast" }] } },
+      d,
+    );
+    await done;
+    const fits = (d.store.get(runId)!.result as ScoutResult).fits;
+    expect(fits.filter((f) => f.brand.id === "brand-same")).toHaveLength(1);
+  });
+});

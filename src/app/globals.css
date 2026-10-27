@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ground: #100e0c;
+  --raised: #171411;
+  --panel: #1e1a16;
+  --well: #0b0a08;
+  --line: rgb(239 232 221 / 0.09);
+  --line-strong: rgb(239 232 221 / 0.18);
+  --bone: #efe8dd;
+  --ash: #a39a8e;
+  --smoke: #6e665c;
+  --ember: #ff8a3d;
+  --ember-hi: #ffb07a;
+  --ember-lo: #a8551f;
+  --ember-wash: rgb(255 138 61 / 0.1);
+  --sand: #d9b77a;
+  --signal: #ff5d4f;
+  --signal-wash: rgb(255 93 79 / 0.1);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .9 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ground: var(--ground);
+  --color-raised: var(--raised);
+  --color-panel: var(--panel);
+  --color-well: var(--well);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-bone: var(--bone);
+  --color-ash: var(--ash);
+  --color-smoke: var(--smoke);
+  --color-ember: var(--ember);
+  --color-ember-hi: var(--ember-hi);
+  --color-ember-lo: var(--ember-lo);
+  --color-sand: var(--sand);
+  --color-signal: var(--signal);
+  --font-display: "Clash Display", var(--font-ui), sans-serif;
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-data);
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 14px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
+  background: var(--ground);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(900px 600px at 78% -10%, rgb(255 138 61 / 0.07), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgb(217 183 122 / 0.05), transparent 60%),
+    var(--ground);
+  color: var(--bone);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* Film grain over everything, never intercepting input. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  background-image: var(--grain);
+  background-size: 180px;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+}
+
+.grid-ground {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: -1px -1px;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--ember);
+  color: var(--ground);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rise { animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.live-dot { animation: pulse-dot 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Struck claims in pitches: visible on screen, never exported. */
+.claim-struck {
+  text-decoration: line-through;
+  text-decoration-color: var(--signal);
+  text-decoration-thickness: 1.5px;
+  color: var(--smoke);
 }
