@@ -51,7 +51,7 @@ export function OwnerInbox({ slug, token }: { slug: string; token: string }) {
       {data.deals.length === 0 ? (
         <p className="mt-10 rounded-sm border border-dashed border-line-strong p-8 text-ash">No requests yet. Send the public kit link to the brands at the top of your board.</p>
       ) : (
-        <div className="mt-10 grid gap-4 md:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-4">
           {COLUMNS.map((col) => (
             <div key={col.id} className="rounded-sm border border-line bg-raised/40 p-3">
               <p className="mb-3 flex justify-between px-1 text-sm font-semibold">

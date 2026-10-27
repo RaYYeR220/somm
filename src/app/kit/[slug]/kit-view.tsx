@@ -39,7 +39,7 @@ function IntroForm({ slug, brands }: { slug: string; brands: string[] }) {
   }
   return (
     <form
-      className="grid gap-5 md:grid-cols-2"
+      className="grid grid-cols-1 gap-5 md:grid-cols-2"
       onSubmit={async (e) => {
         e.preventDefault();
         setState("sending");
@@ -112,7 +112,7 @@ export function KitView({ kit }: { kit: KitData }) {
           </div>
         </section>
 
-        <section className="mt-16 grid gap-12 lg:grid-cols-[1.3fr_1fr]">
+        <section className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-[1.3fr_1fr]">
           <div>
             <h2 className="display mb-5 text-4xl">Where the fans are</h2>
             <FanField cells={fp.heatmap} market={kit.property.market} />
@@ -130,7 +130,7 @@ export function KitView({ kit }: { kit: KitData }) {
 
         <section className="mt-16">
           <h2 className="display mb-6 text-4xl">The evidence</h2>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {kit.fits.slice(0, 6).map((f) => (
               <div key={f.brand.id} className="rounded-sm border border-line p-5">
                 <div className="flex items-center gap-4">

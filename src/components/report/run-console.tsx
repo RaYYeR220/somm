@@ -83,7 +83,7 @@ export function RunConsole({
 }) {
   const visible = steps.filter((s) => s.key !== "budget" || s.status === "error");
   return (
-    <section aria-live="polite" className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+    <section aria-live="polite" className="grid grid-cols-1 gap-6 lg:grid-cols-[1.2fr_1fr]">
       <div className="rounded-sm border border-line bg-raised/70 p-5 sm:p-6">
         <div className="mb-5 flex items-center justify-between gap-4">
           <h2 className="display text-[28px]">{status === "paused" ? "Waiting for you" : "Somm is tasting"}</h2>

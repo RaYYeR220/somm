@@ -83,7 +83,7 @@ export function DiligenceReport({ result }: { result: DiligenceResult }) {
 
       <section className="my-14">
         <SectionHead title="Verdicts" note="Each offer is scored against your brand's audience. Conflicts and age rules are enforced in code, whatever the offer says." />
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {offers.map((o) => (
             <OfferCard key={o.offer.propertyName} review={o} onOpen={() => setOpen(o)} />
           ))}
@@ -93,7 +93,7 @@ export function DiligenceReport({ result }: { result: DiligenceResult }) {
       {memos.length > 0 && (
         <section className="mb-20">
           <SectionHead title="Decision memos" note="For the offers worth a conversation. Unbacked claims are struck." />
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {memos.map((o) => (
               <article key={o.offer.propertyName} className="rounded-sm border border-line bg-raised/60 p-5">
                 <PitchBody check={o.memo!.check} showStruck />
@@ -106,7 +106,7 @@ export function DiligenceReport({ result }: { result: DiligenceResult }) {
       {r.alternatives.length > 0 && (
         <section className="mb-20">
           <SectionHead title={`Where ${r.brand.name}'s fans already are`} note="Properties Qloo finds over-indexing with your own audience. A shortlist to approach before the offers arrive." />
-          <div className="grid gap-x-8 gap-y-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-3">
             {(["podcast", "artist", "tv_show"] as const).map((domain) => {
               const items = r.alternatives.filter((a) => a.domain === domain);
               if (!items.length) return null;

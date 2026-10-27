@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <>
       <section className="grid-ground relative overflow-hidden border-b border-line">
-        <div className="mx-auto grid max-w-[1320px] items-center gap-10 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:pb-24 lg:pt-20">
+        <div className="mx-auto grid grid-cols-1 max-w-[1320px] items-center gap-10 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.15fr_1fr] lg:pb-24 lg:pt-20">
           <div className="rise">
             <h1 className="display text-[clamp(56px,9vw,124px)]">
               Agents,
@@ -76,7 +76,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-[1320px] px-4 py-20 sm:px-6">
         <h2 className="display max-w-3xl text-[clamp(32px,4vw,56px)]">How Somm decides</h2>
-        <ol className="mt-12 grid gap-10 md:grid-cols-3">
+        <ol className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-3">
           {[
             ["Reads the fans", "It turns your show, lineup or roster into Qloo entities and builds a fingerprint: who the fans are, where they live, what else they love across music, TV, podcasts and brands."],
             ["Pairs the brands", "For each sponsor category it finds the brands those fans over-index for, then scores each one from five Qloo signals: affinity, love back, age and gender match, geography and momentum."],
@@ -100,7 +100,7 @@ export default function Home() {
                 All reports
               </Link>
             </div>
-            <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {demos.slice(0, 6).map((run) => {
                 const scout = run.kind === "scout" ? (run.result as ScoutResult) : null;
                 const dil = run.kind === "diligence" ? (run.result as DiligenceResult) : null;
@@ -133,7 +133,7 @@ export default function Home() {
         </section>
       )}
 
-      <section className="mx-auto grid max-w-[1320px] gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2">
+      <section className="mx-auto grid grid-cols-1 max-w-[1320px] gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2">
         <div>
           <h2 className="display text-[clamp(32px,4vw,56px)]">Checked against real deals</h2>
           <p className="mt-5 max-w-xl text-ash">
@@ -164,7 +164,7 @@ export default function Home() {
       </section>
 
       <section className="border-t border-line">
-        <div className="mx-auto grid max-w-[1320px] gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.1fr]">
+        <div className="mx-auto grid grid-cols-1 max-w-[1320px] gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_1.1fr]">
           <div>
             <h2 className="display text-[clamp(32px,4vw,56px)]">Your agent can ask too</h2>
             <p className="mt-5 max-w-xl text-ash">

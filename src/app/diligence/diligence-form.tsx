@@ -56,7 +56,7 @@ export function DiligenceForm() {
       >
         Load sample offers for an energy drink (prices are made up)
       </button>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Field label="Your brand" htmlFor="brand">
           <input id="brand" className={inputClass} value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="As Qloo would know it, e.g. Celsius" required maxLength={120} />
         </Field>

@@ -63,7 +63,7 @@ export function PitchViewer({ pitches, propertyName }: { pitches: PitchView[]; p
     URL.revokeObjectURL(a.href);
   };
   return (
-    <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr]">
       <div role="tablist" aria-label="Pitches" className="flex gap-2 overflow-x-auto lg:flex-col">
         {pitches.map((p, i) => (
           <button

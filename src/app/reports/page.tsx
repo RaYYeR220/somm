@@ -45,7 +45,7 @@ export default async function ReportsPage() {
       <p className="mt-4 max-w-2xl text-lg text-ash">Finished runs on real properties, refreshed from Qloo. Open any of them; every number links to its request.</p>
       <section className="mt-12">
         <h2 className="mb-4 font-semibold">Examples</h2>
-        {demos.length === 0 ? <p className="text-ash">The example reports are being prepared.</p> : <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{demos.map((r) => <Card key={r.id} run={r} />)}</div>}
+        {demos.length === 0 ? <p className="text-ash">The example reports are being prepared.</p> : <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">{demos.map((r) => <Card key={r.id} run={r} />)}</div>}
       </section>
       <section className="mt-14">
         <h2 className="mb-4 font-semibold">Yours</h2>
@@ -54,7 +54,7 @@ export default async function ReportsPage() {
             Nothing yet. <Link href="/scout" className="text-ember-hi underline">Read your fans</Link> or <Link href="/diligence" className="text-ember-hi underline">vet an offer</Link>; your reports stay in this browser.
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{mine.map((r) => <Card key={r.id} run={r} />)}</div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">{mine.map((r) => <Card key={r.id} run={r} />)}</div>
         )}
       </section>
     </div>

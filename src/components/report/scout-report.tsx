@@ -32,7 +32,7 @@ function Fingerprint({ r }: { r: ScoutResult }) {
   return (
     <div className="space-y-10">
       <FanField cells={fp.heatmap} ledgerId={heatLedger} onReceipt={openReceipt} market={fp.property.market} />
-      <div className="grid gap-10 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
         <div>
           <h3 className="mb-4 font-semibold">Who they are</h3>
           {fp.demographics ? <AgeChart age={fp.demographics.age} gender={fp.demographics.gender} /> : <p className="text-ash">Qloo has no age or gender profile for this audience.</p>}
@@ -102,7 +102,7 @@ function Contrast({ r }: { r: ScoutResult }) {
   const sommNames = new Set(somm.map((f) => norm(f.brand.name)));
   if (r.baseline.brands.length === 0) return <p className="text-ash">The comparison model was not available for this run.</p>;
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       <div className="rounded-sm border border-line p-5">
         <p className="font-semibold">A language model alone</p>
         <p className="mb-4 text-sm text-ash">Asked the same question with no Qloo data. It answers from general knowledge.</p>
@@ -145,7 +145,7 @@ export function ScoutReport({ runId, result, mine }: { runId: string; result: Sc
   const ideas = r.ideas ?? [];
   return (
     <ReportProvider facts={r.facts} ledger={r.ledger}>
-      <header className="rise grid gap-8 border-b border-line pb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
+      <header className="rise grid grid-cols-1 gap-8 border-b border-line pb-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
         <div>
           <p className="text-sm text-ash">Sponsor report for a {r.property.kind === "lineup" ? "festival lineup" : r.property.kind}</p>
           <h1 className="display mt-3 text-[clamp(44px,7vw,96px)]">{r.property.name}</h1>
@@ -164,7 +164,7 @@ export function ScoutReport({ runId, result, mine }: { runId: string; result: Sc
             <div className="mt-3 flex items-center gap-5">
               <ScoreRing score={best.score} verdict={best.verdict} size={76} />
               <div className="min-w-0">
-                <p className="display truncate text-[34px]">{best.brand.name}</p>
+                <p className="display text-[28px] sm:text-[34px]">{best.brand.name}</p>
                 <p className="text-sm text-ash">{CATEGORY_LABEL[best.category] ?? best.category}</p>
               </div>
             </div>
@@ -221,7 +221,7 @@ export function ScoutReport({ runId, result, mine }: { runId: string; result: Sc
         {ideas.length === 0 ? (
           <p className="text-ash">No activation ideas for this run.</p>
         ) : (
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {ideas.slice(0, 6).map((idea, i) => (
               <div key={i} className="rounded-sm border border-line p-5">
                 <p className="text-xs text-smoke">{idea.brand.name}</p>

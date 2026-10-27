@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "Read my fans" };
 
 export default function ScoutPage() {
   return (
-    <div className="mx-auto grid max-w-[1320px] gap-14 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_380px] lg:py-16">
+    <div className="mx-auto grid grid-cols-1 max-w-[1320px] gap-14 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_380px] lg:py-16">
       <div>
         <h1 className="display text-[clamp(44px,6vw,84px)]">Read my fans</h1>
         <p className="mt-4 max-w-2xl text-lg text-ash">

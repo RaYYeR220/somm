@@ -29,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <TopBar />
-        <main id="main" className="flex-1">
+        <main id="main" className="w-full min-w-0 flex-1">
           {children}
         </main>
         <SiteFooter />

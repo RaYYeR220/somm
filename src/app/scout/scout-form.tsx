@@ -126,7 +126,7 @@ export function ScoutForm() {
           </div>
           <details className="group rounded-sm border border-line">
             <summary className="cursor-pointer select-none px-4 py-3 text-sm text-ash hover:text-bone">Market, age policy and existing partners</summary>
-            <div className="grid gap-6 border-t border-line p-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 border-t border-line p-4 md:grid-cols-2">
               <Field label="Market" htmlFor="market" hint="Where fan concentration is mapped.">
                 <input id="market" className={inputClass} value={market} onChange={(e) => setMarket(e.target.value)} />
               </Field>

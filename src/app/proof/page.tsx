@@ -122,7 +122,7 @@ export default function ProofPage() {
         )}
       </section>
 
-      <section className="mt-16 grid gap-10 md:grid-cols-2">
+      <section className="mt-16 grid grid-cols-1 gap-10 md:grid-cols-2">
         <div>
           <h2 className="display mb-4 text-3xl">What this does not show</h2>
           <ul className="space-y-3 text-ash">

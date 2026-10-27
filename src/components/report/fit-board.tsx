@@ -122,7 +122,7 @@ export function FitBoard({ fits }: { fits: FitResult[] }) {
             <Stamp verdict={g.verdict} size="sm" />
             <span className="text-sm text-ash tabular">{g.fits.length}</span>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {g.fits.map((fit) => (
               <FitCard key={`${fit.brand.id}-${fit.category}-${fit.score}`} fit={fit} onOpen={() => setOpen(fit)} />
             ))}

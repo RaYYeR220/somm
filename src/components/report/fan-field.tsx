@@ -137,7 +137,7 @@ export function FanField({ cells, ledgerId, onReceipt, market }: { cells: Cell[]
       <div ref={wrap} className="relative overflow-hidden rounded-sm border border-line bg-well">
         <canvas
           ref={canvas}
-          style={{ width: size.w, height: size.h }}
+          style={{ width: "100%", height: size.h }}
           className="block cursor-crosshair"
           onPointerMove={onMove}
           onPointerLeave={() => setHover(null)}
