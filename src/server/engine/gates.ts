@@ -40,6 +40,8 @@ export type GateContext = {
   property: Property;
   fp: Fingerprint;
   brandSide?: { competitors: string[]; propertySponsors: string[] };
+  /** Why there is no score, when the cause is known (e.g. Qloo has no match for the property). */
+  noScoreReason?: string;
 };
 
 function exclusivityGate(fit: FitResult, property: Property): GateOutcome {
@@ -122,7 +124,7 @@ function ageGate(fit: FitResult, ctx: GateContext): GateOutcome | null {
 export function applyGates(fit: FitResult, ctx: GateContext): FitResult {
   const gates = [exclusivityGate(fit, ctx.property), competitorGate(ctx), ageGate(fit, ctx)].filter((g): g is GateOutcome => g !== null);
   if (fit.score === null) {
-    gates.push({ gate: "evidence", outcome: "block", reason: "Fewer than three independent Qloo signals; no score is shown." });
+    gates.push({ gate: "evidence", outcome: "block", reason: ctx.noScoreReason ?? "Fewer than three independent Qloo signals; no score is shown." });
   }
   let verdict = fit.verdict;
   if (gates.some((g) => g.outcome === "block" && g.gate !== "evidence")) verdict = "BLOCKED";

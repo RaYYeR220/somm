@@ -35,3 +35,15 @@ describe("example reports", () => {
     expect(after.filter((id) => before.includes(id))).toEqual([]);
   });
 });
+
+describe("refreshing one example", () => {
+  it("rebuilds only the named example", async () => {
+    const d = deps();
+    await runSeeds(d);
+    const before = new Set(d.store.listDemo().map((r) => r.id));
+    const rebuilt = await runSeeds(d, () => undefined, { refresh: ["celsius"] });
+    expect(rebuilt).toHaveLength(1);
+    const kept = d.store.listDemo().filter((r) => before.has(r.id));
+    expect(kept).toHaveLength(before.size - 1);
+  });
+});

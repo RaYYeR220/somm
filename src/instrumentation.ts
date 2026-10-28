@@ -9,6 +9,6 @@ export async function register() {
   if (process.env.SEED_DEMOS !== "1") return;
   const { runSeeds } = await import("@/server/agent/seeds");
   setTimeout(() => {
-    runSeeds(deps, (line) => console.log(`[seed] ${line}`), { refresh: process.env.SEED_REFRESH === "1" }).catch((error) => console.error("[seed] failed", error));
+    runSeeds(deps, (line) => console.log(`[seed] ${line}`), { refresh: process.env.SEED_REFRESH === "1" || process.env.SEED_REFRESH?.split(",") }).catch((error) => console.error("[seed] failed", error));
   }, 5_000);
 }

@@ -187,6 +187,9 @@ describe("offers Qloo doesn't know", () => {
     await done;
     const r = d.store.get(runId)!.result as DiligenceResult;
     expect(r.offers.map((o) => o.fit?.verdict)).toEqual(["BLOCKED", "INSUFFICIENT_EVIDENCE"]);
+    // One line says Qloo has no match; the card doesn't repeat it three ways.
+    const quiet = r.offers[1];
+    expect([...quiet.fit!.reasons, ...quiet.notes]).toEqual(["Qloo has no match for Quiet Pod, so no score is shown."]);
   });
 });
 
