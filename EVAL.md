@@ -1,56 +1,42 @@
-# Eval results
+# What the eval found
 
-Run 2026-10-28T08:26:41.682Z. Method and success criteria were registered in advance in [eval/spec.md](eval/spec.md).
+**Short version:** on 24 well-known properties, the brands that actually sponsor them are no better matched to their fans, by Qloo's taste data, than same-category brands that don't. Somm's Fit Score separates real sponsors from those controls at chance level (mean AUC 0.49). So does Qloo affinity on its own (0.49). A language model with no taste data does better (0.64), most visibly on deals that were widely announced. Somm does not predict who already signed, and we don't claim it does.
+
+What Somm claims is narrower and checkable: which brands a property's fans over-index for, with the Qloo request behind every number. The eval says that today's sponsorship money mostly isn't following that signal, which is the gap Somm is built for.
+
+## The test
+
+Pre-registered in [eval/spec.md](eval/spec.md) before the first run: 24 properties (9 podcasts, 8 festivals, 7 teams), 202 real sponsorships with public sources, 122 same-category brands that didn't sponsor in the sources we checked. For each property: does a method score real sponsors above the controls? AUC 0.5 is a coin flip.
+
+## Results (run 2)
 
 | Method | Mean AUC | Podcasts | Festivals | Teams | Properties won |
 | --- | --- | --- | --- | --- | --- |
-| Somm Fit Score | 0.48 | 0.47 | 0.52 | 0.42 | 1 |
-| Qloo affinity only | 0.48 | 0.38 | 0.56 | 0.52 | 2 |
-| Popularity only | 0.45 | 0.44 | 0.45 | 0.45 | 2 |
-| Model only (no Qloo) | 0.62 | 0.58 | 0.69 | 0.60 | 16 |
-| Negative control | 0.52 | 0.50 | 0.55 | 0.52 | 5 |
+| Somm Fit Score | 0.49 | 0.51 | 0.52 | 0.42 | 1 |
+| Qloo affinity only | 0.49 | 0.49 | 0.55 | 0.42 | 1 |
+| Popularity only | 0.43 | 0.44 | 0.45 | 0.41 | 1 |
+| Model only (no Qloo) | 0.64 | 0.59 | 0.68 | 0.68 | 18 |
+| Negative control | 0.48 | 0.55 | 0.50 | 0.38 | 3 |
 
-Gate traps: **10/11** produced the expected outcome.
+Per-property numbers and the gate traps: [eval/RESULTS.md](eval/RESULTS.md).
 
-| Trap | Verdict | Age gate | Pass |
-| --- | --- | --- | --- |
-| gt-rollingloud-hennessy | BLOCKED | block | yes |
-| gt-rollingloud-draftkings | BLOCKED | block | yes |
-| gt-katseye-michelob | BLOCKED | block | yes |
-| gt-katseye-draftkings | BLOCKED | block | yes |
-| gt-govball-fanduel | CONSIDER | review | yes |
-| ex-coachella-pepsi | BLOCKED | – | yes |
-| ex-stagecoach-wrangler | BLOCKED | – | yes |
-| ex-dodgers-polymarket | – | – | **no** |
-| ex-rollingloud-nike | BLOCKED | – | yes |
-| ex-barcelona-adidas | BLOCKED | – | yes |
-| ctl-coachella-cocacola | PURSUE | – | yes |
+**Exploratory, not pre-registered:** we also asked whether a real sponsor's affinity is higher with its own property's fans than with another property's fans. It was in 91 of 168 cases (54%), against 58 of 111 (52%) for the controls. That difference is noise (z = 0.31).
 
-## Per property
+## Reading it honestly
 
-| Property | Type | Sponsors / controls matched | Somm | Affinity | Popularity | Model only | Negative control |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Huberman Lab | podcast | 9/10 · 5/5 | 0.21 | 0.19 | 0.33 | 0.87 | 0.24 |
-| Lex Fridman Podcast | podcast | 7/9 · 5/5 | 0.54 | 0.46 | 0.54 | 0.80 | 0.54 |
-| The Tim Ferriss Show | podcast | 6/8 · 4/5 | 0.17 | 0.17 | 0.21 | 0.88 | 0.75 |
-| The Joe Rogan Experience | podcast | 7/8 · 5/5 | 0.50 | 0.54 | 0.29 | 0.57 | 0.54 |
-| The Bill Simmons Podcast | podcast | 6/6 · 5/5 | 0.55 | 0.50 | 0.73 | 0.43 | 0.60 |
-| Pardon My Take | podcast | 8/8 · 5/5 | 0.42 | 0.38 | 0.42 | 0.47 | 0.63 |
-| Call Her Daddy | podcast | 8/8 · 5/5 | 0.34 | 0.17 | 0.57 | 0.50 | 0.29 |
-| Armchair Expert with Dax Shepard | podcast | 6/6 · 5/5 | 0.47 | 0.67 | 0.37 | 0.73 | 0.42 |
-| This Week in Startups | podcast | 2/7 · 2/5 | 1.00 | – | 0.50 | 0.00 | – |
-| Coachella Valley Music and Arts Festival | festival | 10/10 · 5/5 | 0.39 | 0.39 | 0.36 | 0.92 | 0.46 |
-| Lollapalooza (Chicago) | festival | 11/11 · 5/5 | 0.66 | 0.50 | 0.56 | 0.78 | 0.36 |
-| Austin City Limits Music Festival | festival | 11/11 · 5/5 | 0.46 | 0.47 | 0.44 | 0.73 | 0.56 |
-| The Governors Ball Music Festival | festival | 12/12 · 5/5 | 0.63 | 0.60 | 0.55 | 0.67 | 0.63 |
-| Bonnaroo Music & Arts Festival | festival | 10/10 · 5/5 | 0.59 | 0.75 | 0.52 | 0.78 | 0.43 |
-| Stagecoach Festival | festival | 8/9 · 5/5 | 0.60 | 0.61 | 0.42 | 0.35 | 0.72 |
-| Primavera Sound Barcelona | festival | 11/11 · 4/5 | 0.42 | – | 0.27 | 0.93 | – |
-| Rolling Loud (Orlando) | festival | 8/8 · 5/5 | 0.41 | 0.60 | 0.50 | 0.35 | 0.70 |
-| Inter Miami CF | sports_team | 10/10 · 6/6 | 0.38 | 0.19 | 0.52 | 0.62 | 0.19 |
-| Golden State Warriors | sports_team | 6/7 · 5/5 | 0.27 | 0.80 | 0.47 | 0.60 | 0.80 |
-| Los Angeles Dodgers | sports_team | 5/7 · 4/5 | 0.42 | 0.33 | 0.40 | 0.55 | 0.33 |
-| Real Madrid CF | sports_team | 6/6 · 5/5 | 0.42 | – | 0.30 | 0.43 | – |
-| FC Barcelona | sports_team | 5/5 · 4/5 | – | – | 0.30 | 0.80 | – |
-| McLaren Mastercard Formula 1 Team | sports_team | 10/11 · 6/6 | 0.61 | 0.75 | 0.58 | 0.53 | 0.75 |
-| Wrexham AFC | sports_team | 3/4 · 5/5 | – | – | 0.60 | 0.67 | – |
+- **The model-only baseline is a memory test.** It scores 1.00 on FC Barcelona (Spotify, Nike) and 0.95 on Lex Fridman, whose sponsors are widely published. It scores 0.00 on This Week in Startups. It is predicting the status quo, not audience fit.
+- **Popularity alone is below chance (0.43).** The most famous brands in a category are not the ones that sponsored these properties more often.
+- **Fit is not the same as who pays.** Budgets, agencies, timing and category deals decide sponsorships. A property's existing sponsors are not ground truth for who fits its audience.
+- **Controls are weak evidence.** A control brand missing from the sources we checked is not proof that it never sponsored the property. Podcast ads are inserted per listener, so podcast controls are the weakest.
+
+## Gate traps: 10 of 11 caught
+
+Every age-restricted and exclusivity trap produced the expected verdict, apart from one. That trap (Dodgers × Polymarket) could not run because Polymarket is not in the Qloo hackathon dataset. The two KATSEYE traps were blocked because Qloo has no audience-age data for that audience, and Somm refuses to clear beer or betting deals blind.
+
+## How we got here: run 1, and the change after it
+
+Run 1 used a version of Somm that added the property's market ("United States") as a location signal to every Qloo request, and that accepted the closest search hit when a brand name had no exact match. Its results were somm 0.48, affinity 0.48, popularity 0.45, model only 0.62, negative control 0.52.
+
+The negative control flagged the problem: affinity computed against the wrong property's fans scored as well as affinity against the right one. Checking directly, the location signal dominated Qloo's answer. Every audience got nearly the same brand order, and brands without location data dropped out. Separately, loose name matching had turned "David Protein" into a gallery and "Tito's" into a different vodka.
+
+We removed the location signal from the product and the eval, and required every word of a brand name to match, then ran it again (run 2, above). This change was made after seeing run 1, so it is a deviation from the registration. The run 1 results are kept in the repository history. Neither run supports the claim that audience fit predicts existing sponsorships.

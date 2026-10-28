@@ -39,3 +39,7 @@ Metric: per-property AUC (sponsors vs controls, ties 0.5), averaged across prope
 ## Amendment, before the first run (2026-10-28)
 
 The KATSEYE gate traps named the group as a Qloo artist, but the hackathon dataset has no artist entity for KATSEYE; its fandom is only present through the series *Pop Star Academy: KATSEYE*. The two KATSEYE traps now use that series as the audience proxy. Nothing else changed. The previous hash of `eval/traps.json` was `875c4f39ed31996921ae6631298d97a1ffb4c78d2b307a099a34335c3850b0d8`.
+
+## Deviation, after run 1 (2026-10-28)
+
+Run 1 showed affinity against the wrong property scoring like affinity against the right one (negative control 0.52 vs affinity 0.48). Two causes were found: a market location signal that outweighed each audience's own signal, and brand-name matching that accepted unrelated search hits. Both were removed from the product and the eval before run 2: no location signal, and a brand name only stands in for another when every word matches. Every method is now also compared on the same set of brands. This is a post-hoc change; run 1's results remain in the repository history and in EVAL.md.

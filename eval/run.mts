@@ -58,7 +58,7 @@ const lines = [
   ...out.public.properties.map((p) => `| ${p.name} | ${p.type} | ${p.counts.resolvedSponsors}/${p.counts.sponsors} · ${p.counts.resolvedControls}/${p.counts.controls} | ${pct(p.auc.somm)} | ${pct(p.auc.affinity)} | ${pct(p.auc.popularity)} | ${pct(p.auc.llm_only)} | ${pct(p.auc.negative_control)} |`),
   "",
 ];
-writeFileSync(new URL("../EVAL.md", import.meta.url), lines.join("\n"));
+writeFileSync(new URL("./RESULTS.md", import.meta.url), lines.join("\n"));
 console.log(lines.slice(4, 12).join("\n"));
 await deps.mcp.close();
 process.exit(0);

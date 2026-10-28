@@ -1,42 +1,42 @@
 {
-  "generatedAt": "2026-10-28T08:26:41.682Z",
+  "generatedAt": "2026-10-28T08:43:24.246Z",
   "summary": {
     "mean": {
-      "somm": 0.475655253837072,
-      "affinity": 0.4769110275689222,
-      "popularity": 0.44852633477633486,
-      "llm_only": 0.623430735930736,
-      "negative_control": 0.5227965747702591
+      "somm": 0.48711512445887445,
+      "affinity": 0.48824645262145255,
+      "popularity": 0.43163089225589224,
+      "llm_only": 0.6446305315055316,
+      "negative_control": 0.4842992424242425
     },
     "byType": {
       "podcast": {
-        "somm": 0.4669973544973545,
-        "affinity": 0.38303571428571426,
-        "popularity": 0.44113756613756616,
-        "llm_only": 0.5838624338624339,
-        "negative_control": 0.5007440476190476
+        "somm": 0.5084656084656084,
+        "affinity": 0.49082892416225754,
+        "popularity": 0.4350970017636684,
+        "llm_only": 0.5869488536155202,
+        "negative_control": 0.5473544973544974
       },
       "festival": {
-        "somm": 0.5212215909090908,
-        "affinity": 0.5608843537414966,
-        "popularity": 0.453465909090909,
-        "llm_only": 0.6884469696969696,
-        "negative_control": 0.550907029478458
+        "somm": 0.5217694805194805,
+        "affinity": 0.5494318181818182,
+        "popularity": 0.44624188311688306,
+        "llm_only": 0.6825324675324675,
+        "negative_control": 0.5031655844155845
       },
       "sports_team": {
-        "somm": 0.41833333333333333,
-        "affinity": 0.5177083333333333,
-        "popularity": 0.45238095238095244,
-        "llm_only": 0.6,
-        "negative_control": 0.5177083333333333
+        "somm": 0.4200595238095238,
+        "affinity": 0.41500000000000004,
+        "popularity": 0.41047619047619044,
+        "llm_only": 0.6754761904761905,
+        "negative_control": 0.3816666666666667
       }
     },
     "wins": {
       "somm": 1,
-      "affinity": 2,
-      "popularity": 2,
-      "llm_only": 16,
-      "negative_control": 5
+      "affinity": 1,
+      "popularity": 1,
+      "llm_only": 18,
+      "negative_control": 3
     },
     "traps": {
       "passed": 10,
@@ -51,16 +51,16 @@
       "counts": {
         "sponsors": 10,
         "controls": 5,
-        "resolvedSponsors": 9,
-        "resolvedControls": 5,
+        "resolvedSponsors": 7,
+        "resolvedControls": 4,
         "entities": 2
       },
       "auc": {
-        "somm": 0.21428571428571427,
-        "affinity": 0.19047619047619047,
-        "popularity": 0.3333333333333333,
-        "llm_only": 0.8666666666666667,
-        "negative_control": 0.23809523809523808
+        "somm": 0.5714285714285714,
+        "affinity": 0.4642857142857143,
+        "popularity": 0.2857142857142857,
+        "llm_only": 0.75,
+        "negative_control": 0.21428571428571427
       }
     },
     {
@@ -70,16 +70,16 @@
       "counts": {
         "sponsors": 9,
         "controls": 5,
-        "resolvedSponsors": 7,
-        "resolvedControls": 5,
+        "resolvedSponsors": 5,
+        "resolvedControls": 4,
         "entities": 2
       },
       "auc": {
-        "somm": 0.5428571428571428,
-        "affinity": 0.45714285714285713,
-        "popularity": 0.5428571428571428,
-        "llm_only": 0.8,
-        "negative_control": 0.5428571428571428
+        "somm": 0.6,
+        "affinity": 0.35,
+        "popularity": 0.5,
+        "llm_only": 0.95,
+        "negative_control": 0.6
       }
     },
     {
@@ -90,15 +90,15 @@
         "sponsors": 8,
         "controls": 5,
         "resolvedSponsors": 6,
-        "resolvedControls": 4,
-        "entities": 2
+        "resolvedControls": 3,
+        "entities": 1
       },
       "auc": {
-        "somm": 0.16666666666666666,
-        "affinity": 0.16666666666666666,
-        "popularity": 0.20833333333333334,
-        "llm_only": 0.875,
-        "negative_control": 0.75
+        "somm": 0.4166666666666667,
+        "affinity": 0.5555555555555556,
+        "popularity": 0.2777777777777778,
+        "llm_only": 0.9444444444444444,
+        "negative_control": 0.6666666666666666
       }
     },
     {
@@ -113,11 +113,11 @@
         "entities": 2
       },
       "auc": {
-        "somm": 0.5,
-        "affinity": 0.5416666666666666,
+        "somm": 0.5285714285714286,
+        "affinity": 0.6285714285714286,
         "popularity": 0.2857142857142857,
-        "llm_only": 0.5714285714285714,
-        "negative_control": 0.5416666666666666
+        "llm_only": 0.4857142857142857,
+        "negative_control": 0.6
       }
     },
     {
@@ -132,11 +132,11 @@
         "entities": 2
       },
       "auc": {
-        "somm": 0.55,
-        "affinity": 0.5,
+        "somm": 0.6,
+        "affinity": 0.5666666666666667,
         "popularity": 0.7333333333333333,
-        "llm_only": 0.43333333333333335,
-        "negative_control": 0.6
+        "llm_only": 0.4,
+        "negative_control": 0.4
       }
     },
     {
@@ -146,16 +146,16 @@
       "counts": {
         "sponsors": 8,
         "controls": 5,
-        "resolvedSponsors": 8,
+        "resolvedSponsors": 7,
         "resolvedControls": 5,
-        "entities": 4
+        "entities": 3
       },
       "auc": {
-        "somm": 0.425,
-        "affinity": 0.375,
-        "popularity": 0.425,
-        "llm_only": 0.475,
-        "negative_control": 0.625
+        "somm": 0.44285714285714284,
+        "affinity": 0.4857142857142857,
+        "popularity": 0.4,
+        "llm_only": 0.4857142857142857,
+        "negative_control": 0.6285714285714286
       }
     },
     {
@@ -165,16 +165,16 @@
       "counts": {
         "sponsors": 8,
         "controls": 5,
-        "resolvedSponsors": 8,
+        "resolvedSponsors": 6,
         "resolvedControls": 5,
         "entities": 2
       },
       "auc": {
-        "somm": 0.3375,
-        "affinity": 0.16666666666666666,
-        "popularity": 0.575,
-        "llm_only": 0.5,
-        "negative_control": 0.2916666666666667
+        "somm": 0.4166666666666667,
+        "affinity": 0.26666666666666666,
+        "popularity": 0.5666666666666667,
+        "llm_only": 0.6333333333333333,
+        "negative_control": 0.4666666666666667
       }
     },
     {
@@ -189,11 +189,11 @@
         "entities": 3
       },
       "auc": {
-        "somm": 0.4666666666666667,
-        "affinity": 0.6666666666666666,
+        "somm": 0.5,
+        "affinity": 0.6,
         "popularity": 0.36666666666666664,
-        "llm_only": 0.7333333333333333,
-        "negative_control": 0.4166666666666667
+        "llm_only": 0.6333333333333333,
+        "negative_control": 0.6
       }
     },
     {
@@ -208,11 +208,11 @@
         "entities": 2
       },
       "auc": {
-        "somm": 1,
-        "affinity": null,
+        "somm": 0.5,
+        "affinity": 0.5,
         "popularity": 0.5,
         "llm_only": 0,
-        "negative_control": null
+        "negative_control": 0.75
       }
     },
     {
@@ -227,11 +227,11 @@
         "entities": 7
       },
       "auc": {
-        "somm": 0.39,
-        "affinity": 0.39285714285714285,
-        "popularity": 0.36,
-        "llm_only": 0.92,
-        "negative_control": 0.4642857142857143
+        "somm": 0.48,
+        "affinity": 0.5,
+        "popularity": 0.38,
+        "llm_only": 0.82,
+        "negative_control": 0.5
       }
     },
     {
@@ -247,10 +247,10 @@
       },
       "auc": {
         "somm": 0.6636363636363637,
-        "affinity": 0.5,
-        "popularity": 0.5636363636363636,
+        "affinity": 0.5272727272727272,
+        "popularity": 0.5272727272727272,
         "llm_only": 0.7818181818181819,
-        "negative_control": 0.35714285714285715
+        "negative_control": 0.41818181818181815
       }
     },
     {
@@ -265,11 +265,11 @@
         "entities": 8
       },
       "auc": {
-        "somm": 0.4636363636363636,
-        "affinity": 0.4722222222222222,
-        "popularity": 0.43636363636363634,
-        "llm_only": 0.7272727272727273,
-        "negative_control": 0.5555555555555556
+        "somm": 0.41818181818181815,
+        "affinity": 0.45454545454545453,
+        "popularity": 0.41818181818181815,
+        "llm_only": 0.7636363636363637,
+        "negative_control": 0.4909090909090909
       }
     },
     {
@@ -279,16 +279,16 @@
       "counts": {
         "sponsors": 12,
         "controls": 5,
-        "resolvedSponsors": 12,
+        "resolvedSponsors": 11,
         "resolvedControls": 5,
         "entities": 7
       },
       "auc": {
-        "somm": 0.6333333333333333,
-        "affinity": 0.6,
-        "popularity": 0.55,
-        "llm_only": 0.6666666666666666,
-        "negative_control": 0.6285714285714286
+        "somm": 0.6,
+        "affinity": 0.6363636363636364,
+        "popularity": 0.5272727272727272,
+        "llm_only": 0.6727272727272727,
+        "negative_control": 0.5818181818181818
       }
     },
     {
@@ -298,16 +298,16 @@
       "counts": {
         "sponsors": 10,
         "controls": 5,
-        "resolvedSponsors": 10,
+        "resolvedSponsors": 7,
         "resolvedControls": 5,
         "entities": 8
       },
       "auc": {
-        "somm": 0.59,
-        "affinity": 0.75,
-        "popularity": 0.52,
-        "llm_only": 0.78,
-        "negative_control": 0.42857142857142855
+        "somm": 0.5714285714285714,
+        "affinity": 0.8,
+        "popularity": 0.42857142857142855,
+        "llm_only": 0.8857142857142857,
+        "negative_control": 0.45714285714285713
       }
     },
     {
@@ -319,14 +319,14 @@
         "controls": 5,
         "resolvedSponsors": 8,
         "resolvedControls": 5,
-        "entities": 6
+        "entities": 5
       },
       "auc": {
-        "somm": 0.6,
-        "affinity": 0.6111111111111112,
+        "somm": 0.625,
+        "affinity": 0.6,
         "popularity": 0.425,
         "llm_only": 0.35,
-        "negative_control": 0.7222222222222222
+        "negative_control": 0.525
       }
     },
     {
@@ -341,11 +341,11 @@
         "entities": 8
       },
       "auc": {
-        "somm": 0.4166666666666667,
-        "affinity": null,
-        "popularity": 0.2727272727272727,
-        "llm_only": 0.9318181818181818,
-        "negative_control": null
+        "somm": 0.4659090909090909,
+        "affinity": 0.4772727272727273,
+        "popularity": 0.36363636363636365,
+        "llm_only": 0.8863636363636364,
+        "negative_control": 0.4772727272727273
       }
     },
     {
@@ -360,11 +360,11 @@
         "entities": 6
       },
       "auc": {
-        "somm": 0.4125,
-        "affinity": 0.6,
+        "somm": 0.35,
+        "affinity": 0.4,
         "popularity": 0.5,
-        "llm_only": 0.35,
-        "negative_control": 0.7
+        "llm_only": 0.3,
+        "negative_control": 0.575
       }
     },
     {
@@ -379,11 +379,11 @@
         "entities": 6
       },
       "auc": {
-        "somm": 0.375,
-        "affinity": 0.1875,
-        "popularity": 0.5166666666666667,
-        "llm_only": 0.6166666666666667,
-        "negative_control": 0.1875
+        "somm": 0.44166666666666665,
+        "affinity": 0.36666666666666664,
+        "popularity": 0.5,
+        "llm_only": 0.5666666666666667,
+        "negative_control": 0.3
       }
     },
     {
@@ -393,16 +393,16 @@
       "counts": {
         "sponsors": 7,
         "controls": 5,
-        "resolvedSponsors": 6,
+        "resolvedSponsors": 5,
         "resolvedControls": 5,
         "entities": 5
       },
       "auc": {
-        "somm": 0.26666666666666666,
-        "affinity": 0.8,
-        "popularity": 0.4666666666666667,
-        "llm_only": 0.6,
-        "negative_control": 0.8
+        "somm": 0.28,
+        "affinity": 0.28,
+        "popularity": 0.44,
+        "llm_only": 0.72,
+        "negative_control": 0.48
       }
     },
     {
@@ -412,16 +412,16 @@
       "counts": {
         "sponsors": 7,
         "controls": 5,
-        "resolvedSponsors": 5,
-        "resolvedControls": 4,
+        "resolvedSponsors": 4,
+        "resolvedControls": 3,
         "entities": 6
       },
       "auc": {
-        "somm": 0.425,
-        "affinity": 0.3333333333333333,
-        "popularity": 0.4,
-        "llm_only": 0.55,
-        "negative_control": 0.3333333333333333
+        "somm": 0.5,
+        "affinity": 0.4166666666666667,
+        "popularity": 0.25,
+        "llm_only": 0.5833333333333334,
+        "negative_control": 0.4166666666666667
       }
     },
     {
@@ -436,11 +436,11 @@
         "entities": 5
       },
       "auc": {
-        "somm": 0.4166666666666667,
-        "affinity": null,
-        "popularity": 0.3,
+        "somm": 0.3333333333333333,
+        "affinity": 0.36666666666666664,
+        "popularity": 0.36666666666666664,
         "llm_only": 0.43333333333333335,
-        "negative_control": null
+        "negative_control": 0.3
       }
     },
     {
@@ -450,16 +450,16 @@
       "counts": {
         "sponsors": 5,
         "controls": 5,
-        "resolvedSponsors": 5,
+        "resolvedSponsors": 4,
         "resolvedControls": 4,
         "entities": 5
       },
       "auc": {
-        "somm": null,
-        "affinity": null,
-        "popularity": 0.3,
-        "llm_only": 0.8,
-        "negative_control": null
+        "somm": 0.34375,
+        "affinity": 0.3125,
+        "popularity": 0.3125,
+        "llm_only": 1,
+        "negative_control": 0.375
       }
     },
     {
@@ -469,16 +469,16 @@
       "counts": {
         "sponsors": 11,
         "controls": 6,
-        "resolvedSponsors": 10,
+        "resolvedSponsors": 8,
         "resolvedControls": 6,
         "entities": 3
       },
       "auc": {
-        "somm": 0.6083333333333333,
-        "affinity": 0.75,
-        "popularity": 0.5833333333333334,
-        "llm_only": 0.5333333333333333,
-        "negative_control": 0.75
+        "somm": 0.5416666666666666,
+        "affinity": 0.5625,
+        "popularity": 0.6041666666666666,
+        "llm_only": 0.625,
+        "negative_control": 0.5
       }
     },
     {
@@ -488,16 +488,16 @@
       "counts": {
         "sponsors": 4,
         "controls": 5,
-        "resolvedSponsors": 3,
+        "resolvedSponsors": 2,
         "resolvedControls": 5,
-        "entities": 4
+        "entities": 3
       },
       "auc": {
-        "somm": null,
-        "affinity": null,
-        "popularity": 0.6,
-        "llm_only": 0.6666666666666666,
-        "negative_control": null
+        "somm": 0.5,
+        "affinity": 0.6,
+        "popularity": 0.4,
+        "llm_only": 0.8,
+        "negative_control": 0.3
       }
     }
   ],
