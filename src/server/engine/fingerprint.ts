@@ -67,7 +67,7 @@ export async function buildFingerprint(
   const tagsStep = { key: "taste_tags", label: "Reading the audience's taste tags" };
   const demoStep = { key: "demographics", label: "Profiling who the fans are" };
   const geoStep = { key: "heatmap", label: `Mapping where fans live in ${property.market}` };
-  const trendStep = { key: "momentum", label: "Checking 90-day momentum" };
+  const trendStep = { key: "momentum", label: "Checking the popularity trend" };
   const crossStep = { key: "cross_domain", label: "Tasting what fans love across domains" };
   (options.light ? [demoStep, geoStep, trendStep] : [tagsStep, demoStep, geoStep, trendStep, crossStep]).forEach((s) => step(ctx, s, "running"));
   const entityDemographics: Fingerprint["entityDemographics"] = [];
