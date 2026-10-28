@@ -227,7 +227,7 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
     (await run.step(
       { key: "score", label: `Scoring ${toScore.length} brands` },
       () =>
-        mapLimit(toScore, 4, async (item) => {
+        mapLimit(toScore, 3, async (item) => {
           const fit = await scoreFit({ fp, brand: item.candidate.entity, category: item.category, rank: item.rank }, ctx);
           const others = (seenIn.get(item.candidate.entity.id) ?? []).filter((c) => c !== item.category);
           return others.length ? { ...fit, alsoIn: others } : fit;

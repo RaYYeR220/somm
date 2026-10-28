@@ -171,3 +171,11 @@ describe("live-data adjustments", () => {
     expect(cells.map((c) => c.geohash)).toEqual(["bbbb", "aaaa", "cccc"]);
   });
 });
+
+describe("trends support", () => {
+  it("does not ask Qloo for trends of a place", async () => {
+    const { gw, calls } = scriptedGateway(fullAnswer);
+    await buildFingerprint(sampleProperty({ kind: "lineup", entities: [{ id: "fest", name: "Stagecoach", type: "place" }] }), testContext(gw));
+    expect(calls.some((c) => c.op === "trends")).toBe(false);
+  });
+});

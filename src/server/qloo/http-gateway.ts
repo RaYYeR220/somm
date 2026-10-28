@@ -1,5 +1,5 @@
 import type { Envelope, QlooOp } from "@/lib/types";
-import { errorEnvelope, type CallContext, type QlooGateway } from "./gateway";
+import { errorEnvelope, withRetry, type CallContext, type QlooGateway } from "./gateway";
 
 type HttpGatewayOptions = {
   baseUrl: string;
@@ -55,24 +55,11 @@ function compactResults(results: unknown): unknown {
   };
 }
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 /** Direct calls for the documented endpoints the harness workflows don't expose. */
 export function createHttpGateway(options: HttpGatewayOptions): QlooGateway {
   const doFetch = options.fetch ?? fetch;
   const base = options.baseUrl.replace(/\/+$/, "");
-  const delays = options.retryDelaysMs ?? [700, 1800];
-  return {
-    async call(op, input, ctx) {
-      let envelope = await once(op, input, ctx);
-      for (const delay of delays) {
-        if (envelope.status !== "error" || !envelope.error?.retryable) break;
-        await sleep(delay);
-        envelope = await once(op, input, ctx);
-      }
-      return envelope;
-    },
-  };
+  return withRetry({ call: once }, options.retryDelaysMs);
 
   async function once(op: QlooOp, input: Record<string, unknown>, ctx?: CallContext): Promise<Envelope> {
     if (!(op in PATHS)) {

@@ -16,6 +16,23 @@ export function errorEnvelope(operation: string, code: string, summary: string, 
   };
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Repeats a call that failed with a retryable error (rate limit, timeout, 5xx), waiting before each try. */
+export function withRetry(inner: QlooGateway, delaysMs: number[] = [800, 2000, 4500]): QlooGateway {
+  return {
+    async call(op, input, ctx) {
+      let envelope = await inner.call(op, input, ctx);
+      for (const delay of delaysMs) {
+        if (envelope.status !== "error" || !envelope.error?.retryable || ctx?.signal?.aborted) break;
+        await sleep(delay);
+        envelope = await inner.call(op, input, ctx);
+      }
+      return envelope;
+    },
+  };
+}
+
 const HTTP_OPS: ReadonlySet<QlooOp> = new Set(["search", "insights_raw", "tags_raw"]);
 
 /** The harness MCP server owns the nine workflows; direct HTTP covers the rest. */

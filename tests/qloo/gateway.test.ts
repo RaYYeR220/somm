@@ -142,3 +142,20 @@ describe("http gateway resilience", () => {
     expect(env.results).toEqual({ heatmap: [{ location: { latitude: 1, longitude: 2, geohash: "dnq8" }, query: { affinity: 1, affinity_rank: 0.97 } }] });
   });
 });
+
+describe("withRetry", () => {
+  it("retries retryable errors and stops on success or a permanent error", async () => {
+    const { withRetry } = await import("@/server/qloo/gateway");
+    let n = 0;
+    const flaky = withRetry(
+      { call: async (op: QlooOp) => (++n < 3 ? { operation: op, status: "error" as const, error: { code: "QLOO_RATE_LIMIT", retryable: true, recovery: "" } } : okEnvelope(op)) },
+      [1, 1, 1],
+    );
+    expect((await flaky.call("rank", {})).status).toBe("ok");
+    expect(n).toBe(3);
+    let m = 0;
+    const permanent = withRetry({ call: async (op: QlooOp) => (m++, { operation: op, status: "error" as const, error: { code: "QLOO_AUTH", retryable: false, recovery: "" } }) }, [1, 1]);
+    await permanent.call("rank", {});
+    expect(m).toBe(1);
+  });
+});

@@ -21,6 +21,8 @@ export function heatmapQuery(entityId: string, market: string): Record<string, u
   return { "filter.type": "urn:heatmap", "signal.interests.entities": entityId, "filter.location.query": market, take: 50 };
 }
 
+const TREND_TYPES = new Set<QlooEntityType>(["artist", "book", "brand", "movie", "person", "podcast", "tv_show", "videogame"]);
+
 export const CROSS_DOMAINS = ["brand", "tv_show", "podcast", "artist", "movie", "place"] as const;
 export type CrossDomain = (typeof CROSS_DOMAINS)[number];
 
@@ -125,6 +127,10 @@ export async function buildFingerprint(
   })();
 
   const trendTask = (async () => {
+    if (!TREND_TYPES.has(lead.type)) {
+      step(ctx, trendStep, "empty", "Qloo has no popularity trend for this kind of entity");
+      return null;
+    }
     const sameType = property.entities.filter((e) => e.type === lead.type).slice(0, 5);
     // Qloo's hackathon trend data needs a long window; the latest 20 weeks come back.
     const start = new Date(today.getTime() - 365 * 86_400_000);
