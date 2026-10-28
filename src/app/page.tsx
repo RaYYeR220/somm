@@ -39,10 +39,16 @@ function stampsFrom(runs: RunRecord[]): StampLine[] {
   return lines.slice(0, 8);
 }
 
+/** The example report whose board shows the most kinds of verdict, so the first click shows Somm saying no too. */
+function showcase(runs: RunRecord[]): RunRecord | undefined {
+  const variety = (run: RunRecord) => new Set((run.result as ScoutResult | null)?.fits.map((f) => f.verdict)).size;
+  return runs.filter((r) => r.kind === "scout").reduce<RunRecord | undefined>((best, run) => (!best || variety(run) > variety(best) ? run : best), undefined);
+}
+
 export default function Home() {
   const demos = getAgentDeps().store.listDemo();
   const stamps = stampsFrom(demos);
-  const firstScout = demos.find((d) => d.kind === "scout");
+  const firstScout = showcase(demos);
   const ev = evalSummary as EvalSummary;
   return (
     <>

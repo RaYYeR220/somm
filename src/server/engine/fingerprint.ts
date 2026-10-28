@@ -100,17 +100,24 @@ export async function buildFingerprint(
     entityDemographics.push(...parsed.map((x) => ({ entity: x.entity, demographics: x.demo!, ledgerId: x.entry!.id })));
     if (demographics) {
       const ledgerIds = parsed.map((x) => x.entry!.id);
+      // Gender and top age go in one fact: writers state them in one sentence and cite one source.
+      const [topGender, genderValue] = Object.entries(demographics.gender).sort((a, b) => b[1] - a[1])[0] ?? [];
       const [topAge, topValue] = Object.entries(demographics.age).sort((a, b) => b[1] - a[1])[0] ?? [];
-      if (topAge !== undefined) {
-        ctx.facts.add({ ledgerIds, label: `Strongest age over-index: ${AGE_LABELS[topAge] ?? topAge}`, value: Number(topValue.toFixed(2)), display: `${signed(topValue)} affinity, ages ${AGE_LABELS[topAge] ?? topAge}` });
+      const lean = [
+        topGender !== undefined ? { label: topGender, value: genderValue } : null,
+        topAge !== undefined ? { label: `ages ${AGE_LABELS[topAge] ?? topAge}`, value: topValue } : null,
+      ].filter((part) => part !== null);
+      if (lean.length) {
+        ctx.facts.add({
+          ledgerIds,
+          label: `Audience lean: ${lean.map((part) => part.label).join(", ")}`,
+          value: Number(lean[0].value.toFixed(2)),
+          display: lean.map((part) => `${signed(part.value)} affinity, ${part.label}`).join("; "),
+        });
       }
       const youth = demographics.age["24_and_younger"];
       if (youth !== undefined) {
         ctx.facts.add({ ledgerIds, label: "Youth affinity (24 and younger)", value: Number(youth.toFixed(2)), display: `${signed(youth)} affinity, ages 24 and younger` });
-      }
-      const [topGender, genderValue] = Object.entries(demographics.gender).sort((a, b) => b[1] - a[1])[0] ?? [];
-      if (topGender !== undefined) {
-        ctx.facts.add({ ledgerIds, label: `Gender lean: ${topGender}`, value: Number(genderValue.toFixed(2)), display: `${signed(genderValue)} affinity, ${topGender}` });
       }
     }
     step(ctx, demoStep, demographics ? "done" : "empty");

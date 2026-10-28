@@ -88,3 +88,9 @@ describe("no false strikes", () => {
     expect(checkClaims("Somm's verdict is PURSUE.", facts, names).segments[0].status).toBe("kept");
   });
 });
+
+describe("hyphenated common words", () => {
+  it("doesn't read US-wide as a name", () => {
+    expect(checkClaims("A US-wide campaign would reach part of the fans.", facts, ["Best Buy"]).segments[0].status).toBe("kept");
+  });
+});

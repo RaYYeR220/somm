@@ -39,7 +39,9 @@ function properNouns(sentence: string): string[] {
   words.forEach((raw, index) => {
     const word = raw.replace(/^[("“'#]+|[)"”',.:;!?]+$/g, "").replace(/'s$/i, "");
     const capital = /^[A-Z][A-Za-z0-9&'.-]*$/.test(word) && !/^\d/.test(word);
-    if (capital && !(run.length === 0 && STOP.has(word.toLowerCase()))) {
+    // "US-wide" or "Gen-Z-heavy" count as their first part.
+    const head = /^[^-]+-[a-z]/.test(word) ? word.split("-")[0] : word;
+    if (capital && !(run.length === 0 && STOP.has(head.toLowerCase()))) {
       if (run.length === 0) runStart = index;
       run.push(word);
       if (/[,.;:!?)]$/.test(raw)) flush();

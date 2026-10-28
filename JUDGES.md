@@ -4,7 +4,7 @@ Everything below runs in the browser with no sign-in. Live site: **https://somm-
 
 ## 1. See a finished report (1 minute)
 
-Open **Reports** and pick **This Week in Startups**.
+Open **Reports** and pick **Coachella 2026**.
 
 - The top card names the best pairing and its Fit Score.
 - The **Sponsor board** groups every scored brand by verdict. Click any brand to see the five signals behind its score and the gates it passed or failed.
@@ -12,7 +12,7 @@ Open **Reports** and pick **This Week in Startups**.
 
 ## 2. See it refuse (1 minute)
 
-- In the **Coachella 2026** report, look at the **Blocked** group: the festival's exclusive soft-drink partner is Coca-Cola, so competing waters are blocked in code, with the reason on the card.
+- In the same report, look at the **Blocked** group: the festival's exclusive soft-drink partner is Coca-Cola, so competing waters are blocked in code, and beer and spirits are held back by the age gate. The reason is on each card.
 - In the **Celsius offer review**, one offer comes from a festival that already works with Red Bull (blocked), and one offer contains text addressed to an AI reviewer. Somm flags it, strips it before the model reads the offer, and shows you what it removed.
 - In the **Michelob Ultra offer review**, the age gate holds beer deals at "consider" or blocks them: Qloo measures taste affinity, not the 21+ share that alcohol codes require, so Somm never clears those deals on taste data alone.
 

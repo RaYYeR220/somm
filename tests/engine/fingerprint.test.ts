@@ -179,3 +179,16 @@ describe("trends support", () => {
     expect(calls.some((c) => c.op === "trends")).toBe(false);
   });
 });
+
+describe("audience lean fact", () => {
+  it("states gender and top age in one fact, so one citation backs both", async () => {
+    const { gw } = scriptedGateway(fullAnswer);
+    const ctx = testContext(gw);
+    await buildFingerprint(sampleProperty(), ctx);
+    const lean = ctx.facts.all().filter((f) => /^Audience lean/.test(f.label));
+    expect(lean).toHaveLength(1);
+    expect(lean[0].label).toBe("Audience lean: male, ages 25–29");
+    expect(lean[0].display).toBe("+0.20 affinity, male; +0.40 affinity, ages 25–29");
+    expect(ctx.facts.all().some((f) => /^Gender lean|^Strongest age/.test(f.label))).toBe(false);
+  });
+});

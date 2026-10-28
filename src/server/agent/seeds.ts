@@ -59,22 +59,31 @@ const titleOf = (run: { kind: string; result: unknown }) =>
 
 /**
  * Builds each example report that doesn't exist yet, one after another, and marks it as a demo.
+ * With `refresh`, rebuilds every example and retires the old copy once the new one is done.
  * A failure is logged and the rest still run.
  */
-export async function runSeeds(deps: AgentDeps, log: (line: string) => void = () => undefined): Promise<string[]> {
-  const have = new Set(deps.store.listDemo().map((r) => titleOf(r)?.toLowerCase()));
+export async function runSeeds(
+  deps: AgentDeps,
+  log: (line: string) => void = () => undefined,
+  options: { refresh?: boolean } = {},
+): Promise<string[]> {
+  const sameTitle = (title: string) => deps.store.listDemo().filter((r) => titleOf(r)?.toLowerCase() === title.toLowerCase());
   const ids: string[] = [];
   const jobs = [
     ...scouts.map((input) => ({ title: input.property?.name ?? "", start: () => startScout(input, deps) })),
     ...diligences.map((input) => ({ title: input.brand.name, start: () => startDiligence(input, deps) })),
   ];
   for (const job of jobs) {
-    if (have.has(job.title.toLowerCase())) continue;
+    const old = sameTitle(job.title);
+    if (old.length && !options.refresh) continue;
     try {
       const { runId, done } = await job.start();
       await done;
       const status = deps.store.get(runId)?.status;
-      if (status === "done" || status === "degraded") deps.store.setDemo(runId, true);
+      if (status === "done" || status === "degraded") {
+        deps.store.setDemo(runId, true);
+        for (const run of old) deps.store.setDemo(run.id, false);
+      }
       ids.push(runId);
       log(`${runId} ${status} ${job.title}`);
     } catch (error) {
