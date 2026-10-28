@@ -61,13 +61,17 @@ export const heatmapPoint = (geohash: string, latitude: number, longitude: numbe
   query: { affinity, affinity_rank: affinity, popularity: 0.5 },
 });
 
-export const trendSeries = (name: string, values: number[]) => ({
+/** Weekly popularity ranks, oldest first (Qloo returns rank as a string; lower rank = more popular). */
+export const trendSeries = (name: string, ranks: number[]) => ({
   entity: { input: name, entityId: name, name },
-  points: values.map((v, i) => ({
+  points: ranks.map((rank, i) => ({
     date: new Date(Date.UTC(2026, 6, 1 + i * 7)).toISOString().slice(0, 10),
-    population_percentile: v,
+    population_rank: String(rank),
+    population_percentile: 0.1,
   })),
 });
+
+export const isHeatmapCall = (op: string, input: Record<string, unknown>) => op === "insights_raw" && input["filter.type"] === "urn:heatmap";
 
 export const sampleProperty = (overrides: Partial<Property> = {}): Property => ({
   kind: "podcast",

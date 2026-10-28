@@ -23,7 +23,7 @@ const fingerprint = (): Fingerprint => ({
 function brandAnswer(op: QlooOp): Envelope {
   if (op === "rank") return okList(op, [entityResult("pod-1", "Founders Weekly", "podcast", 0.8)]);
   if (op === "audience_demographics") return okList(op, demographicsResult({ "24_and_younger": -0.1, "25_to_29": 0.4, "30_to_34": 0.3 }, { male: 0.2, female: -0.2 }));
-  if (op === "where_popular") return okList(op, [heatmapPoint("dr5ryc", 40.75, -73.86, 0.95), heatmapPoint("c23nb6", 47.6, -122.3, 0.9)]);
+  if (op === "insights_raw") return okList(op, [heatmapPoint("dr5ryc", 40.75, -73.86, 0.95), heatmapPoint("c23nb6", 47.6, -122.3, 0.9)]);
   return empty(op);
 }
 
@@ -72,7 +72,7 @@ describe("scoreFit", () => {
     const { gw, calls } = scriptedGateway(brandAnswer);
     const ctx = testContext(gw);
     const fit = await scoreFit({ fp: fingerprint(), brand, category: "energy_drink", rank: { value: 0.95, min: 0.8, max: 0.97, position: 2, of: 10, ledgerId: "E1" } }, ctx);
-    expect(calls.map((c) => c.op).sort()).toEqual(["audience_demographics", "rank", "where_popular"]);
+    expect(calls.map((c) => c.op).sort()).toEqual(["audience_demographics", "insights_raw", "rank"]);
     for (const [name, component] of Object.entries(fit.components)) {
       expect(component.score, name).not.toBeNull();
       expect(component.facts.length, name).toBeGreaterThan(0);

@@ -8,12 +8,18 @@ import {
   parseHeatmap,
   parseTags,
   parseTrendSlope,
+  isTasteTag,
   signed,
   type Demographics,
   type HeatCell,
   type Momentum,
   type TasteTag,
 } from "./facts";
+
+/** Insights heatmap for one entity across a market; returns every cell with its affinity. */
+export function heatmapQuery(entityId: string, market: string): Record<string, unknown> {
+  return { "filter.type": "urn:heatmap", "signal.interests.entities": entityId, "filter.location.query": market, take: 50 };
+}
 
 export const CROSS_DOMAINS = ["brand", "tv_show", "podcast", "artist", "movie", "place"] as const;
 export type CrossDomain = (typeof CROSS_DOMAINS)[number];
@@ -68,8 +74,8 @@ export async function buildFingerprint(
 
   const tagsTask = (async () => {
     if (options.light) return [];
-    const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 12 });
-    const tags = parseTags(env);
+    const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 25 });
+    const tags = parseTags(env).filter(isTasteTag).slice(0, 12);
     if (tags.length && entry) {
       ctx.facts.add({ ledgerIds: [entry.id], label: "Top taste tags", value: tags.slice(0, 5).map((t) => t.name).join(", "), display: tags.slice(0, 5).map((t) => t.name).join(", ") });
     }
@@ -106,7 +112,8 @@ export async function buildFingerprint(
   })();
 
   const geoTask = (async () => {
-    const { env, entry } = await qloo(ctx, "where_popular", { entity: lead.id, entity_type: lead.type, within: property.market, limit: 20 });
+    // The full heatmap (every cell, not just the top few) comes from Insights directly.
+    const { env, entry } = await qloo(ctx, "insights_raw", heatmapQuery(lead.id, property.market));
     const cells = parseHeatmap(env);
     if (cells.length && entry) {
       ctx.facts.add({ ledgerIds: [entry.id], label: `Fan concentration cells in ${property.market}`, value: cells.length, display: `${cells.length} high-affinity areas in ${property.market}` });
@@ -117,7 +124,8 @@ export async function buildFingerprint(
 
   const trendTask = (async () => {
     const sameType = property.entities.filter((e) => e.type === lead.type).slice(0, 5);
-    const start = new Date(today.getTime() - 90 * 86_400_000);
+    // Qloo's hackathon trend data needs a long window; the latest 20 weeks come back.
+    const start = new Date(today.getTime() - 365 * 86_400_000);
     const { env, entry } = await qloo(ctx, "trends", {
       entities: sameType.map((e) => e.id),
       entity_type: lead.type as Exclude<QlooEntityType, "destination">,
@@ -126,9 +134,15 @@ export async function buildFingerprint(
     });
     const momentum = parseTrendSlope(env);
     if (momentum && entry) {
-      const first = momentum.points[0].value;
-      const last = momentum.points[momentum.points.length - 1].value;
-      ctx.facts.add({ ledgerIds: [entry.id], label: "90-day popularity percentile change", value: Number((last - first).toFixed(1)), display: `percentile ${first.toFixed(1)} → ${last.toFixed(1)} over 90 days` });
+      const first = momentum.points[0];
+      const last = momentum.points[momentum.points.length - 1];
+      const fmt = (n: number) => "#" + n.toLocaleString("en-US");
+      ctx.facts.add({
+        ledgerIds: [entry.id],
+        label: "Popularity rank trend, " + first.date + " to " + last.date,
+        value: Number((momentum.slope * 100).toFixed(1)),
+        display: first.value === last.value ? "popularity rank steady at " + fmt(last.value) : "popularity rank " + fmt(first.value) + " → " + fmt(last.value),
+      });
     }
     step(ctx, trendStep, momentum ? "done" : "empty");
     return momentum;
@@ -139,6 +153,7 @@ export async function buildFingerprint(
     const lists = await mapLimit([...CROSS_DOMAINS], 3, async (domain) => {
       const input: Record<string, unknown> = { target_type: domain, signals: ids, limit: 10 };
       if (domain === "place") input.filter_location = property.market;
+      else input.signal_location = property.market;
       const { env, entry } = await qloo(ctx, "recommend", input);
       const items = parseEntities(env, domain)
         .filter((item) => !own.has(item.entity.id))

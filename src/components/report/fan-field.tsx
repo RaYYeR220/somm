@@ -89,14 +89,19 @@ export function FanField({ cells, ledgerId, onReceipt, market }: { cells: Cell[]
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, size.w, size.h);
     const pitch = Math.max(7, size.w / 110);
-    const points = cells.map((c) => ({ c, p: project.xy(c.lat, c.lng) }));
+    // Qloo returns every cell in the market; light only the strongest fifth, scaled within it.
+    const sorted = cells.map((c) => c.affinity).sort((a, b) => a - b);
+    const floor = sorted[Math.floor(sorted.length * 0.8)] ?? 0;
+    const points = cells
+      .filter((c) => c.affinity >= floor)
+      .map((c) => ({ c, p: project.xy(c.lat, c.lng), w: floor < 1 ? 0.35 + (0.65 * (c.affinity - floor)) / (1 - floor) : 1 }));
     const reach = pitch * 5;
     for (let y = pitch / 2; y < size.h; y += pitch) {
       for (let x = pitch / 2; x < size.w; x += pitch) {
         let heat = 0;
-        for (const { c, p } of points) {
+        for (const { p, w } of points) {
           const d = Math.hypot(p[0] - x, p[1] - y);
-          if (d < reach) heat = Math.max(heat, c.affinity * (1 - d / reach) ** 1.4);
+          if (d < reach) heat = Math.max(heat, w * (1 - d / reach) ** 1.4);
         }
         if (heat > 0.06) {
           const r = 1 + heat * pitch * 0.42;

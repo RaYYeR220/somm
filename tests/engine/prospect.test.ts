@@ -30,6 +30,24 @@ describe("categories", () => {
   });
 });
 
+describe("category tag preference", () => {
+  it("prefers the brand genre taxonomy over other brand-scoped matches", async () => {
+    const { gw } = scriptedGateway((op) =>
+      op === "tags_raw"
+        ? okList(op, [
+            brandTag("urn:tag:product_category:qloo:energy_drinks", "Energy Drinks"),
+            brandTag("urn:tag:genre:brand:food_and_beverage:drinks:energy_drink", "Energy Drink"),
+          ])
+        : empty(op),
+    );
+    const { clearCategoryTagMemo } = await import("@/server/engine/categories");
+    clearCategoryTagMemo();
+    const tags = await resolveCategoryTags(["energy_drink"], testContext(gw));
+    expect(tags.energy_drink).toEqual(["urn:tag:genre:brand:food_and_beverage:drinks:energy_drink"]);
+    clearCategoryTagMemo();
+  });
+});
+
 describe("prospect", () => {
   const answer = (op: QlooOp, input: Record<string, unknown>): Envelope => {
     if (op === "tags_raw") return okList(op, [brandTag(`urn:tag:category:brand:${String(input["filter.query"]).replace(/\s/g, "_")}`, String(input["filter.query"]))]);
@@ -47,7 +65,7 @@ describe("prospect", () => {
     const { gw, calls } = scriptedGateway(answer);
     const result = await prospect(sampleProperty(), ["energy_drink"], testContext(gw));
     const rec = calls.find((c) => c.op === "recommend")!;
-    expect(rec.input).toMatchObject({ target_type: "brand", signals: ["pod-1", "per-1"] });
+    expect(rec.input).toMatchObject({ target_type: "brand", signals: ["pod-1", "per-1"], signal_location: "United States" });
     expect((rec.input.include_tags as string[])[0]).toMatch(/^urn:tag:/);
     expect(result.categories[0].candidates.map((c) => c.entity.name)).toEqual(["Red Bull", "Liquid Death", "Celsius"]);
     expect(result.categories[0].candidates[0].ledgerId).toMatch(/^E\d+$/);

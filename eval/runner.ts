@@ -52,11 +52,12 @@ async function resolveOne(ctx: EngineContext, name: string, type: QlooEntityType
 }
 
 /** One Insights call that scores every candidate brand against the given signals. */
-async function affinities(ctx: EngineContext, brandIds: string[], signals: string[]) {
+async function affinities(ctx: EngineContext, brandIds: string[], signals: string[], market: string) {
   const { env, entry } = await qloo(ctx, "insights_raw", {
     "filter.type": "urn:entity:brand",
     "filter.results.entities": brandIds,
     "signal.interests.entities": signals,
+    "signal.location.query": market,
     take: brandIds.length,
   });
   const map = new Map(parseEntities(env, "brand").map((e) => [e.entity.id, e.affinity]));
@@ -97,8 +98,8 @@ export async function runEval(deps: AgentDeps, gt: GroundTruth, trapFile: TrapFi
 
     if (fp && unique.length) {
       const ids = unique.map((r) => r.entity.id);
-      const own = await affinities(ctx, ids, property.entities.map((e) => e.id));
-      const shifted = other.property.entities.length ? await affinities(ctx, ids, other.property.entities.map((e) => e.id)) : null;
+      const own = await affinities(ctx, ids, property.entities.map((e) => e.id), property.market);
+      const shifted = other.property.entities.length ? await affinities(ctx, ids, other.property.entities.map((e) => e.id), property.market) : null;
       const values = [...own.map.values()];
       const min = Math.min(...values);
       const max = Math.max(...values);

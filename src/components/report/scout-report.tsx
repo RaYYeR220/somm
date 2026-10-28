@@ -27,7 +27,7 @@ function Fingerprint({ r }: { r: ScoutResult }) {
   const { openReceipt, facts } = useReport();
   const fp = r.fingerprint;
   const heatLedger = r.ledger.find((e) => e.op === "where_popular" && e.status === "ok")?.id;
-  const trendFact = fp.facts.find((f) => f.label.startsWith("90-day popularity"));
+  const trendFact = fp.facts.find((f) => f.label.startsWith("Popularity rank trend"));
   const tagFact = fp.facts.find((f) => f.label === "Top taste tags");
   return (
     <div className="space-y-10">

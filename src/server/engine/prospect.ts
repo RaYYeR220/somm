@@ -23,7 +23,7 @@ export async function prospect(property: Property, categories: SponsorCategory[]
       ctx.emit("step", { key: `prospect:${category}`, label: `Prospecting ${label}`, status: "empty", detail: "no Qloo brand tag matched this category" });
       return { category, tags, candidates: [] };
     }
-    const { env, entry } = await qloo(ctx, "recommend", { target_type: "brand", signals, include_tags: tags, include_tags_operator: "union", limit: 10 });
+    const { env, entry } = await qloo(ctx, "recommend", { target_type: "brand", signals, signal_location: property.market, include_tags: tags, include_tags_operator: "union", limit: 10 });
     const candidates: Candidate[] = [];
     for (const item of parseEntities(env, "brand")) {
       const candidate = { ...item, ledgerId: entry?.id ?? "" };

@@ -62,10 +62,13 @@ function brandTagCandidates(results: unknown): TagCandidate[] {
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
-/** Best brand-scoped tag for a concept: exact name first, else the top-ranked brand tag. */
+/**
+ * Best brand-scoped tag for a concept: Qloo's brand genre taxonomy first (it gives the cleanest
+ * category lists), then an exact name match, then the top-ranked brand tag.
+ */
 function pickTag(query: string, candidates: TagCandidate[]): string | null {
   const scoped = candidates.filter((c) => c.parentTypes.includes("urn:entity:brand"));
-  return (scoped.find((c) => norm(c.name) === norm(query)) ?? scoped[0])?.id ?? null;
+  return (scoped.find((c) => c.id.startsWith("urn:tag:genre:brand:")) ?? scoped.find((c) => norm(c.name) === norm(query)) ?? scoped[0])?.id ?? null;
 }
 
 const memo = new Map<string, string | null>();

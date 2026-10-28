@@ -1,4 +1,4 @@
-// Runs the demo reports judges see on the landing page. Usage: npx tsx --env-file=.env.local scripts/seed.ts
+// Runs the demo reports judges see on the landing page. Usage: npx tsx --env-file=.env.local scripts/seed.mts
 import { getAgentDeps } from "@/server/agent/deps";
 import { startDiligence, type DiligenceInput } from "@/server/agent/diligence";
 import { startScout, type ScoutInput } from "@/server/agent/scout";

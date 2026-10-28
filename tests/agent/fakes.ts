@@ -1,6 +1,6 @@
 import type { Envelope, QlooOp } from "@/lib/types";
 import { createLlm } from "@/server/llm/client";
-import { demographicsResult, empty, entityResult, heatmapPoint, okList, trendSeries } from "../helpers";
+import { demographicsResult, empty, entityResult, heatmapPoint, isHeatmapCall, okList, trendSeries } from "../helpers";
 
 /** A small, consistent fake taste graph for orchestrator tests. */
 export function fakeQloo(op: QlooOp, input: Record<string, unknown>): Envelope {
@@ -24,10 +24,11 @@ export function fakeQloo(op: QlooOp, input: Record<string, unknown>): Envelope {
       return okList(op, [{ id: "urn:tag:keyword:startups", name: "Startups", affinity: 0.9 }]);
     case "audience_demographics":
       return okList(op, demographicsResult({ "24_and_younger": -0.15, "25_to_29": 0.35, "30_to_34": 0.3 }, { male: 0.2, female: -0.2 }));
-    case "where_popular":
-      return okList(op, [heatmapPoint("dr5ryb", 40.74, -73.87, 0.99), heatmapPoint("9q8yyk", 37.77, -122.42, 0.96)]);
+    case "insights_raw":
+      if (isHeatmapCall(op, input)) return okList(op, [heatmapPoint("dr5ryb", 40.74, -73.87, 0.99), heatmapPoint("9q8yyk", 37.77, -122.42, 0.96)]);
+      return empty(op);
     case "trends":
-      return { ...okList(op, []), series: [trendSeries("x", [70, 72, 75, 77])] };
+      return { ...okList(op, []), series: [trendSeries("x", [900, 880, 850, 830])] };
     case "recommend": {
       if (input.target_type === "brand") {
         const tag = String((input.include_tags as string[] | undefined)?.[0] ?? "any");

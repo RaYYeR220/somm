@@ -65,8 +65,8 @@ npm install
 cp .env.example .env.local   # fill in QLOO_API_KEY and LLM_* values
 npm run dev                  # http://localhost:3000
 npm test                     # unit and integration tests
-npx tsx --env-file=.env.local scripts/seed.ts   # build the example reports
-npx tsx --env-file=.env.local eval/run.ts       # run the sponsorship eval
+npx tsx --env-file=.env.local scripts/seed.mts   # build the example reports
+npx tsx --env-file=.env.local eval/run.mts       # run the sponsorship eval
 ```
 
 | Variable | Purpose |

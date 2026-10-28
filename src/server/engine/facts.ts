@@ -2,9 +2,9 @@ import ngeohash from "ngeohash";
 import { ENTITY_TYPES, type EntityRef, type Envelope, type QlooEntityType } from "@/lib/types";
 
 export type Demographics = { age: Record<string, number>; gender: Record<string, number> };
-export type HeatCell = { geohash: string; lat: number; lng: number; affinity: number };
+export type HeatCell = { geohash: string; lat: number; lng: number; affinity: number; rank?: number };
 export type ScoredEntity = { entity: EntityRef; affinity: number; popularity: number | null };
-export type TasteTag = { id: string; name: string; affinity: number | null };
+export type TasteTag = { id: string; name: string; affinity: number | null; type?: string };
 export type Momentum = { slope: number; points: { date: string; value: number }[] };
 
 const asRecord = (value: unknown): Record<string, unknown> | undefined =>
@@ -43,7 +43,7 @@ export function parseTags(env: Envelope): TasteTag[] {
     const id = record?.id ?? record?.tag_id;
     const name = record?.name;
     if (typeof id !== "string" || typeof name !== "string") return [];
-    return [{ id, name, affinity: num(record?.affinity) ?? num(asRecord(record?.query)?.affinity) }];
+    return [{ id, name, affinity: num(record?.affinity) ?? num(asRecord(record?.query)?.affinity), ...(typeof record?.type === "string" ? { type: record.type } : {}) }];
   });
 }
 
@@ -68,8 +68,9 @@ export function averageDemographics(items: Demographics[]): Demographics | null 
   return { age: mean((d) => d.age), gender: mean((d) => d.gender) };
 }
 
+/** Every heatmap cell, strongest first (ties broken by Qloo's affinity rank). */
 export function parseHeatmap(env: Envelope): HeatCell[] {
-  return list(env, "heatmap").flatMap((item) => {
+  const cells = list(env, "heatmap").flatMap((item): HeatCell[] => {
     const record = asRecord(item);
     const location = asRecord(record?.location) ?? record;
     const geohash = location?.geohash;
@@ -82,34 +83,38 @@ export function parseHeatmap(env: Envelope): HeatCell[] {
       lat = decoded.latitude;
       lng = decoded.longitude;
     }
-    return [{ geohash, lat, lng, affinity }];
+    const rank = num(asRecord(record?.query)?.affinity_rank);
+    return [{ geohash, lat, lng, affinity, ...(rank !== null ? { rank } : {}) }];
   });
+  return cells.sort((a, b) => b.affinity - a.affinity || (b.rank ?? 0) - (a.rank ?? 0));
 }
 
-/** Least-squares slope (percentile points per week) averaged over every returned series. */
+/**
+ * Momentum from Qloo's weekly popularity rank (lower rank = more popular): the relative rank
+ * improvement from the first to the last week, averaged over every returned series.
+ * Points carry the rank, oldest first.
+ */
 export function parseTrendSlope(env: Envelope): Momentum | null {
   const series = Array.isArray(env.series) ? env.series : [];
   const parsed = series.flatMap((s) => {
     const points = (Array.isArray(asRecord(s)?.points) ? (asRecord(s)!.points as unknown[]) : [])
       .flatMap((p) => {
         const record = asRecord(p);
-        const value = num(record?.population_percentile);
-        return typeof record?.date === "string" && value !== null ? [{ date: record.date, value }] : [];
+        const rank = Number(record?.population_rank);
+        return typeof record?.date === "string" && Number.isFinite(rank) && rank > 0 ? [{ date: record.date, value: rank }] : [];
       })
       .sort((a, b) => a.date.localeCompare(b.date));
     return points.length >= 2 ? [points] : [];
   });
   if (parsed.length === 0) return null;
-  const slopes = parsed.map((points) => {
-    const n = points.length;
-    const xs = points.map((_, i) => i);
-    const meanX = xs.reduce((a, b) => a + b, 0) / n;
-    const meanY = points.reduce((a, p) => a + p.value, 0) / n;
-    const cov = points.reduce((a, p, i) => a + (i - meanX) * (p.value - meanY), 0);
-    const varX = xs.reduce((a, x) => a + (x - meanX) ** 2, 0);
-    return varX === 0 ? 0 : cov / varX;
-  });
-  return { slope: slopes.reduce((a, b) => a + b, 0) / slopes.length, points: parsed[0] };
+  const changes = parsed.map((points) => (points[0].value - points[points.length - 1].value) / points[0].value);
+  return { slope: changes.reduce((a, b) => a + b, 0) / changes.length, points: parsed[0] };
+}
+
+/** Tag types that describe venues (price band, accepted cards, star rating) rather than taste. */
+export function isTasteTag(tag: { id: string; type?: string | null }): boolean {
+  const type = tag.type ?? tag.id;
+  return !/:place$|credit_card|cost_description|hotel_rating|inclusivity|specialty_dish|amenity/.test(type);
 }
 
 export const AGE_LABELS: Record<string, string> = {

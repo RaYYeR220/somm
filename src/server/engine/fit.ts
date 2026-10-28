@@ -1,7 +1,7 @@
 import { FIT_COMPONENTS, type EntityRef, type FitComponent, type FitResult, type SponsorCategory, type Verdict } from "@/lib/types";
 import { qloo, type EngineContext } from "./context";
 import { parseDemographics, parseEntities, parseHeatmap, type Demographics, type HeatCell } from "./facts";
-import type { Fingerprint } from "./fingerprint";
+import { heatmapQuery, type Fingerprint } from "./fingerprint";
 
 export const WEIGHTS: Record<FitComponent, number> = {
   affinity: 0.35,
@@ -82,9 +82,9 @@ export function geoOverlap(a: HeatCell[], b: HeatCell[]): number {
   return max === 0 ? 0 : min / max;
 }
 
-/** Slope is percentile points per week; ±1.25 pt/week spans the full scale. */
+/** Slope is the relative popularity-rank improvement; ±20% spans the full scale, flat is 50. */
 export function momentumScore(slope: number): number {
-  return Math.round(clamp(50 + slope * 40));
+  return Math.round(clamp(50 + slope * 250));
 }
 
 export type RankEvidence = { value: number; min: number; max: number; position: number; of: number; ledgerId: string };
@@ -114,9 +114,9 @@ export async function scoreFit({ fp, brand, category, rank }: FitInput, ctx: Eng
 
   const sameType = property.entities.filter((e) => e.type === lead.type).slice(0, 10);
   const [reciprocal, brandDemo, brandGeo] = await Promise.all([
-    qloo(ctx, "rank", { options: sameType.map((e) => e.id), option_type: lead.type, signals: [brand.id] }),
+    qloo(ctx, "rank", { options: sameType.map((e) => e.id), option_type: lead.type, signals: [brand.id], signal_location: property.market }),
     qloo(ctx, "audience_demographics", { entity: brand.id, entity_type: "brand" }),
-    qloo(ctx, "where_popular", { entity: brand.id, entity_type: "brand", within: property.market, limit: 20 }),
+    qloo(ctx, "insights_raw", heatmapQuery(brand.id, property.market)),
   ]);
 
   const back = parseEntities(reciprocal.env, lead.type);
@@ -163,7 +163,7 @@ export async function scoreFit({ fp, brand, category, rank }: FitInput, ctx: Eng
 
   if (fp.momentum) {
     components.momentum.score = momentumScore(fp.momentum.slope);
-    const trendFact = fp.facts.find((f) => f.label.startsWith("90-day popularity"));
+    const trendFact = fp.facts.find((f) => f.label.startsWith("Popularity rank trend"));
     if (trendFact) components.momentum.facts.push(trendFact.id);
     else components.momentum.facts.push(ctx.facts.add({ ledgerIds: [], label: "90-day momentum", value: components.momentum.score, display: `momentum ${components.momentum.score}/100` }).id);
   }

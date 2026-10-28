@@ -1,4 +1,4 @@
-// Usage: npx tsx --env-file=.env.local eval/run.ts
+// Usage: npx tsx --env-file=.env.local eval/run.mts
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { getAgentDeps } from "@/server/agent/deps";

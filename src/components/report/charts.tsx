@@ -51,7 +51,7 @@ export function AgeChart({ age, gender }: { age: Record<string, number>; gender:
   );
 }
 
-/** 90-day popularity percentile with a hover readout. */
+/** Weekly popularity rank (lower is better, so the axis is flipped) with a hover readout. */
 export function Sparkline({ points }: { points: { date: string; value: number }[] }) {
   const [hover, setHover] = useState<number | null>(null);
   if (points.length < 2) return null;
@@ -61,7 +61,7 @@ export function Sparkline({ points }: { points: { date: string; value: number }[
   const lo = Math.min(...values) - 0.5;
   const hi = Math.max(...values) + 0.5;
   const x = (i: number) => (i / (points.length - 1)) * (w - 8) + 4;
-  const y = (v: number) => h - 6 - ((v - lo) / (hi - lo)) * (h - 12);
+  const y = (v: number) => 6 + ((v - lo) / (hi - lo)) * (h - 12);
   const d = points.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p.value).toFixed(1)}`).join(" ");
   const shown = hover ?? points.length - 1;
   return (
@@ -75,14 +75,14 @@ export function Sparkline({ points }: { points: { date: string; value: number }[
         }}
         onPointerLeave={() => setHover(null)}
         role="img"
-        aria-label={`Popularity percentile from ${values[0].toFixed(1)} to ${values[values.length - 1].toFixed(1)} over 90 days`}
+        aria-label={`Popularity rank from ${values[0]} to ${values[values.length - 1]}`}
       >
         <path d={d} fill="none" stroke="var(--data-warm)" strokeWidth="2" strokeLinejoin="round" />
         {hover !== null && hover >= 0 && hover < points.length && <line x1={x(hover)} x2={x(hover)} y1="0" y2={h} stroke="var(--line-strong)" />}
         <circle cx={x(Math.min(Math.max(shown, 0), points.length - 1))} cy={y(points[Math.min(Math.max(shown, 0), points.length - 1)].value)} r="4" fill="var(--data-warm)" stroke="var(--raised)" strokeWidth="2" />
       </svg>
       <p className="tabular text-sm text-ash">
-        {points[Math.min(Math.max(shown, 0), points.length - 1)].date}: percentile {points[Math.min(Math.max(shown, 0), points.length - 1)].value.toFixed(1)}
+        {points[Math.min(Math.max(shown, 0), points.length - 1)].date}: popularity rank #{points[Math.min(Math.max(shown, 0), points.length - 1)].value.toLocaleString("en-US")}
       </p>
     </div>
   );

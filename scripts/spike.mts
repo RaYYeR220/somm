@@ -1,4 +1,4 @@
-// Live check of the Qloo data Somm depends on. Usage: npx tsx --env-file=.env.local scripts/spike.ts
+// Live check of the Qloo data Somm depends on. Usage: npx tsx --env-file=.env.local scripts/spike.mts
 // Writes raw envelopes to fixtures/qloo/ (gitignored) and prints their shapes.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { getAgentDeps } from "@/server/agent/deps";

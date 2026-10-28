@@ -7,6 +7,7 @@ import {
   empty,
   entityResult,
   heatmapPoint,
+  isHeatmapCall,
   okList,
   sampleProperty,
   scriptedGateway,
@@ -20,10 +21,10 @@ function fullAnswer(op: QlooOp, input: Record<string, unknown>): Envelope {
       return okList(op, [{ id: "urn:tag:keyword:startups", name: "Startups", affinity: 0.9 }]);
     case "audience_demographics":
       return okList(op, demographicsResult({ "24_and_younger": -0.1, "25_to_29": 0.4, "30_to_34": 0.3 }, { male: 0.2, female: -0.2 }));
-    case "where_popular":
-      return okList(op, [heatmapPoint("dr5ryb", 40.74, -73.87, 0.99), heatmapPoint("9q8yyk", 37.77, -122.42, 0.97)]);
+    case "insights_raw":
+      return isHeatmapCall(op, input) ? okList(op, [heatmapPoint("dr5ryb", 40.74, -73.87, 0.99), heatmapPoint("9q8yyk", 37.77, -122.42, 0.97)]) : empty(op);
     case "trends":
-      return { ...okList(op, []), series: [trendSeries("pod-1", [80, 82, 84, 86])] };
+      return { ...okList(op, []), series: [trendSeries("pod-1", [900, 860, 820, 800])] };
     case "recommend":
       return okList(op, [
         entityResult("pod-1", "Founders Weekly", String(input.target_type), 0.99),
@@ -41,7 +42,7 @@ describe("buildFingerprint", () => {
     const ctx = testContext(gw);
     await buildFingerprint(sampleProperty(), ctx);
     expect(ctx.ledger.all()).toHaveLength(calls.length);
-    expect(calls.map((c) => c.op)).toEqual(expect.arrayContaining(["entity_tags", "audience_demographics", "where_popular", "trends", "recommend"]));
+    expect(calls.map((c) => c.op)).toEqual(expect.arrayContaining(["entity_tags", "audience_demographics", "insights_raw", "trends", "recommend"]));
   });
 
   it("drops the property's own entities from cross-domain results and backs each with a fact", async () => {
@@ -97,12 +98,17 @@ describe("parsers", () => {
     expect(parsed).toEqual({ age: { "24_and_younger": 0.3 }, gender: { female: 0.1 } });
   });
 
-  it("momentum slope is positive for a rising series and negative for a falling one", () => {
-    const rising = parseTrendSlope({ operation: "trends", status: "ok", series: [trendSeries("x", [10, 20, 30])] });
-    const falling = parseTrendSlope({ operation: "trends", status: "ok", series: [trendSeries("x", [30, 20, 10])] });
+  it("momentum is positive when the popularity rank improves and negative when it slips", () => {
+    const rising = parseTrendSlope({ operation: "trends", status: "ok", series: [trendSeries("x", [300, 200, 100])] });
+    const falling = parseTrendSlope({ operation: "trends", status: "ok", series: [trendSeries("x", [100, 200, 300])] });
     expect(rising?.slope).toBeGreaterThan(0);
     expect(falling?.slope).toBeLessThan(0);
     expect(rising!.points[0].date < rising!.points[2].date).toBe(true);
+    expect(rising!.points.map((p) => p.value)).toEqual([300, 200, 100]);
+  });
+
+  it("a flat rank series has zero momentum", () => {
+    expect(parseTrendSlope({ operation: "trends", status: "ok", series: [trendSeries("x", [4739, 4739, 4739])] })?.slope).toBe(0);
   });
 });
 
@@ -125,5 +131,43 @@ describe("per-entity demographics", () => {
       ["a", -0.2],
       ["b", 0.5],
     ]);
+  });
+});
+
+describe("live-data adjustments", () => {
+  it("biases every recommendation to the property's market and keeps places local", async () => {
+    const { gw, calls } = scriptedGateway(fullAnswer);
+    await buildFingerprint(sampleProperty({ market: "United States" }), testContext(gw));
+    const recs = calls.filter((c) => c.op === "recommend");
+    expect(recs.length).toBeGreaterThan(0);
+    for (const r of recs) {
+      if (r.input.target_type === "place") expect(r.input.filter_location).toBe("United States");
+      else expect(r.input.signal_location).toBe("United States");
+    }
+  });
+
+  it("drops venue-only tags such as price bands and accepted cards", async () => {
+    const { gw } = scriptedGateway((op, input) =>
+      op === "entity_tags"
+        ? okList(op, [
+            { id: "urn:tag:cost_description:place:inexpensive", name: "Inexpensive", type: "urn:tag:cost_description:place", affinity: 0.9 },
+            { id: "urn:tag:credit_card:place:visa", name: "VISA", type: "urn:tag:credit_card:place", affinity: 0.9 },
+            { id: "urn:tag:target_audience:qloo:entrepreneurs", name: "Entrepreneurs", type: "urn:tag:target_audience:qloo", affinity: 0.8 },
+          ])
+        : fullAnswer(op, input),
+    );
+    const fp = await buildFingerprint(sampleProperty(), testContext(gw));
+    expect(fp.tags.map((t) => t.name)).toEqual(["Entrepreneurs"]);
+  });
+
+  it("reads the whole heatmap and orders tied cells by affinity rank", () => {
+    const cells = parseHeatmap(
+      okList("insights_raw", [
+        { location: { latitude: 1, longitude: 1, geohash: "aaaa" }, query: { affinity: 1, affinity_rank: 0.7 } },
+        { location: { latitude: 2, longitude: 2, geohash: "bbbb" }, query: { affinity: 1, affinity_rank: 0.9 } },
+        { location: { latitude: 3, longitude: 3, geohash: "cccc" }, query: { affinity: 0.2, affinity_rank: 0.1 } },
+      ]),
+    );
+    expect(cells.map((c) => c.geohash)).toEqual(["bbbb", "aaaa", "cccc"]);
   });
 });
