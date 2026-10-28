@@ -12,6 +12,13 @@ export const dynamic = "force-dynamic";
 
 type EvalSummary = { status: string; summary?: { mean: Record<string, number | null>; traps: { passed: number; total: number } } };
 
+/** First sentence of a gate reason, without the bracketed figures; a decimal point is not a sentence end. */
+function stampReason(reason: string | undefined): string {
+  if (!reason) return "gate";
+  const first = reason.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? reason;
+  return first.replace(/\s*\([^)]*\)/g, "").replace(/[.!?]$/, "");
+}
+
 function stampsFrom(runs: RunRecord[]): StampLine[] {
   const lines: StampLine[] = [];
   for (const run of runs) {
@@ -21,7 +28,7 @@ function stampsFrom(runs: RunRecord[]): StampLine[] {
       const pick = r.fits.find((f) => f.verdict === "PURSUE");
       const block = r.fits.find((f) => f.verdict === "BLOCKED");
       if (pick) lines.push({ verdict: "PURSUE", line: `${pick.brand.name} for ${r.property.name}, fit ${pick.score}` });
-      if (block) lines.push({ verdict: "BLOCKED", line: `${block.brand.name} for ${r.property.name}: ${block.reasons[0]?.split(".")[0] ?? "gate"}` });
+      if (block) lines.push({ verdict: "BLOCKED", line: `${block.brand.name} for ${r.property.name}: ${stampReason(block.reasons[0])}` });
     } else {
       const r = run.result as DiligenceResult | null;
       for (const o of r?.offers ?? []) {
