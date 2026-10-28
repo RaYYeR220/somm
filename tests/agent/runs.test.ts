@@ -50,6 +50,11 @@ describe("scout run", () => {
     expect(result.pitches[0].check.segments.length).toBeGreaterThan(0);
     expect(result.baseline.brands[0].name).toBe("Red Bull");
     expect(result.plan.categories).toEqual(["energy_drink", "coffee", "auto"]);
+    // Step details are written for people: category labels, not ids; singular when it's one.
+    const detail = (key: string) => (events.find((e) => e.kind === "step" && (e.payload as { key: string; status: string }).key === key && (e.payload as { status: string }).status === "done")?.payload as { detail?: string })?.detail;
+    expect(detail("plan")).toBe("Energy drinks, Coffee, Automotive");
+    expect(detail("pitch")).toMatch(/^\d+ unsupported claims? struck$/);
+    expect(detail("pitch")).not.toBe("1 unsupported claims struck");
   });
 
   it("pauses on an ambiguous entity and resumes with the chosen candidate", async () => {

@@ -62,6 +62,8 @@ export type ScoutResult = {
   stats: { qlooCalls: number; cached: number; durationMs: number };
 };
 
+const categoryLabels = (ids: string[]) => ids.map((id) => categoryById(id)?.label ?? id).join(", ");
+
 const DEFAULT_CATEGORIES: Record<Property["kind"], SponsorCategory[]> = {
   podcast: ["software_b2b", "fintech_bank", "wellness_supplements", "consumer_tech", "coffee", "apparel"],
   creator: ["beauty", "apparel", "consumer_tech", "food_cpg", "streaming_media", "qsr"],
@@ -196,9 +198,9 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
   // 3. Which categories are worth prospecting?
   let plan: ScoutResult["plan"] = { categories: input.categories?.length ? input.categories : DEFAULT_CATEGORIES[property.kind], why: "", source: "default" };
   if (!input.categories?.length && deps.llm.ready) {
-    const planned = await run.step({ key: "plan", label: "Choosing sponsor categories" }, () => planCategories(deps.llm, fp), (p) => p.categories.join(", "));
+    const planned = await run.step({ key: "plan", label: "Choosing sponsor categories" }, () => planCategories(deps.llm, fp), (p) => categoryLabels(p.categories));
     if (planned) plan = { categories: planned.categories, why: planned.why, source: "planner" };
-  } else run.note({ key: "plan", label: "Choosing sponsor categories" }, "done", plan.categories.join(", "));
+  } else run.note({ key: "plan", label: "Choosing sponsor categories" }, "done", categoryLabels(plan.categories));
 
   // 4. Which brands do these fans already over-index for?
   const prospects = (await run.step({ key: "prospect", label: "Prospecting brands per category" }, () => prospect(property, plan.categories, ctx))) ?? ({ categories: [], existingPartners: [] } as ProspectResult);
@@ -252,7 +254,10 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
         pitches.push({ brand: fit.brand, category: fit.category, verdict: fit.verdict, markdown, check: checkClaims(markdown, facts, allowedNames(fp, fit.brand, fit.category), { describeLedger: describeLedger(ledger) }) });
       });
       return pitches;
-    }, (p) => `${p.reduce((n, x) => n + x.check.struckCount, 0)} unsupported claims struck`);
+    }, (p) => {
+      const struck = p.reduce((n, x) => n + x.check.struckCount, 0);
+      return `${struck} unsupported claim${struck === 1 ? "" : "s"} struck`;
+    });
     await run.step({ key: "activation", label: "Drafting activation ideas" }, async () => {
       await mapLimit(contenders.slice(0, 3), 3, async (fit) => {
         const facts = pitchFacts(fp, fit, ctx.facts.all());

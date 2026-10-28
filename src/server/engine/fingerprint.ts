@@ -129,7 +129,7 @@ export async function buildFingerprint(
     const { env, entry } = await qloo(ctx, "insights_raw", heatmapQuery(lead.id, property.market));
     heatmapLedgerId = entry?.id;
     const cells = parseHeatmap(env);
-    step(ctx, geoStep, cells.length ? "done" : "empty", `${cells.length} cells`);
+    step(ctx, geoStep, cells.length ? "done" : "empty", `${cells.length.toLocaleString("en-US")} cells`);
     return cells;
   })();
 

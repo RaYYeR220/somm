@@ -115,24 +115,27 @@ export function RunConsole({
         )}
         {error && <p className="mt-6 rounded-sm border border-signal/60 bg-[var(--signal-wash)] p-3 text-sm text-bone">{error}</p>}
       </div>
-      <div className="rounded-sm border border-line bg-well p-5 sm:p-6">
+      <div className="flex flex-col rounded-sm border border-line bg-well p-5 sm:p-6">
         <div className="mb-4 flex items-baseline justify-between">
           <h3 className="font-semibold">Qloo requests</h3>
           <span className="tabular text-sm text-ash">{receipts.length}</span>
         </div>
-        <ol className="max-h-[420px] space-y-1 overflow-y-auto font-mono text-[12px] leading-5 [scrollbar-width:thin]">
-          {receipts
-            .slice()
-            .reverse()
-            .map((r) => (
-              <li key={r.id} className="grid grid-cols-[38px_1fr_auto] gap-2 text-ash">
-                <span className="text-ember-hi">{r.id}</span>
-                <span className="truncate">{OP_SHORT[r.op] ?? r.op}</span>
-                <span className={r.status === "ok" ? "text-smoke" : "text-sand"}>{r.transport === "cache" ? "cached" : r.status}</span>
-              </li>
-            ))}
-          {receipts.length === 0 && <li className="text-smoke">No requests yet.</li>}
-        </ol>
+        {/* Fills the panel as the step list grows, and scrolls instead of stretching it. */}
+        <div className="relative min-h-[420px] flex-1">
+          <ol className="absolute inset-0 space-y-1 overflow-y-auto pr-2 font-mono text-[12px] leading-5 [scrollbar-width:thin]">
+            {receipts
+              .slice()
+              .reverse()
+              .map((r) => (
+                <li key={r.id} className="grid grid-cols-[38px_1fr_auto] gap-2 text-ash">
+                  <span className="text-ember-hi">{r.id}</span>
+                  <span className="truncate">{OP_SHORT[r.op] ?? r.op}</span>
+                  <span className={r.status === "ok" ? "text-smoke" : "text-sand"}>{r.transport === "cache" ? "cached" : r.status}</span>
+                </li>
+              ))}
+            {receipts.length === 0 && <li className="text-smoke">No requests yet.</li>}
+          </ol>
+        </div>
       </div>
     </section>
   );
