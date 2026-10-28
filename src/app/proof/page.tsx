@@ -36,6 +36,19 @@ export default function ProofPage() {
         A fit score is only worth something if it agrees with what brands actually do. We gathered 202 real sponsorships, each with a public source, across 9 podcasts, 8 festivals and 7 teams, plus 122 brands in the same categories that did not sponsor them. We wrote the method down and hashed the answer key before the first run.
       </p>
 
+      <section className="mt-12 rounded-sm border border-ember/50 bg-[var(--ember-wash)] p-6 sm:p-8">
+        <h2 className="display text-3xl">What we found</h2>
+        <p className="mt-4 max-w-3xl text-bone">
+          The brands that actually sponsor these 24 properties are no better matched to their fans, by Qloo&apos;s taste data, than same-category brands that don&apos;t. Somm&apos;s Fit Score separates them at chance level, and so does Qloo affinity on its own. A language model with no taste data does better, mostly on deals that were widely announced: it is remembering the status quo, not judging fit.
+        </p>
+        <p className="mt-3 max-w-3xl text-ash">
+          Somm doesn&apos;t predict who already signed, and we don&apos;t claim it does. It shows which brands a property&apos;s fans over-index for, with a receipt for every number. The test says today&apos;s sponsorship money mostly isn&apos;t following that signal.
+        </p>
+        <p className="mt-3 max-w-3xl text-sm text-ash">
+          This is run 2. Run 1 had a bug that the negative control caught: a market location signal that drowned out each audience. We fixed it and ran again, and say so in the registration. Both runs are in the repository.
+        </p>
+      </section>
+
       <section className="mt-14">
         <h2 className="display mb-6 text-4xl">Results</h2>
         {!done ? (

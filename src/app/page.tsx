@@ -137,20 +137,20 @@ export default function Home() {
         <div>
           <h2 className="display text-[clamp(32px,4vw,56px)]">Checked against real deals</h2>
           <p className="mt-5 max-w-xl text-ash">
-            We collected 202 real, sourced sponsorships across 24 podcasts, festivals and teams, registered the test before running it, and checked whether the brands that actually signed score above ones that didn&apos;t.
+            We tested Somm on 202 real sponsorships across 24 podcasts, festivals and teams, with the method fixed before the first run. What we found: today&apos;s sponsors are no better matched to their fans than brands in the same category that didn&apos;t sign. Sponsorship money isn&apos;t following taste yet.
           </p>
           <ButtonLink href="/proof" tone="quiet" className="mt-6">
-            Read the results, including where it falls short
+            Read the results, including what Somm can&apos;t do
           </ButtonLink>
         </div>
         <dl className="grid grid-cols-2 gap-px self-start border border-line bg-line">
           <div className="bg-ground p-6">
-            <dt className="text-sm text-ash">Somm fit, mean AUC</dt>
-            <dd className="display mt-2 text-5xl tabular">{ev.summary?.mean.somm != null ? ev.summary.mean.somm.toFixed(2) : "soon"}</dd>
+            <dt className="text-sm text-ash">Real sponsorships checked</dt>
+            <dd className="display mt-2 text-5xl tabular">202</dd>
           </div>
           <div className="bg-ground p-6">
-            <dt className="text-sm text-ash">Popularity alone</dt>
-            <dd className="display mt-2 text-5xl tabular text-ash">{ev.summary?.mean.popularity != null ? ev.summary.mean.popularity.toFixed(2) : "soon"}</dd>
+            <dt className="text-sm text-ash">Today&apos;s sponsors vs fan fit, AUC (0.5 is a coin flip)</dt>
+            <dd className="display mt-2 text-5xl tabular text-ash">{ev.summary?.mean.somm != null ? ev.summary.mean.somm.toFixed(2) : "soon"}</dd>
           </div>
           <div className="bg-ground p-6">
             <dt className="text-sm text-ash">Gate traps caught</dt>
