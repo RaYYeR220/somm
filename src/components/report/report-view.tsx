@@ -40,5 +40,5 @@ export function ReportView({ initial }: { initial: RunSnapshot }) {
       </div>
     );
   }
-  return <RunConsole title={initial.title} steps={live.steps} receipts={live.receipts} choices={live.choices} status={live.status} error={live.error} onChoose={live.choose} />;
+  return <RunConsole title={initial.title} steps={live.steps} receipts={live.receipts} choices={live.choices} status={live.status} error={live.error} onAnswer={live.answer} />;
 }

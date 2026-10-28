@@ -67,7 +67,9 @@ const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0
 const KitInput = z.object({ runId: z.string().min(1), title: z.string().min(1).max(120) });
 const IntroInput = z.object({ brandName: z.string().min(1).max(120), contact: z.string().min(3).max(200), note: z.string().max(1000).default("") });
 const DealPatch = z.object({ id: z.string().min(1), status: z.enum(["new", "talking", "won", "lost"]) });
-const ResumeInput = z.object({ input: z.string().min(1), entityId: z.string().min(1) });
+const Answer = z.object({ input: z.string().min(1), entityId: z.string().min(1) });
+// One answer, or every open question answered at once.
+const ResumeInput = z.union([Answer, z.object({ answers: z.array(Answer).min(1).max(20) }).transform((b) => b.answers)]);
 const ChatInput = z.object({ runId: z.string().min(1), messages: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().min(1).max(4000) })).min(1).max(20) });
 
 export function createApi(deps: AgentDeps, options: ApiOptions) {

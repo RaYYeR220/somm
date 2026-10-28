@@ -24,41 +24,54 @@ const OP_SHORT: Record<string, string> = {
   compare_audiences: "compare audiences",
 };
 
-function ChoicePicker({ choice, onChoose }: { choice: ChoiceView; onChoose: (input: string, id: string) => Promise<void> }) {
-  const [busy, setBusy] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+function ChoicePicker({ choice, picked, onPick, last }: { choice: ChoiceView; picked?: string; onPick: (id: string) => void; last: boolean }) {
   return (
     <div className="rounded-sm border border-ember/60 bg-[var(--ember-wash)] p-4">
       <p className="font-semibold text-bone">Which &ldquo;{choice.input}&rdquo; did you mean?</p>
-      <p className="mt-1 text-sm text-ash">Qloo has more than one {choice.type.replace("_", " ")} with this name. Pick one and Somm carries on.</p>
+      <p className="mt-1 text-sm text-ash">
+        Qloo has more than one {choice.type.replace("_", " ")} with this name. {last ? "Pick one and Somm carries on." : "Pick one here and in the other questions, then Somm carries on."}
+      </p>
       <ul className="mt-3 space-y-2">
         {choice.candidates.map((c) => (
           <li key={c.id}>
             <button
               type="button"
-              disabled={busy !== null}
-              onClick={async () => {
-                setBusy(c.id);
-                setError(null);
-                try {
-                  await onChoose(choice.input, c.id);
-                } catch (e) {
-                  setError(e instanceof Error ? e.message : "Could not continue the run.");
-                  setBusy(null);
-                }
-              }}
-              className="flex w-full items-center justify-between gap-4 rounded-sm border border-line-strong bg-well px-3 py-2 text-left hover:border-ember disabled:opacity-60"
+              aria-pressed={picked === c.id}
+              onClick={() => onPick(c.id)}
+              className={cx(
+                "flex w-full items-center justify-between gap-4 rounded-sm border bg-well px-3 py-2 text-left hover:border-ember",
+                picked === c.id ? "border-ember" : "border-line-strong",
+              )}
             >
               <span>
                 <span className="text-bone">{c.name}</span>
                 {c.detail && <span className="ml-2 text-sm text-ash">{c.detail}</span>}
               </span>
-              <span className="text-xs text-smoke tabular">{busy === c.id ? "Continuing…" : c.popularity !== null ? `popularity ${(c.popularity * 100).toFixed(0)}` : ""}</span>
+              <span className="text-xs text-smoke tabular">{picked === c.id ? "Picked" : c.popularity !== null ? `popularity ${(c.popularity * 100).toFixed(0)}` : ""}</span>
             </button>
           </li>
         ))}
       </ul>
-      {error && <p className="mt-2 text-sm text-signal">{error}</p>}
+    </div>
+  );
+}
+
+/** Collects one pick per open question and sends them together once every question is answered. */
+function Questions({ choices, onAnswer }: { choices: ChoiceView[]; onAnswer: (answers: { input: string; entityId: string }[], open: ChoiceView[]) => Promise<void> }) {
+  const [picks, setPicks] = useState<Record<string, string>>({});
+  const pick = (input: string, id: string) => {
+    const next = { ...picks, [input]: id };
+    if (choices.every((c) => next[c.input])) {
+      setPicks({});
+      void onAnswer(choices.map((c) => ({ input: c.input, entityId: next[c.input] })), choices);
+    } else setPicks(next);
+  };
+  const remaining = choices.filter((c) => !picks[c.input]).length;
+  return (
+    <div className="mt-6 space-y-4">
+      {choices.map((c) => (
+        <ChoicePicker key={c.input} choice={c} picked={picks[c.input]} onPick={(id) => pick(c.input, id)} last={remaining === 1 && !picks[c.input]} />
+      ))}
     </div>
   );
 }
@@ -71,7 +84,7 @@ export function RunConsole({
   choices,
   status,
   error,
-  onChoose,
+  onAnswer,
 }: {
   title: string;
   steps: StepView[];
@@ -79,7 +92,7 @@ export function RunConsole({
   choices: ChoiceView[];
   status: string;
   error?: string;
-  onChoose: (input: string, id: string) => Promise<void>;
+  onAnswer: (answers: { input: string; entityId: string }[], open: ChoiceView[]) => Promise<void>;
 }) {
   const visible = steps.filter((s) => s.key !== "budget" || s.status === "error");
   return (
@@ -106,13 +119,7 @@ export function RunConsole({
           })}
           {visible.length === 0 && <li className="text-ash">Connecting to the run…</li>}
         </ol>
-        {choices.length > 0 && status === "paused" && (
-          <div className="mt-6 space-y-4">
-            {choices.map((c) => (
-              <ChoicePicker key={c.input} choice={c} onChoose={onChoose} />
-            ))}
-          </div>
-        )}
+        {choices.length > 0 && status === "paused" && <Questions key={choices.map((c) => c.input).join("|")} choices={choices} onAnswer={onAnswer} />}
         {error && <p className="mt-6 rounded-sm border border-signal/60 bg-[var(--signal-wash)] p-3 text-sm text-bone">{error}</p>}
       </div>
       <div className="flex flex-col rounded-sm border border-line bg-well p-5 sm:p-6">

@@ -84,12 +84,16 @@ export async function startScout(raw: ScoutInput, deps: AgentDeps): Promise<{ ru
   return { runId, done: executeRun(runId, deps, (run) => scoutPipeline(runId, state, deps, run)) };
 }
 
-export async function resumeScout(runId: string, choice: { input: string; entityId: string }, deps: AgentDeps) {
+type Choice = { input: string; entityId: string };
+
+/** Answers one or more of the run's questions at once and carries on. */
+export async function resumeScout(runId: string, answer: Choice | Choice[], deps: AgentDeps) {
   const record = deps.store.get(runId);
   if (!record || record.kind !== "scout") throw new Error("No such scout run.");
   if (record.status !== "paused") throw new Error("This run is not waiting for input.");
   const state = record.input as ScoutState;
-  state.choices = { ...state.choices, [choice.input]: choice.entityId };
+  const answers = Array.isArray(answer) ? answer : [answer];
+  state.choices = { ...state.choices, ...Object.fromEntries(answers.map((a) => [a.input, a.entityId])) };
   deps.store.update(runId, { status: "running", input: state });
   return { runId, done: executeRun(runId, deps, (run) => scoutPipeline(runId, state, deps, run)) };
 }

@@ -110,3 +110,15 @@ describe("public MCP endpoint", () => {
     await client.close();
   });
 });
+
+describe("answering a paused run", () => {
+  it("accepts every answer in one request", async () => {
+    const { api, deps } = setup();
+    const res = await api.postScout(post("/api/scout", { property: { kind: "artist", name: "Phoenix", market: "United States", entities: [{ name: "Phoenix", type: "artist" }] } }));
+    const { runId } = (await res.json()) as { runId: string };
+    for (let i = 0; i < 50 && deps.store.get(runId)!.status !== "paused"; i++) await new Promise((r) => setTimeout(r, 20));
+    expect(deps.store.get(runId)!.status).toBe("paused");
+    const resumed = await api.resume(runId, post(`/api/runs/${runId}/resume`, { answers: [{ input: "Phoenix", entityId: "art-phoenix" }] }));
+    expect(resumed.status).toBe(202);
+  });
+});

@@ -23,11 +23,13 @@ type Action =
   | { type: "done"; status: RunState["status"]; degraded: string[] }
   | { type: "result"; result: unknown; status: RunState["status"] }
   | { type: "error"; error: string }
-  | { type: "resumed" };
+  // Applied before the answer is sent, so a question the server asks right after isn't wiped by a late reply.
+  | { type: "resuming" }
+  | { type: "resume_failed"; choices: ChoiceView[]; error: string };
 
 const initial: RunState = { status: "connecting", steps: [], receipts: [], choices: [], result: null, degraded: [] };
 
-function reducer(state: RunState, action: Action): RunState {
+export function runReducer(state: RunState, action: Action): RunState {
   switch (action.type) {
     case "step": {
       const steps = state.steps.filter((s) => s.key !== action.step.key);
@@ -44,8 +46,10 @@ function reducer(state: RunState, action: Action): RunState {
       return { ...state, result: action.result, status: action.status };
     case "error":
       return { ...state, error: action.error };
-    case "resumed":
+    case "resuming":
       return { ...state, status: "running", choices: [], error: undefined };
+    case "resume_failed":
+      return { ...state, status: "paused", choices: action.choices, error: action.error };
   }
 }
 
@@ -57,7 +61,7 @@ async function fetchRun(runId: string) {
 
 /** Live view of one run: replays its event log, then streams new events until it finishes. */
 export function useRun(runId: string | null) {
-  const [state, dispatch] = useReducer(reducer, initial);
+  const [state, dispatch] = useReducer(runReducer, initial);
 
   useEffect(() => {
     if (!runId) return;
@@ -96,15 +100,20 @@ export function useRun(runId: string | null) {
     };
   }, [runId]);
 
-  const choose = useCallback(
-    async (input: string, entityId: string) => {
+  /** Sends the answers to every open question in one go; `open` comes back if the run can't take them. */
+  const answer = useCallback(
+    async (answers: { input: string; entityId: string }[], open: ChoiceView[]) => {
       if (!runId) return;
-      const response = await fetch(`/api/runs/${runId}/resume`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ input, entityId }) });
-      if (!response.ok) throw new Error((await response.json().catch(() => ({})))?.error ?? "Could not resume");
-      dispatch({ type: "resumed" });
+      dispatch({ type: "resuming" });
+      try {
+        const response = await fetch(`/api/runs/${runId}/resume`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ answers }) });
+        if (!response.ok) throw new Error((await response.json().catch(() => ({})))?.error ?? "Could not continue the run.");
+      } catch (error) {
+        dispatch({ type: "resume_failed", choices: open, error: error instanceof Error ? error.message : "Could not continue the run." });
+      }
     },
     [runId],
   );
 
-  return { ...state, choose };
+  return { ...state, answer };
 }

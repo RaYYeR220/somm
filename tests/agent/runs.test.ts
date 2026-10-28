@@ -8,7 +8,7 @@ import { createRunStore } from "@/server/agent/run-store";
 import { startDiligence, type DiligenceResult } from "@/server/agent/diligence";
 import { resumeScout, startScout, type ScoutResult } from "@/server/agent/scout";
 import type { AgentDeps } from "@/server/agent/deps";
-import { scriptedGateway } from "../helpers";
+import { okList, scriptedGateway } from "../helpers";
 import { fakeLlm, fakeQloo } from "./fakes";
 
 function deps(overrides: Partial<AgentDeps> = {}) {
@@ -73,6 +73,26 @@ describe("scout run", () => {
     const run = d.store.get(runId)!;
     expect(run.status).toBe("done");
     expect((run.result as ScoutResult).property.entities[0].id).toBe("art-phoenix");
+  });
+
+  it("takes answers to several questions in one resume", async () => {
+    const twoAmbiguous = (op: Parameters<typeof fakeQloo>[0], input: Record<string, unknown>) =>
+      op === "search" && input.query === "Justice"
+        ? okList(op, [
+            { entity_id: "art-justice", name: "Justice", types: ["urn:entity:artist"], popularity: 0.8 },
+            { entity_id: "art-justice-2", name: "Justice", types: ["urn:entity:artist"], popularity: 0.7 },
+          ])
+        : fakeQloo(op, input);
+    const { d } = deps({ gw: scriptedGateway(twoAmbiguous).gw });
+    const { runId, done } = await startScout(
+      { workspace: "ws", property: { kind: "lineup", name: "Ed Banger", market: "United States", entities: [{ name: "Phoenix", type: "artist" }, { name: "Justice", type: "artist" }] } },
+      d,
+    );
+    await done;
+    expect(d.store.events(runId).filter((e) => e.kind === "needs_input")).toHaveLength(2);
+    const resumed = await resumeScout(runId, [{ input: "Phoenix", entityId: "art-phoenix" }, { input: "Justice", entityId: "art-justice" }], d);
+    await resumed.done;
+    expect(d.store.get(runId)!.status).toBe("done");
   });
 
   it("caps signals at ten entities with a visible note", async () => {
