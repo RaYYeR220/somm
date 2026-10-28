@@ -3,7 +3,7 @@
 Registered before the first live run. The answer key and traps are hashed below; the runner refuses to run if either file changes.
 
 - `eval/ground-truth.json` sha256 `f693dc766dbbe53b77fd501eff9010558eca46abe700a8ec17382d15a093e69f`
-- `eval/traps.json` sha256 `875c4f39ed31996921ae6631298d97a1ffb4c78d2b307a099a34335c3850b0d8`
+- `eval/traps.json` sha256 `4f75331578d016a4d5aa85b86088228f9f21e08970267d9e277e53318cf196a0`
 
 ## Question
 
@@ -35,3 +35,7 @@ Metric: per-property AUC (sponsors vs controls, ties 0.5), averaged across prope
 - The model-only baseline may recall real sponsorships from its training data (famous properties, press releases). A high score there is memory, not audience reasoning; it is reported, not excluded.
 - Fit is not the same as who pays: budgets, agencies and timing decide deals too. AUC near 0.5 on a property is a possible honest outcome.
 - Results publish aggregate metrics only. Per-brand Qloo values stay out of the repository (Qloo API terms).
+
+## Amendment, before the first run (2026-10-28)
+
+The KATSEYE gate traps named the group as a Qloo artist, but the hackathon dataset has no artist entity for KATSEYE; its fandom is only present through the series *Pop Star Academy: KATSEYE*. The two KATSEYE traps now use that series as the audience proxy. Nothing else changed. The previous hash of `eval/traps.json` was `875c4f39ed31996921ae6631298d97a1ffb4c78d2b307a099a34335c3850b0d8`.
