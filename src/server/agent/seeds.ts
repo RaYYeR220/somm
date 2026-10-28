@@ -54,22 +54,32 @@ const diligences: DiligenceInput[] = [
   },
 ];
 
-/** Runs every example report one after another and marks each as a demo. */
+const titleOf = (run: { kind: string; result: unknown }) =>
+  run.kind === "scout" ? (run.result as { property?: { name?: string } } | null)?.property?.name : (run.result as { brand?: { name?: string } } | null)?.brand?.name;
+
+/**
+ * Builds each example report that doesn't exist yet, one after another, and marks it as a demo.
+ * A failure is logged and the rest still run.
+ */
 export async function runSeeds(deps: AgentDeps, log: (line: string) => void = () => undefined): Promise<string[]> {
+  const have = new Set(deps.store.listDemo().map((r) => titleOf(r)?.toLowerCase()));
   const ids: string[] = [];
-  for (const input of scouts) {
-    const { runId, done } = await startScout(input, deps);
-    await done;
-    deps.store.setDemo(runId, true);
-    ids.push(runId);
-    log(`scout ${runId} ${deps.store.get(runId)?.status} ${input.property?.name}`);
-  }
-  for (const input of diligences) {
-    const { runId, done } = await startDiligence(input, deps);
-    await done;
-    deps.store.setDemo(runId, true);
-    ids.push(runId);
-    log(`diligence ${runId} ${deps.store.get(runId)?.status} ${input.brand.name}`);
+  const jobs = [
+    ...scouts.map((input) => ({ title: input.property?.name ?? "", start: () => startScout(input, deps) })),
+    ...diligences.map((input) => ({ title: input.brand.name, start: () => startDiligence(input, deps) })),
+  ];
+  for (const job of jobs) {
+    if (have.has(job.title.toLowerCase())) continue;
+    try {
+      const { runId, done } = await job.start();
+      await done;
+      const status = deps.store.get(runId)?.status;
+      if (status === "done" || status === "degraded") deps.store.setDemo(runId, true);
+      ids.push(runId);
+      log(`${runId} ${status} ${job.title}`);
+    } catch (error) {
+      log(`${job.title} failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
   return ids;
 }

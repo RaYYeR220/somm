@@ -9,7 +9,9 @@ export function openDb(file: string): Db {
   mkdirSync(dirname(file), { recursive: true });
   const db = new Database(file);
   db.pragma("journal_mode = WAL");
-  db.pragma("busy_timeout = 5000");
+  // Litestream holds the write lock briefly while it checkpoints; wait for it rather than fail.
+  db.pragma("busy_timeout = 30000");
+  db.pragma("synchronous = NORMAL");
   db.pragma("foreign_keys = ON");
   migrate(db);
   return db;
