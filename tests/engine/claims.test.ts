@@ -75,3 +75,16 @@ describe("marker placement", () => {
     expect(out.segments.map((s) => s.status)).toEqual(["kept", "kept"]);
   });
 });
+
+describe("no false strikes", () => {
+  const names = ["Coachella 2026", "Barclay's Gap Good Rewards Mastercard", "Best Buy"];
+  it("ignores digits and words that belong to allowed names", () => {
+    expect(checkClaims("Coachella 2026 and Best Buy share the same crowd.", facts, names).segments[0].status).toBe("kept");
+  });
+  it("matches possessive brand names", () => {
+    expect(checkClaims("Fans of Coachella 2026 already carry Barclay's Gap Good Rewards Mastercard.", facts, names).segments[0].status).toBe("kept");
+  });
+  it("lets the pitch state Somm's own verdict", () => {
+    expect(checkClaims("Somm's verdict is PURSUE.", facts, names).segments[0].status).toBe("kept");
+  });
+});
