@@ -1,6 +1,6 @@
 import type { EntityRef, Property, QlooEntityType, SponsorCategory } from "@/lib/types";
 import type { AgentDeps } from "@/server/agent/deps";
-import { candidatesFrom } from "@/server/agent/resolve";
+import { bestMatch, candidatesFrom } from "@/server/agent/resolve";
 import { createEngineContext, mapLimit, qloo, type EngineContext } from "@/server/engine/context";
 import { parseEntities } from "@/server/engine/facts";
 import { buildFingerprint, type Fingerprint } from "@/server/engine/fingerprint";
@@ -45,19 +45,16 @@ const asType = (t: string): QlooEntityType => (["artist", "book", "brand", "movi
 async function resolveOne(ctx: EngineContext, name: string, type: QlooEntityType) {
   const { env } = await qloo(ctx, "search", { query: name, types: `urn:entity:${type}`, take: 5 });
   const candidates = env.status === "ok" ? candidatesFrom(env.results, type) : [];
-  const norm = (s: string) => s.toLowerCase().replace(/\([^)]*\)/g, "").replace(/[^a-z0-9]+/g, " ").trim();
-  const exact = candidates.find((c) => norm(c.name) === norm(name));
-  const pick = exact ?? [...candidates].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))[0];
+  const pick = bestMatch(name, candidates);
   return pick ? { entity: { id: pick.id, name: pick.name, type: pick.type } as EntityRef, popularity: pick.popularity } : null;
 }
 
 /** One Insights call that scores every candidate brand against the given signals. */
-async function affinities(ctx: EngineContext, brandIds: string[], signals: string[], market: string) {
+async function affinities(ctx: EngineContext, brandIds: string[], signals: string[]) {
   const { env, entry } = await qloo(ctx, "insights_raw", {
     "filter.type": "urn:entity:brand",
     "filter.results.entities": brandIds,
     "signal.interests.entities": signals,
-    "signal.location.query": market,
     take: brandIds.length,
   });
   const map = new Map(parseEntities(env, "brand").map((e) => [e.entity.id, e.affinity]));
@@ -98,8 +95,8 @@ export async function runEval(deps: AgentDeps, gt: GroundTruth, trapFile: TrapFi
 
     if (fp && unique.length) {
       const ids = unique.map((r) => r.entity.id);
-      const own = await affinities(ctx, ids, property.entities.map((e) => e.id), property.market);
-      const shifted = other.property.entities.length ? await affinities(ctx, ids, other.property.entities.map((e) => e.id), property.market) : null;
+      const own = await affinities(ctx, ids, property.entities.map((e) => e.id));
+      const shifted = other.property.entities.length ? await affinities(ctx, ids, other.property.entities.map((e) => e.id)) : null;
       const values = [...own.map.values()];
       const min = Math.min(...values);
       const max = Math.max(...values);
@@ -126,7 +123,8 @@ export async function runEval(deps: AgentDeps, gt: GroundTruth, trapFile: TrapFi
     }
     const aucs = Object.fromEntries(
       METHODS.map((m) => {
-        const scored = unique.filter((r) => r.scores[m] !== null);
+        // Every method is judged on the same brands: those Somm could score.
+        const scored = unique.filter((r) => r.scores.somm !== null && r.scores[m] !== null);
         return [m, auc(scored.filter((r) => r.positive).map((r) => r.scores[m]!), scored.filter((r) => !r.positive).map((r) => r.scores[m]!))];
       }),
     ) as Record<Method, number | null>;

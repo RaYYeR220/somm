@@ -71,7 +71,9 @@ describe("scoreFit", () => {
   it("scores every component and lists the facts behind each", async () => {
     const { gw, calls } = scriptedGateway(brandAnswer);
     const ctx = testContext(gw);
-    const fit = await scoreFit({ fp: fingerprint(), brand, category: "energy_drink", rank: { value: 0.95, min: 0.8, max: 0.97, position: 2, of: 10, ledgerId: "E1" } }, ctx);
+    const fp = fingerprint();
+    fp.momentum!.factId = ctx.facts.add({ ledgerIds: ["E0"], label: "Popularity rank trend", value: 2, display: "rank #900 → #880" }).id;
+    const fit = await scoreFit({ fp, brand, category: "energy_drink", rank: { value: 0.95, min: 0.8, max: 0.97, position: 2, of: 10, ledgerId: "E1" } }, ctx);
     expect(calls.map((c) => c.op).sort()).toEqual(["audience_demographics", "insights_raw", "rank"]);
     for (const [name, component] of Object.entries(fit.components)) {
       expect(component.score, name).not.toBeNull();
@@ -84,7 +86,10 @@ describe("scoreFit", () => {
 
   it("still scores when brand demographics are missing", async () => {
     const { gw } = scriptedGateway((op) => (op === "audience_demographics" ? empty(op) : brandAnswer(op)));
-    const fit = await scoreFit({ fp: fingerprint(), brand, category: "energy_drink", rank: null }, testContext(gw));
+    const ctx = testContext(gw);
+    const fp = fingerprint();
+    fp.momentum!.factId = ctx.facts.add({ ledgerIds: ["E0"], label: "Popularity rank trend", value: 2, display: "rank #900 → #880" }).id;
+    const fit = await scoreFit({ fp, brand, category: "energy_drink", rank: null }, ctx);
     expect(fit.components.demographic.score).toBeNull();
     expect(fit.components.affinity.score).toBeNull();
     expect(fit.score).not.toBeNull();

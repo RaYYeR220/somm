@@ -1,9 +1,13 @@
 /** On a fresh deployment, build the example reports once in the background. */
 export async function register() {
-  if (process.env.NEXT_RUNTIME !== "nodejs" || process.env.SEED_DEMOS !== "1") return;
+  if (process.env.NEXT_RUNTIME !== "nodejs") return;
   const { getAgentDeps } = await import("@/server/agent/deps");
-  const { runSeeds } = await import("@/server/agent/seeds");
+  const { sweepInterruptedRuns } = await import("@/server/agent/run-store");
   const deps = getAgentDeps();
+  const swept = sweepInterruptedRuns(deps.store);
+  if (swept) console.log(`[boot] marked ${swept} interrupted run(s) as failed`);
+  if (process.env.SEED_DEMOS !== "1") return;
+  const { runSeeds } = await import("@/server/agent/seeds");
   if (deps.store.listDemo().length > 0) return;
   setTimeout(() => {
     runSeeds(deps, (line) => console.log(`[seed] ${line}`)).catch((error) => console.error("[seed] failed", error));

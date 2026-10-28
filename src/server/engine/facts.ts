@@ -5,7 +5,7 @@ export type Demographics = { age: Record<string, number>; gender: Record<string,
 export type HeatCell = { geohash: string; lat: number; lng: number; affinity: number; rank?: number };
 export type ScoredEntity = { entity: EntityRef; affinity: number; popularity: number | null };
 export type TasteTag = { id: string; name: string; affinity: number | null; type?: string };
-export type Momentum = { slope: number; points: { date: string; value: number }[] };
+export type Momentum = { slope: number; points: { date: string; value: number }[]; factId?: string };
 
 const asRecord = (value: unknown): Record<string, unknown> | undefined =>
   value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;

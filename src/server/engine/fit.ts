@@ -16,6 +16,9 @@ export const MIN_COMPONENTS = 3;
 
 export const THRESHOLDS = { consider: 45, pursue: 65 } as const;
 
+/** Fewest brands in a ranking for the affinity position to mean anything. */
+export const MIN_RANKED = 3;
+
 export function combine(scores: Record<FitComponent, number | null>): { score: number | null; available: number } {
   let weight = 0;
   let total = 0;
@@ -100,7 +103,8 @@ export async function scoreFit({ fp, brand, category, rank }: FitInput, ctx: Eng
     FIT_COMPONENTS.map((c) => [c, { score: null as number | null, facts: [] as string[] }]),
   ) as unknown as FitResult["components"];
 
-  if (rank) {
+  // Ranking needs something to rank against: with fewer than three brands there is no affinity score.
+  if (rank && rank.of >= MIN_RANKED) {
     const spread = rank.max - rank.min;
     const relative = spread > 0 ? (rank.value - rank.min) / spread : 1;
     components.affinity.score = Math.round(clamp(100 * (0.6 * relative + 0.4 * rank.value)));
@@ -116,7 +120,7 @@ export async function scoreFit({ fp, brand, category, rank }: FitInput, ctx: Eng
 
   const sameType = property.entities.filter((e) => e.type === lead.type).slice(0, 10);
   const [reciprocal, brandDemo, brandGeo] = await Promise.all([
-    qloo(ctx, "rank", { options: sameType.map((e) => e.id), option_type: lead.type, signals: [brand.id], signal_location: property.market }),
+    qloo(ctx, "rank", { options: sameType.map((e) => e.id), option_type: lead.type, signals: [brand.id] }),
     qloo(ctx, "audience_demographics", { entity: brand.id, entity_type: "brand" }),
     qloo(ctx, "insights_raw", heatmapQuery(brand.id, property.market)),
   ]);
@@ -163,11 +167,10 @@ export async function scoreFit({ fp, brand, category, rank }: FitInput, ctx: Eng
     );
   }
 
-  if (fp.momentum) {
+  // Momentum counts only with its receipt: a trend with no recorded fact is left out.
+  if (fp.momentum?.factId) {
     components.momentum.score = momentumScore(fp.momentum.slope);
-    const trendFact = fp.facts.find((f) => f.label.startsWith("Popularity rank trend"));
-    if (trendFact) components.momentum.facts.push(trendFact.id);
-    else components.momentum.facts.push(ctx.facts.add({ ledgerIds: [], label: "90-day momentum", value: components.momentum.score, display: `momentum ${components.momentum.score}/100` }).id);
+    components.momentum.facts.push(fp.momentum.factId);
   }
 
   const { score } = combine(Object.fromEntries(FIT_COMPONENTS.map((c) => [c, components[c].score])) as Record<FitComponent, number | null>);

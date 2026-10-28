@@ -135,14 +135,14 @@ describe("per-entity demographics", () => {
 });
 
 describe("live-data adjustments", () => {
-  it("biases every recommendation to the property's market and keeps places local", async () => {
+  it("keeps places local and adds no location signal to taste recommendations", async () => {
     const { gw, calls } = scriptedGateway(fullAnswer);
     await buildFingerprint(sampleProperty({ market: "United States" }), testContext(gw));
     const recs = calls.filter((c) => c.op === "recommend");
     expect(recs.length).toBeGreaterThan(0);
     for (const r of recs) {
       if (r.input.target_type === "place") expect(r.input.filter_location).toBe("United States");
-      else expect(r.input.signal_location).toBe("United States");
+      else expect(r.input.signal_location).toBeUndefined();
     }
   });
 

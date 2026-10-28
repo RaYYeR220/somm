@@ -14,7 +14,8 @@ type Options = { describeLedger?: (ledgerId: string) => string };
 
 const MARKER = /\[F(\d+)\]/g;
 const NUMBER = /-?\d+(?:\.\d+)?/g;
-const RANKING = /%|×|\bover-?index|\btop\b|#\d|\branks?\b|\branked\b|\bmost\b|\bhighest\b|\bstrongest\b|\bmore likely\b|\bpercent|\bleading\b|\bbest\b/i;
+const RANKING =
+  /%|×|\bover-?index|\btop\b|#\d|\branks?\b|\branked\b|\bmost\b|\bhighest\b|\bstrongest\b|\bmore likely\b|\bpercent|\bleading\b|\bbest\b|\b(half|twice|double|triple|majority|minority|quarter|third)\b|\b(one|two|three|four|five|six|seven|eight|nine|ten)\s+(in|out of)\b|\b(largest|biggest|fastest|smallest|lowest)\b/i;
 const STOP = new Set(
   "I We Our Your You They This That These Those The A An It Its Qloo Somm US USA UK TV CEO Gen Z Why How What When Where Who Fans Sources Brand Brands Audience Listeners".split(" ").map((w) => w.toLowerCase()),
 );
@@ -73,7 +74,7 @@ function judge(sentence: string, facts: Map<string, Fact>, allowed: string[]): {
     if (unmatched.length) return { status: "struck", reason: `The number ${unmatched[0]} does not match the cited fact.` };
   }
   const unknown = properNouns(bare).filter((name) => !isAllowed(name, allowed));
-  if (unknown.length && cited.length === 0) return { status: "struck", reason: `Names ${unknown[0]}, which Qloo did not return in this run.` };
+  if (unknown.length) return { status: "struck", reason: `Names ${unknown[0]}, which Qloo did not return in this run.` };
   return { status: "kept" };
 }
 

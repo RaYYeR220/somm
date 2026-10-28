@@ -56,7 +56,8 @@ export async function executeRun(
   };
   try {
     const outcome = await body(control);
-    const status = outcome.status === "done" && (degraded.length || ctx.budget.exhausted) ? "degraded" : outcome.status;
+    const status = outcome.status === "done" && (degraded.length || ctx.budget.exhausted || ctx.failures.length) ? "degraded" : outcome.status;
+    if (ctx.failures.length) degraded.push(`${ctx.failures.length} Qloo request(s) failed: ${[...new Set(ctx.failures)].join(", ")}`);
     if (outcome.result !== undefined) deps.store.update(runId, { result: outcome.result });
     deps.store.update(runId, { status });
     emit("done", { status, degraded });

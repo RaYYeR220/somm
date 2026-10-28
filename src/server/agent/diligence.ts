@@ -54,6 +54,14 @@ export type DiligenceResult = {
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
+const MAX_OFFERS = 10;
+
+/** True when every word of a company name appears, in order, in the offer text. */
+function chunkMentions(text: string, company: string): boolean {
+  const words = norm(company).split(" ").filter(Boolean);
+  return words.length > 0 && new RegExp(`\\b${words.join("\\s+")}\\b`).test(norm(text));
+}
+
 /** Splits pasted offers on blank lines so injected text can be traced to the offer it came from. */
 function chunks(text: string): string[] {
   return text.split(/\n\s*\n|^\s*-{3,}\s*$/m).map((c) => c.trim()).filter(Boolean);
@@ -79,7 +87,11 @@ async function diligencePipeline(input: z.output<typeof DiligenceInputSchema>, d
   if (brandResolution?.auto.length) ctx.emit("step", { key: "resolve_note", label: "Matched brand", status: "done", detail: brandResolution.auto.join("; ") });
 
   // Untrusted text: detect reviewer-directed instructions, strip them, then parse.
-  const rawChunks = chunks(input.offersText);
+  const allChunks = chunks(input.offersText);
+  const rawChunks = allChunks.slice(0, MAX_OFFERS);
+  if (allChunks.length > MAX_OFFERS) {
+    ctx.emit("step", { key: "too_many", label: "Too many offers", status: "empty", detail: `Reviewing the first 10 of ${allChunks.length} offers. Run the rest separately.` });
+  }
   const flaggedChunks = rawChunks.map((text) => ({ text, ...detectInjection(text) })).filter((c) => c.flagged);
   if (flaggedChunks.length) {
     ctx.emit("step", { key: "injection", label: "Screening offers for instructions aimed at reviewers", status: "done", detail: `${flaggedChunks.length} offer(s) contained instructions to the reviewer; removed before reading.` });
@@ -93,7 +105,9 @@ async function diligencePipeline(input: z.output<typeof DiligenceInputSchema>, d
   if (!offers.length) throw new Error("No offers could be read from the text.");
 
   const reviews = await mapLimit(offers, 2, async (offer): Promise<OfferReview> => {
-    const source = flaggedChunks.find((c) => norm(c.text).includes(norm(offer.propertyName)));
+    const index = offers.indexOf(offer);
+    const chunk = rawChunks.find((c) => norm(offer.propertyName) && norm(c).includes(norm(offer.propertyName))) ?? (offers.length === rawChunks.length ? rawChunks[index] : undefined);
+    const source = chunk ? flaggedChunks.find((c) => c.text === chunk) : undefined;
     const review: OfferReview = { offer, property: null, injection: { flagged: Boolean(source), spans: source?.spans ?? [] }, fit: null, notes: [], memo: null };
     if (source) review.notes.push("This offer contained instructions aimed at an automated reviewer. They were removed and had no effect on the score.");
     const stepInfo = { key: `offer:${offer.propertyName}`, label: `Evaluating ${offer.propertyName}` };
@@ -109,7 +123,12 @@ async function diligencePipeline(input: z.output<typeof DiligenceInputSchema>, d
     }
     const property: Property = { kind: offer.kind, name: offer.propertyName, market: "United States", exclusives: [], agePolicy: "unknown", entities: resolution.resolved.slice(0, 10) };
     review.property = property;
-    const fp = await buildFingerprint(property, ctx, new Date(), { light: true });
+    const offerCtx = {
+      ...ctx,
+      emit: (kind: Parameters<typeof ctx.emit>[0], payload: unknown) =>
+        ctx.emit(kind, kind === "step" ? { ...(payload as object), key: `${offer.propertyName}:${(payload as { key: string }).key}`, label: `${offer.propertyName}: ${(payload as { label: string }).label}` } : payload),
+    };
+    const fp = await buildFingerprint(property, offerCtx, new Date(), { light: true });
 
     // Where does this brand sit among the category's top brands for this audience?
     const field = await prospect(property, [category], ctx);
@@ -123,7 +142,9 @@ async function diligencePipeline(input: z.output<typeof DiligenceInputSchema>, d
         : null;
 
     const fit = await scoreFit({ fp, brand, category, rank }, ctx);
-    review.fit = applyGates(fit, { property, fp, brandSide: { competitors: input.brand.competitors, propertySponsors: offer.currentSponsors } });
+    // Competitors named anywhere in the offer's own text count, whatever the model extracted.
+    const named = chunk ? input.brand.competitors.filter((c) => chunkMentions(chunk, c)) : [];
+    review.fit = applyGates(fit, { property, fp, brandSide: { competitors: input.brand.competitors, propertySponsors: [...offer.currentSponsors, ...named] } });
     ctx.emit("step", { ...stepInfo, status: "done", detail: review.fit.score === null ? review.fit.verdict : `${review.fit.verdict} · ${review.fit.score}` });
     return review;
   });

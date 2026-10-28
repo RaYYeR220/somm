@@ -65,7 +65,8 @@ describe("prospect", () => {
     const { gw, calls } = scriptedGateway(answer);
     const result = await prospect(sampleProperty(), ["energy_drink"], testContext(gw));
     const rec = calls.find((c) => c.op === "recommend")!;
-    expect(rec.input).toMatchObject({ target_type: "brand", signals: ["pod-1", "per-1"], signal_location: "United States" });
+    expect(rec.input).toMatchObject({ target_type: "brand", signals: ["pod-1", "per-1"] });
+    expect(rec.input.signal_location).toBeUndefined();
     expect((rec.input.include_tags as string[])[0]).toMatch(/^urn:tag:/);
     expect(result.categories[0].candidates.map((c) => c.entity.name)).toEqual(["Red Bull", "Liquid Death", "Celsius"]);
     expect(result.categories[0].candidates[0].ledgerId).toMatch(/^E\d+$/);

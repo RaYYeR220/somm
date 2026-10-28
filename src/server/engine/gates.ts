@@ -52,17 +52,27 @@ function exclusivityGate(fit: FitResult, property: Property): GateOutcome {
   };
 }
 
+/** "Monster" names the same company as "Monster Energy": every word of the shorter name appears in the longer one. */
+export function sameCompany(a: string, b: string): boolean {
+  const ta = norm(a).split(" ").filter(Boolean);
+  const tb = norm(b).split(" ").filter(Boolean);
+  if (!ta.length || !tb.length) return false;
+  const [short, long] = ta.length <= tb.length ? [ta, new Set(tb)] : [tb, new Set(ta)];
+  return short.every((w) => long.has(w));
+}
+
 function competitorGate(ctx: GateContext): GateOutcome | null {
   if (!ctx.brandSide) return null;
-  const sponsors = new Set(ctx.brandSide.propertySponsors.map(norm));
-  const conflicts = ctx.brandSide.competitors.filter((c) => sponsors.has(norm(c)));
+  const sponsors = ctx.brandSide.propertySponsors;
+  const conflicts = ctx.brandSide.competitors.filter((c) => sponsors.some((s) => sameCompany(c, s)));
   if (conflicts.length === 0) return { gate: "competitor", outcome: "pass", reason: "No listed competitor sponsors this property." };
   return { gate: "competitor", outcome: "block", reason: `${ctx.property.name} already partners with your competitor ${conflicts.join(", ")}.` };
 }
 
 function ageGate(fit: FitResult, ctx: GateContext): GateOutcome | null {
-  if (!isAgeRestricted(fit.category)) return null;
-  const code = ADULT_COMPOSITION_CODES[fit.category as keyof typeof ADULT_COMPOSITION_CODES];
+  const restricted = [fit.category, ...(fit.alsoIn ?? [])].find(isAgeRestricted);
+  if (!restricted) return null;
+  const code = ADULT_COMPOSITION_CODES[restricted as keyof typeof ADULT_COMPOSITION_CODES];
   const cite = code ? ` ${code.name} requires ${code.threshold}.` : "";
   const { property, fp } = ctx;
 
@@ -73,7 +83,7 @@ function ageGate(fit: FitResult, ctx: GateContext): GateOutcome | null {
     return {
       gate: "age_restricted",
       outcome: "block",
-      reason: `${property.name} admits all ages, so a property-wide ${categoryById(fit.category)?.label ?? fit.category} deal is out; activation would have to sit inside 21+-gated zones.${cite}`,
+      reason: `${property.name} admits all ages, so a property-wide ${categoryById(restricted)?.label ?? restricted} deal is out; activation would have to sit inside 21+-gated zones.${cite}`,
     };
   }
   const youth = fp.demographics?.age[YOUTH_KEY];
@@ -131,6 +141,8 @@ const INJECTION_PATTERNS: RegExp[] = [
   /\b(ai|llm|model|automated)\s+reviewers?\b/gi,
   /\bapprove\s+(every|all|this)\s+offers?\b/gi,
   /\bfit score is\s+\d+/gi,
+  /\b(ignora|ignore[sz]?|ignoriere|ignoreer|ignoruj)\b.{0,30}\b(instrucciones|instructions|anweisungen|instructies|instrukcje|istruzioni)\b/gi,
+  /игнорируй.{0,30}инструкци/gi,
 ];
 
 /** Finds text aimed at an automated reviewer rather than at a human buyer. */

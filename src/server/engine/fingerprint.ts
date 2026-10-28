@@ -41,6 +41,8 @@ export type Fingerprint = {
   demographics: Demographics | null;
   entityDemographics: { entity: EntityRef; demographics: Demographics; ledgerId: string }[];
   heatmap: HeatCell[];
+  /** Receipt for the heatmap request behind the fan map. */
+  heatmapLedgerId?: string;
   crossDomain: Partial<Record<CrossDomain, CrossDomainItem[]>>;
   momentum: Momentum | null;
   facts: Fact[];
@@ -71,6 +73,7 @@ export async function buildFingerprint(
   const crossStep = { key: "cross_domain", label: "Tasting what fans love across domains" };
   (options.light ? [demoStep, geoStep, trendStep] : [tagsStep, demoStep, geoStep, trendStep, crossStep]).forEach((s) => step(ctx, s, "running"));
   const entityDemographics: Fingerprint["entityDemographics"] = [];
+  let heatmapLedgerId: string | undefined;
 
   const tagsTask = (async () => {
     if (options.light) return [];
@@ -114,7 +117,8 @@ export async function buildFingerprint(
 
   const geoTask = (async () => {
     // The full heatmap (every cell, not just the top few) comes from Insights directly.
-    const { env } = await qloo(ctx, "insights_raw", heatmapQuery(lead.id, property.market));
+    const { env, entry } = await qloo(ctx, "insights_raw", heatmapQuery(lead.id, property.market));
+    heatmapLedgerId = entry?.id;
     const cells = parseHeatmap(env);
     step(ctx, geoStep, cells.length ? "done" : "empty", `${cells.length} cells`);
     return cells;
@@ -135,12 +139,12 @@ export async function buildFingerprint(
       const first = momentum.points[0];
       const last = momentum.points[momentum.points.length - 1];
       const fmt = (n: number) => "#" + n.toLocaleString("en-US");
-      ctx.facts.add({
+      momentum.factId = ctx.facts.add({
         ledgerIds: [entry.id],
         label: "Popularity rank trend, " + first.date + " to " + last.date,
         value: Number((momentum.slope * 100).toFixed(1)),
         display: first.value === last.value ? "popularity rank steady at " + fmt(last.value) : "popularity rank " + fmt(first.value) + " → " + fmt(last.value),
-      });
+      }).id;
     }
     step(ctx, trendStep, momentum ? "done" : "empty");
     return momentum;
@@ -150,8 +154,9 @@ export async function buildFingerprint(
     if (options.light) return {} as Fingerprint["crossDomain"];
     const lists = await mapLimit([...CROSS_DOMAINS], 3, async (domain) => {
       const input: Record<string, unknown> = { target_type: domain, signals: ids, limit: 10 };
+      // Places are filtered to the market. Other domains get no location signal: it outweighs the
+      // audience's own signal and makes every property look the same.
       if (domain === "place") input.filter_location = property.market;
-      else input.signal_location = property.market;
       const { env, entry } = await qloo(ctx, "recommend", input);
       const items = parseEntities(env, domain)
         .filter((item) => !own.has(item.entity.id))
@@ -173,5 +178,5 @@ export async function buildFingerprint(
   })();
 
   const [tags, demographics, heatmap, momentum, crossDomain] = await Promise.all([tagsTask, demoTask, geoTask, trendTask, crossTask]);
-  return { property, tags, demographics, entityDemographics, heatmap, crossDomain, momentum, facts: ctx.facts.all() };
+  return { property, tags, demographics, entityDemographics, heatmap, heatmapLedgerId, crossDomain, momentum, facts: ctx.facts.all() };
 }

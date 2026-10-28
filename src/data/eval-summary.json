@@ -1,1 +1,584 @@
-{ "status": "pending" }
+{
+  "status": "done",
+  "generatedAt": "2026-10-28T08:26:41.682Z",
+  "summary": {
+    "mean": {
+      "somm": 0.475655253837072,
+      "affinity": 0.4769110275689222,
+      "popularity": 0.44852633477633486,
+      "llm_only": 0.623430735930736,
+      "negative_control": 0.5227965747702591
+    },
+    "byType": {
+      "podcast": {
+        "somm": 0.4669973544973545,
+        "affinity": 0.38303571428571426,
+        "popularity": 0.44113756613756616,
+        "llm_only": 0.5838624338624339,
+        "negative_control": 0.5007440476190476
+      },
+      "festival": {
+        "somm": 0.5212215909090908,
+        "affinity": 0.5608843537414966,
+        "popularity": 0.453465909090909,
+        "llm_only": 0.6884469696969696,
+        "negative_control": 0.550907029478458
+      },
+      "sports_team": {
+        "somm": 0.41833333333333333,
+        "affinity": 0.5177083333333333,
+        "popularity": 0.45238095238095244,
+        "llm_only": 0.6,
+        "negative_control": 0.5177083333333333
+      }
+    },
+    "wins": {
+      "somm": 1,
+      "affinity": 2,
+      "popularity": 2,
+      "llm_only": 16,
+      "negative_control": 5
+    },
+    "traps": {
+      "passed": 10,
+      "total": 11
+    }
+  },
+  "properties": [
+    {
+      "id": "huberman",
+      "name": "Huberman Lab",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 10,
+        "controls": 5,
+        "resolvedSponsors": 9,
+        "resolvedControls": 5,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 0.21428571428571427,
+        "affinity": 0.19047619047619047,
+        "popularity": 0.3333333333333333,
+        "llm_only": 0.8666666666666667,
+        "negative_control": 0.23809523809523808
+      }
+    },
+    {
+      "id": "lex",
+      "name": "Lex Fridman Podcast",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 9,
+        "controls": 5,
+        "resolvedSponsors": 7,
+        "resolvedControls": 5,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 0.5428571428571428,
+        "affinity": 0.45714285714285713,
+        "popularity": 0.5428571428571428,
+        "llm_only": 0.8,
+        "negative_control": 0.5428571428571428
+      }
+    },
+    {
+      "id": "ferriss",
+      "name": "The Tim Ferriss Show",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 8,
+        "controls": 5,
+        "resolvedSponsors": 6,
+        "resolvedControls": 4,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 0.16666666666666666,
+        "affinity": 0.16666666666666666,
+        "popularity": 0.20833333333333334,
+        "llm_only": 0.875,
+        "negative_control": 0.75
+      }
+    },
+    {
+      "id": "jre",
+      "name": "The Joe Rogan Experience",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 8,
+        "controls": 5,
+        "resolvedSponsors": 7,
+        "resolvedControls": 5,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 0.5,
+        "affinity": 0.5416666666666666,
+        "popularity": 0.2857142857142857,
+        "llm_only": 0.5714285714285714,
+        "negative_control": 0.5416666666666666
+      }
+    },
+    {
+      "id": "simmons",
+      "name": "The Bill Simmons Podcast",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 6,
+        "controls": 5,
+        "resolvedSponsors": 6,
+        "resolvedControls": 5,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 0.55,
+        "affinity": 0.5,
+        "popularity": 0.7333333333333333,
+        "llm_only": 0.43333333333333335,
+        "negative_control": 0.6
+      }
+    },
+    {
+      "id": "pmt",
+      "name": "Pardon My Take",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 8,
+        "controls": 5,
+        "resolvedSponsors": 8,
+        "resolvedControls": 5,
+        "entities": 4
+      },
+      "auc": {
+        "somm": 0.425,
+        "affinity": 0.375,
+        "popularity": 0.425,
+        "llm_only": 0.475,
+        "negative_control": 0.625
+      }
+    },
+    {
+      "id": "chd",
+      "name": "Call Her Daddy",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 8,
+        "controls": 5,
+        "resolvedSponsors": 8,
+        "resolvedControls": 5,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 0.3375,
+        "affinity": 0.16666666666666666,
+        "popularity": 0.575,
+        "llm_only": 0.5,
+        "negative_control": 0.2916666666666667
+      }
+    },
+    {
+      "id": "armchair",
+      "name": "Armchair Expert with Dax Shepard",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 6,
+        "controls": 5,
+        "resolvedSponsors": 6,
+        "resolvedControls": 5,
+        "entities": 3
+      },
+      "auc": {
+        "somm": 0.4666666666666667,
+        "affinity": 0.6666666666666666,
+        "popularity": 0.36666666666666664,
+        "llm_only": 0.7333333333333333,
+        "negative_control": 0.4166666666666667
+      }
+    },
+    {
+      "id": "twist",
+      "name": "This Week in Startups",
+      "type": "podcast",
+      "counts": {
+        "sponsors": 7,
+        "controls": 5,
+        "resolvedSponsors": 2,
+        "resolvedControls": 2,
+        "entities": 2
+      },
+      "auc": {
+        "somm": 1,
+        "affinity": null,
+        "popularity": 0.5,
+        "llm_only": 0,
+        "negative_control": null
+      }
+    },
+    {
+      "id": "coachella",
+      "name": "Coachella Valley Music and Arts Festival",
+      "type": "festival",
+      "counts": {
+        "sponsors": 10,
+        "controls": 5,
+        "resolvedSponsors": 10,
+        "resolvedControls": 5,
+        "entities": 7
+      },
+      "auc": {
+        "somm": 0.39,
+        "affinity": 0.39285714285714285,
+        "popularity": 0.36,
+        "llm_only": 0.92,
+        "negative_control": 0.4642857142857143
+      }
+    },
+    {
+      "id": "lollapalooza",
+      "name": "Lollapalooza (Chicago)",
+      "type": "festival",
+      "counts": {
+        "sponsors": 11,
+        "controls": 5,
+        "resolvedSponsors": 11,
+        "resolvedControls": 5,
+        "entities": 8
+      },
+      "auc": {
+        "somm": 0.6636363636363637,
+        "affinity": 0.5,
+        "popularity": 0.5636363636363636,
+        "llm_only": 0.7818181818181819,
+        "negative_control": 0.35714285714285715
+      }
+    },
+    {
+      "id": "acl",
+      "name": "Austin City Limits Music Festival",
+      "type": "festival",
+      "counts": {
+        "sponsors": 11,
+        "controls": 5,
+        "resolvedSponsors": 11,
+        "resolvedControls": 5,
+        "entities": 8
+      },
+      "auc": {
+        "somm": 0.4636363636363636,
+        "affinity": 0.4722222222222222,
+        "popularity": 0.43636363636363634,
+        "llm_only": 0.7272727272727273,
+        "negative_control": 0.5555555555555556
+      }
+    },
+    {
+      "id": "govball",
+      "name": "The Governors Ball Music Festival",
+      "type": "festival",
+      "counts": {
+        "sponsors": 12,
+        "controls": 5,
+        "resolvedSponsors": 12,
+        "resolvedControls": 5,
+        "entities": 7
+      },
+      "auc": {
+        "somm": 0.6333333333333333,
+        "affinity": 0.6,
+        "popularity": 0.55,
+        "llm_only": 0.6666666666666666,
+        "negative_control": 0.6285714285714286
+      }
+    },
+    {
+      "id": "bonnaroo",
+      "name": "Bonnaroo Music & Arts Festival",
+      "type": "festival",
+      "counts": {
+        "sponsors": 10,
+        "controls": 5,
+        "resolvedSponsors": 10,
+        "resolvedControls": 5,
+        "entities": 8
+      },
+      "auc": {
+        "somm": 0.59,
+        "affinity": 0.75,
+        "popularity": 0.52,
+        "llm_only": 0.78,
+        "negative_control": 0.42857142857142855
+      }
+    },
+    {
+      "id": "stagecoach",
+      "name": "Stagecoach Festival",
+      "type": "festival",
+      "counts": {
+        "sponsors": 9,
+        "controls": 5,
+        "resolvedSponsors": 8,
+        "resolvedControls": 5,
+        "entities": 6
+      },
+      "auc": {
+        "somm": 0.6,
+        "affinity": 0.6111111111111112,
+        "popularity": 0.425,
+        "llm_only": 0.35,
+        "negative_control": 0.7222222222222222
+      }
+    },
+    {
+      "id": "primavera",
+      "name": "Primavera Sound Barcelona",
+      "type": "festival",
+      "counts": {
+        "sponsors": 11,
+        "controls": 5,
+        "resolvedSponsors": 11,
+        "resolvedControls": 4,
+        "entities": 8
+      },
+      "auc": {
+        "somm": 0.4166666666666667,
+        "affinity": null,
+        "popularity": 0.2727272727272727,
+        "llm_only": 0.9318181818181818,
+        "negative_control": null
+      }
+    },
+    {
+      "id": "rollingloud",
+      "name": "Rolling Loud (Orlando)",
+      "type": "festival",
+      "counts": {
+        "sponsors": 8,
+        "controls": 5,
+        "resolvedSponsors": 8,
+        "resolvedControls": 5,
+        "entities": 6
+      },
+      "auc": {
+        "somm": 0.4125,
+        "affinity": 0.6,
+        "popularity": 0.5,
+        "llm_only": 0.35,
+        "negative_control": 0.7
+      }
+    },
+    {
+      "id": "intermiami",
+      "name": "Inter Miami CF",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 10,
+        "controls": 6,
+        "resolvedSponsors": 10,
+        "resolvedControls": 6,
+        "entities": 6
+      },
+      "auc": {
+        "somm": 0.375,
+        "affinity": 0.1875,
+        "popularity": 0.5166666666666667,
+        "llm_only": 0.6166666666666667,
+        "negative_control": 0.1875
+      }
+    },
+    {
+      "id": "warriors",
+      "name": "Golden State Warriors",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 7,
+        "controls": 5,
+        "resolvedSponsors": 6,
+        "resolvedControls": 5,
+        "entities": 5
+      },
+      "auc": {
+        "somm": 0.26666666666666666,
+        "affinity": 0.8,
+        "popularity": 0.4666666666666667,
+        "llm_only": 0.6,
+        "negative_control": 0.8
+      }
+    },
+    {
+      "id": "dodgers",
+      "name": "Los Angeles Dodgers",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 7,
+        "controls": 5,
+        "resolvedSponsors": 5,
+        "resolvedControls": 4,
+        "entities": 6
+      },
+      "auc": {
+        "somm": 0.425,
+        "affinity": 0.3333333333333333,
+        "popularity": 0.4,
+        "llm_only": 0.55,
+        "negative_control": 0.3333333333333333
+      }
+    },
+    {
+      "id": "realmadrid",
+      "name": "Real Madrid CF",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 6,
+        "controls": 5,
+        "resolvedSponsors": 6,
+        "resolvedControls": 5,
+        "entities": 5
+      },
+      "auc": {
+        "somm": 0.4166666666666667,
+        "affinity": null,
+        "popularity": 0.3,
+        "llm_only": 0.43333333333333335,
+        "negative_control": null
+      }
+    },
+    {
+      "id": "barcelona",
+      "name": "FC Barcelona",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 5,
+        "controls": 5,
+        "resolvedSponsors": 5,
+        "resolvedControls": 4,
+        "entities": 5
+      },
+      "auc": {
+        "somm": null,
+        "affinity": null,
+        "popularity": 0.3,
+        "llm_only": 0.8,
+        "negative_control": null
+      }
+    },
+    {
+      "id": "mclaren",
+      "name": "McLaren Mastercard Formula 1 Team",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 11,
+        "controls": 6,
+        "resolvedSponsors": 10,
+        "resolvedControls": 6,
+        "entities": 3
+      },
+      "auc": {
+        "somm": 0.6083333333333333,
+        "affinity": 0.75,
+        "popularity": 0.5833333333333334,
+        "llm_only": 0.5333333333333333,
+        "negative_control": 0.75
+      }
+    },
+    {
+      "id": "wrexham",
+      "name": "Wrexham AFC",
+      "type": "sports_team",
+      "counts": {
+        "sponsors": 4,
+        "controls": 5,
+        "resolvedSponsors": 3,
+        "resolvedControls": 5,
+        "entities": 4
+      },
+      "auc": {
+        "somm": null,
+        "affinity": null,
+        "popularity": 0.6,
+        "llm_only": 0.6666666666666666,
+        "negative_control": null
+      }
+    }
+  ],
+  "traps": [
+    {
+      "id": "gt-rollingloud-hennessy",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": "block",
+      "reason": "Rolling Loud (Orlando) admits all ages, so a property-wide Spirits deal is out; activation would have to sit inside 21+-gated zones. DISCUS Code of Responsible Practices requires 73.8% of the audience 21+."
+    },
+    {
+      "id": "gt-rollingloud-draftkings",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": "block",
+      "reason": "Rolling Loud (Orlando) admits all ages, so a property-wide Sports betting deal is out; activation would have to sit inside 21+-gated zones. AGA Responsible Marketing Code for Sports Wagering requires 73.6% of the audience 21+."
+    },
+    {
+      "id": "gt-katseye-michelob",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": "block",
+      "reason": "Age-restricted category with no audience-age evidence from Qloo; Somm will not clear it blind. Beer Institute Advertising and Marketing Code requires 73.6% of the audience 21+."
+    },
+    {
+      "id": "gt-katseye-draftkings",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": "block",
+      "reason": "Age-restricted category with no audience-age evidence from Qloo; Somm will not clear it blind. AGA Responsible Marketing Code for Sports Wagering requires 73.6% of the audience 21+."
+    },
+    {
+      "id": "gt-govball-fanduel",
+      "pass": true,
+      "verdict": "CONSIDER",
+      "ageGate": "review",
+      "reason": "Some youth skew (+0.20 affinity, ages 24 and younger). Youth-skewed acts: A$AP Rocky — keep the brand off their slots. AGA Responsible Marketing Code for Sports Wagering requires 73.6% of the audience 21+. Confirm with measured audience composition before signing."
+    },
+    {
+      "id": "ex-coachella-pepsi",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": null,
+      "reason": "Category exclusivity: Coca-Cola holds Soft drinks & water for Coachella Valley Music and Arts Festival."
+    },
+    {
+      "id": "ex-stagecoach-wrangler",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": null,
+      "reason": "Category exclusivity: American Eagle holds Apparel for Stagecoach Festival."
+    },
+    {
+      "id": "ex-dodgers-polymarket",
+      "pass": false,
+      "verdict": null,
+      "ageGate": null,
+      "reason": "could not resolve property or brand in Qloo"
+    },
+    {
+      "id": "ex-rollingloud-nike",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": null,
+      "reason": "Category exclusivity: Under Armour holds Apparel for Rolling Loud (Orlando)."
+    },
+    {
+      "id": "ex-barcelona-adidas",
+      "pass": true,
+      "verdict": "BLOCKED",
+      "ageGate": null,
+      "reason": "Category exclusivity: Nike holds Apparel for FC Barcelona."
+    },
+    {
+      "id": "ctl-coachella-cocacola",
+      "pass": true,
+      "verdict": "PURSUE",
+      "ageGate": null,
+      "reason": ""
+    }
+  ]
+}

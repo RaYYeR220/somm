@@ -44,6 +44,11 @@ const fromRow = (row: Row): RunRecord => ({
 
 export type RunStore = ReturnType<typeof createRunStore>;
 
+/** Runs a restart interrupted can never finish; mark them failed so viewers aren't left waiting. */
+export function sweepInterruptedRuns(store: RunStore): number {
+  return store.failInterrupted();
+}
+
 export const newId = (prefix: string) => `${prefix}_${randomBytes(9).toString("base64url")}`;
 
 export function createRunStore(db: Db) {
@@ -101,6 +106,14 @@ export function createRunStore(db: Db) {
         params.result_json = JSON.stringify(patch.result);
       }
       db.prepare(`UPDATE runs SET ${sets.join(", ")} WHERE id = @id`).run(params);
+    },
+    failInterrupted(): number {
+      const stuck = db.prepare("SELECT id FROM runs WHERE status = 'running'").all() as { id: string }[];
+      for (const { id } of stuck) {
+        db.prepare("UPDATE runs SET status = 'error', updated_at = ? WHERE id = ?").run(now(), id);
+        append(id, "done", { status: "error", degraded: ["The server restarted while this run was in progress. Start it again."] });
+      }
+      return stuck.length;
     },
     setDemo(id: string, demo: boolean) {
       db.prepare("UPDATE runs SET demo = ? WHERE id = ?").run(demo ? 1 : 0, id);

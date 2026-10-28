@@ -23,7 +23,7 @@ type Action =
   | { type: "done"; status: RunState["status"]; degraded: string[] }
   | { type: "result"; result: unknown; status: RunState["status"] }
   | { type: "error"; error: string }
-  | { type: "reset" };
+  | { type: "resumed" };
 
 const initial: RunState = { status: "connecting", steps: [], receipts: [], choices: [], result: null, degraded: [] };
 
@@ -44,8 +44,8 @@ function reducer(state: RunState, action: Action): RunState {
       return { ...state, result: action.result, status: action.status };
     case "error":
       return { ...state, error: action.error };
-    case "reset":
-      return { ...initial, status: "running" };
+    case "resumed":
+      return { ...state, status: "running", choices: [], error: undefined };
   }
 }
 
@@ -58,7 +58,6 @@ async function fetchRun(runId: string) {
 /** Live view of one run: replays its event log, then streams new events until it finishes. */
 export function useRun(runId: string | null) {
   const [state, dispatch] = useReducer(reducer, initial);
-  const [epoch, bump] = useReducer((n: number) => n + 1, 0);
 
   useEffect(() => {
     if (!runId) return;
@@ -84,6 +83,8 @@ export function useRun(runId: string | null) {
     source.addEventListener("done", (e) => {
       const payload = parse(e as MessageEvent) ?? {};
       dispatch({ type: "done", status: payload.status ?? "done", degraded: payload.degraded ?? [] });
+      // A paused run keeps streaming: the answer resumes it on this same connection.
+      if (payload.status === "paused") return;
       source.close();
       fetchRun(runId)
         .then((run) => !closed && dispatch({ type: "result", result: run.result, status: run.status }))
@@ -93,15 +94,14 @@ export function useRun(runId: string | null) {
       closed = true;
       source.close();
     };
-  }, [runId, epoch]);
+  }, [runId]);
 
   const choose = useCallback(
     async (input: string, entityId: string) => {
       if (!runId) return;
       const response = await fetch(`/api/runs/${runId}/resume`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ input, entityId }) });
       if (!response.ok) throw new Error((await response.json().catch(() => ({})))?.error ?? "Could not resume");
-      dispatch({ type: "reset" });
-      bump();
+      dispatch({ type: "resumed" });
     },
     [runId],
   );

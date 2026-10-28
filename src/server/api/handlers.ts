@@ -12,7 +12,7 @@ import { clientKey, createRateLimiter } from "./rate-limit";
 
 export const WORKSPACE_COOKIE = "somm_ws";
 
-type ApiOptions = { publicUrl: string; runsPerHour?: number; chatPerHour?: number };
+type ApiOptions = { publicUrl: string; runsPerHour?: number; chatPerHour?: number; searchPerHour?: number };
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
@@ -42,9 +42,24 @@ function guard(handler: () => Promise<Response>): Promise<Response> {
   });
 }
 
-/** What a viewer may see of a run: never the workspace id of someone else. */
+/** Drops workspace ids at any depth; they are the bearer key to a browser's runs. */
+function withoutWorkspace(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(withoutWorkspace);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value as Record<string, unknown>).filter(([k]) => k !== "workspace").map(([k, v]) => [k, withoutWorkspace(v)]));
+  }
+  return value;
+}
+
+/** What a viewer may see of a run: never a workspace id, and the raw input only for the owner. */
 function publicRun(run: RunRecord, viewer: string) {
-  return { id: run.id, kind: run.kind, status: run.status, demo: run.demo, mine: run.workspace === viewer, createdAt: run.createdAt, updatedAt: run.updatedAt, input: run.input, result: run.result };
+  const mine = run.workspace === viewer;
+  return { id: run.id, kind: run.kind, status: run.status, demo: run.demo, mine, createdAt: run.createdAt, updatedAt: run.updatedAt, input: mine ? withoutWorkspace(run.input) : null, result: run.result };
+}
+
+/** A run's event stream ends on its final "done"; a paused run keeps the stream open for the answer. */
+export function shouldCloseStream(event: { kind: string; payload: unknown }): boolean {
+  return event.kind === "done" && (event.payload as { status?: string } | null)?.status !== "paused";
 }
 
 const slugify = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "kit";
@@ -58,6 +73,7 @@ const ChatInput = z.object({ runId: z.string().min(1), messages: z.array(z.objec
 export function createApi(deps: AgentDeps, options: ApiOptions) {
   const runLimiter = createRateLimiter(options.runsPerHour ?? 30);
   const chatLimiter = createRateLimiter(options.chatPerHour ?? 120);
+  const searchLimiter = createRateLimiter(options.searchPerHour ?? 400);
   const db = deps.db;
 
   const limited = (request: Request, limiter: ReturnType<typeof createRateLimiter>) =>
@@ -133,7 +149,7 @@ export function createApi(deps: AgentDeps, options: ApiOptions) {
             };
             unsubscribe = deps.store.subscribe(runId, from, (event) => {
               controller.enqueue(encoder.encode(`id: ${event.seq}\nevent: ${event.kind}\ndata: ${JSON.stringify(event.payload)}\n\n`));
-              if (event.kind === "done") queueMicrotask(close);
+              if (shouldCloseStream(event)) queueMicrotask(close);
             });
             heartbeat = setInterval(() => controller.enqueue(encoder.encode(": keep-alive\n\n")), 15_000);
             request.signal?.addEventListener("abort", close);
@@ -154,6 +170,8 @@ export function createApi(deps: AgentDeps, options: ApiOptions) {
 
     search: (request: Request) =>
       guard(async () => {
+        const blocked = limited(request, searchLimiter);
+        if (blocked) return blocked;
         const url = new URL(request.url);
         const q = (url.searchParams.get("q") ?? "").trim().slice(0, 80);
         const type = url.searchParams.get("type") ?? "";

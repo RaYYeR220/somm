@@ -9,7 +9,7 @@ import {
   type Property,
   type SponsorCategory,
 } from "@/lib/types";
-import { categoryById } from "@/server/engine/categories";
+import { CATEGORIES, categoryById } from "@/server/engine/categories";
 import { checkClaims, type ClaimCheck } from "@/server/engine/claims";
 import { mapLimit } from "@/server/engine/context";
 import { buildFingerprint, type Fingerprint } from "@/server/engine/fingerprint";
@@ -35,7 +35,7 @@ export const ScoutInputSchema = z
         agePolicy: z.enum(["all_ages", "18_plus", "21_plus", "unknown"]).default("unknown"),
       })
       .optional(),
-    categories: z.array(z.string()).max(8).optional(),
+    categories: z.array(z.enum(CATEGORIES.map((c) => c.id) as [string, ...string[]])).max(8).optional(),
     mode: z.enum(["full", "fingerprint"]).default("full"),
     /** Take the most popular match for ambiguous names instead of pausing (examples, MCP). */
     autoResolve: z.boolean().default(false),
@@ -132,6 +132,8 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
     const parsed = await run.step({ key: "draft", label: "Reading the property description" }, () => draftProperty(deps.llm, input.description!), (d) => `${d.entities.length} entities`);
     if (!parsed) throw new Error("Could not read the description.");
     draft = { ...parsed, exclusives: [], agePolicy: "unknown" };
+    state.input = { ...state.input, property: draft, description: undefined };
+    deps.store.update(runId, { input: state });
   }
   if (!draft) throw new Error("No property given.");
   const resolveStep = { key: "resolve", label: "Finding the property in Qloo's graph" };
@@ -144,6 +146,9 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
   const resolution = await resolveEntities(entities, ctx, state.choices, { auto: input.autoResolve });
   if (resolution.auto.length) {
     ctx.emit("step", { key: "auto", label: "Matched by closest name", status: "done", detail: resolution.auto.join("; ") });
+  }
+  if (resolution.failed.length && resolution.resolved.length === 0 && resolution.pending.length === 0) {
+    throw new Error(`Couldn't reach Qloo to look up the entities (${resolution.failed.join(", ")}). Try again in a minute.`);
   }
   if (resolution.missing.length) {
     ctx.emit("step", { key: "missing", label: "Not in Qloo", status: "empty", detail: `Skipped, Qloo has no match: ${resolution.missing.join(", ")}` });
@@ -216,10 +221,17 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
     if (!seen || item.rank.position < seen.rank.position) best.set(item.candidate.entity.id, item);
   }
   const toScore = [...best.values()];
+  const seenIn = new Map<string, SponsorCategory[]>();
+  for (const item of ranked) seenIn.set(item.candidate.entity.id, [...(seenIn.get(item.candidate.entity.id) ?? []), item.category]);
   const scored =
     (await run.step(
       { key: "score", label: `Scoring ${toScore.length} brands` },
-      () => mapLimit(toScore, 4, (item) => scoreFit({ fp, brand: item.candidate.entity, category: item.category, rank: item.rank }, ctx)),
+      () =>
+        mapLimit(toScore, 4, async (item) => {
+          const fit = await scoreFit({ fp, brand: item.candidate.entity, category: item.category, rank: item.rank }, ctx);
+          const others = (seenIn.get(item.candidate.entity.id) ?? []).filter((c) => c !== item.category);
+          return others.length ? { ...fit, alsoIn: others } : fit;
+        }),
       (fits) => `${fits.filter((f) => f.score !== null).length} scored`,
     )) ?? [];
 

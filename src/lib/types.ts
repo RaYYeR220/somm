@@ -119,6 +119,8 @@ export type FitResult = {
   verdict: Verdict;
   reasons: string[];
   gates?: GateOutcome[];
+  /** Other categories this brand was also prospected in (the age gate checks all of them). */
+  alsoIn?: SponsorCategory[];
 };
 
 export type RunEventKind = "step" | "ledger" | "needs_input" | "fact" | "result" | "error" | "done";

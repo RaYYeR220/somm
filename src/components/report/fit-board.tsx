@@ -14,7 +14,7 @@ export const COMPONENT_COPY: Record<FitComponent, { name: string; question: stri
   reciprocity: { name: "Love back", question: "Do the brand's own fans like the property too?" },
   demographic: { name: "Who they are", question: "How closely do the two audiences match on age and gender lean?" },
   geo: { name: "Where they are", question: "Do the brand's strongest areas overlap with where these fans concentrate?" },
-  momentum: { name: "Momentum", question: "Is the property's popularity rising over the last 90 days?" },
+  momentum: { name: "Momentum", question: "Is the property's popularity rank rising over the latest weeks Qloo reports?" },
 };
 
 const WEIGHT: Record<FitComponent, number> = { affinity: 35, reciprocity: 20, demographic: 20, geo: 15, momentum: 10 };

@@ -29,6 +29,8 @@ export type EngineContext = {
   emit: (kind: RunEventKind, payload: unknown) => void;
   transportOf: (op: QlooOp, input: Record<string, unknown>) => LedgerEntry["transport"];
   budget: { remaining: number; exhausted?: boolean };
+  /** Error codes from Qloo calls that failed after retries. */
+  failures: string[];
   signal?: AbortSignal;
 };
 
@@ -53,6 +55,7 @@ export function createEngineContext(options: ContextOptions): EngineContext {
     emit: options.emit,
     transportOf: options.transportOf ?? ((op) => (HTTP_OPS.has(op) ? "http" : "mcp")),
     budget: { remaining: options.budget },
+    failures: [],
     signal: options.signal,
   };
 }
@@ -72,6 +75,11 @@ export async function qloo(ctx: EngineContext, op: QlooOp, input: Record<string,
   const env = await ctx.gw.call(op, input, { signal: ctx.signal, runId: ctx.runId });
   const entry = ctx.ledger.record(op, input, env, ctx.transportOf(op, input));
   ctx.emit("ledger", { id: entry.id, op, status: env.status, transport: entry.transport, requests: entry.requests });
+  if (env.status === "error") {
+    const code = env.error?.code ?? "QLOO_ERROR";
+    ctx.failures.push(code);
+    ctx.emit("step", { key: `failed:${entry.id}`, label: `Qloo request ${entry.id} failed`, status: "error", detail: `${code}. The parts that depend on it are left out, not guessed.` });
+  }
   return { env, entry };
 }
 
