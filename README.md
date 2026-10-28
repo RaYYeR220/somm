@@ -38,7 +38,7 @@ A language model asked "who should sponsor this podcast?" answers from general k
 | Love back: do the brand's fans like the property? | 20% | Insights rank workflow, the brand as the signal |
 | Who they are: age and gender lean similarity | 20% | Insights `urn:demographics` for both |
 | Where they are: overlap of the strongest areas | 15% | Insights `urn:heatmap` for both |
-| Momentum: 90-day popularity trend | 10% | Trending |
+| Momentum: popularity trend over the past year | 10% | Trending |
 
 With fewer than three signals Somm shows no number at all.
 

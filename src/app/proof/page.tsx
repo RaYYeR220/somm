@@ -152,7 +152,7 @@ export default function ProofPage() {
             <li><span className="text-bone">Love back, 20%.</span> Whether the brand&apos;s fans like the property too.</li>
             <li><span className="text-bone">Who they are, 20%.</span> Similarity of the two audiences&apos; age and gender lean.</li>
             <li><span className="text-bone">Where they are, 15%.</span> Overlap of the strongest areas in the market.</li>
-            <li><span className="text-bone">Momentum, 10%.</span> The property&apos;s 90-day popularity trend.</li>
+            <li><span className="text-bone">Momentum, 10%.</span> The property&apos;s popularity trend over the past year.</li>
             <li>Missing parts are left out and the rest re-weighted. With fewer than three parts, Somm shows no score at all.</li>
           </ul>
         </div>

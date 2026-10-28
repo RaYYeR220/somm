@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "API and MCP server" };
-
-const base = (process.env.PUBLIC_URL ?? "https://somm.example").replace(/\/+$/, "");
+// PUBLIC_URL is set on the running service, not at build time.
+export const dynamic = "force-dynamic";
 
 const TOOLS: [string, string, string][] = [
   ["fan_fingerprint", "property_name, kind, entities[], market?", "Taste tags, age and gender lean, where fans concentrate, momentum, and what else they love, with receipts."],
@@ -21,6 +21,7 @@ const ROUTES: [string, string, string][] = [
 ];
 
 export default function DevelopersPage() {
+  const base = (process.env.PUBLIC_URL ?? "https://somm.example").replace(/\/+$/, "");
   return (
     <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:py-16">
       <h1 className="display text-[clamp(44px,6vw,84px)]">API and MCP server</h1>

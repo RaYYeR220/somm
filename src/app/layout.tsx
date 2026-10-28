@@ -7,13 +7,24 @@ import "./globals.css";
 const ui = Manrope({ variable: "--font-ui", subsets: ["latin"], display: "swap" });
 const data = Geist_Mono({ variable: "--font-data", subsets: ["latin"], display: "swap" });
 
-export const metadata: Metadata = {
-  title: { default: "Somm — the sponsorship sommelier", template: "%s — Somm" },
-  description:
-    "Somm reads Qloo's taste graph to find the brands a property's fans already love, says no to the deals it can't prove, and shows the receipt for every number.",
-  metadataBase: new URL(process.env.PUBLIC_URL ?? "http://localhost:3000"),
-  openGraph: { title: "Somm — agents, but with taste", description: "Sponsorship fit from real cultural taste data, with a receipt for every number.", type: "website" },
-};
+// Every page reads live runs, and PUBLIC_URL (used for absolute share links) only exists on the running service.
+export const dynamic = "force-dynamic";
+
+export function generateMetadata(): Metadata {
+  return {
+    title: { default: "Somm — the sponsorship sommelier", template: "%s — Somm" },
+    description:
+      "Somm reads Qloo's taste graph to find the brands a property's fans already love, says no to the deals it can't prove, and shows the receipt for every number.",
+    metadataBase: new URL(process.env.PUBLIC_URL ?? "http://localhost:3000"),
+    openGraph: {
+      title: "Somm — agents, but with taste",
+      description: "Sponsorship fit from real cultural taste data, with a receipt for every number.",
+      type: "website",
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Somm: agents, but with taste" }],
+    },
+    twitter: { card: "summary_large_image" },
+  };
+}
 
 export const viewport: Viewport = { themeColor: "#100e0c", colorScheme: "dark" };
 
