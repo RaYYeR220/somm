@@ -61,7 +61,7 @@ describe("component maths", () => {
 
   it("verdict thresholds follow the ladder", () => {
     expect(verdictFor(null)).toBe("INSUFFICIENT_EVIDENCE");
-    expect(verdictFor(44.9)).toBe("PASS");
+    expect(verdictFor(44.4)).toBe("PASS");
     expect(verdictFor(45)).toBe("CONSIDER");
     expect(verdictFor(65)).toBe("PURSUE");
   });
@@ -96,5 +96,13 @@ describe("scoreFit", () => {
     const fit = await scoreFit({ fp, brand, category: "energy_drink", rank: null }, testContext(gw));
     expect(fit.score).toBeNull();
     expect(fit.verdict).toBe("INSUFFICIENT_EVIDENCE");
+  });
+});
+
+describe("verdict and displayed score agree", () => {
+  it("a score that rounds to 65 is a pursue", async () => {
+    const { verdictFor: v } = await import("@/server/engine/fit");
+    expect(v(64.6)).toBe("PURSUE");
+    expect(v(44.4)).toBe("PASS");
   });
 });

@@ -10,7 +10,7 @@ export function fakeQloo(op: QlooOp, input: Record<string, unknown>): Envelope {
       if (query === "Phoenix") {
         return okList(op, [
           { entity_id: "art-phoenix", name: "Phoenix", types: ["urn:entity:artist"], popularity: 0.8 },
-          { entity_id: "art-phoenix-2", name: "Phoenix", types: ["urn:entity:artist"], popularity: 0.3 },
+          { entity_id: "art-phoenix-2", name: "Phoenix", types: ["urn:entity:artist"], popularity: 0.7 },
         ]);
       }
       if (query === "Nobody Knows This") return empty(op);

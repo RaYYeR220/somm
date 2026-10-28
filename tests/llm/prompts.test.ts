@@ -53,3 +53,17 @@ describe("prompts", () => {
     expect(OffersSchema.safeParse({ offers: Array.from({ length: 11 }, () => offer) }).success).toBe(false);
   });
 });
+
+describe("offer schema normalisation", () => {
+  it("maps everyday words for kinds and entity types onto the supported ones", () => {
+    const parsed = OffersSchema.parse({
+      offers: [
+        { propertyName: "KATSEYE tour", kind: "tour", entities: [{ name: "KATSEYE", type: "group" }] },
+        { propertyName: "Stagecoach", kind: "festival", entities: [{ name: "Bud Light", type: "Brand" }] },
+        { propertyName: "Dodgers", kind: "sports team", entities: [{ name: "Shohei Ohtani", type: "athlete" }] },
+      ],
+    });
+    expect(parsed.offers.map((o) => o.kind)).toEqual(["artist", "lineup", "team"]);
+    expect(parsed.offers.map((o) => o.entities[0].type)).toEqual(["artist", "brand", "person"]);
+  });
+});

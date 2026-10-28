@@ -37,6 +37,8 @@ export const ScoutInputSchema = z
       .optional(),
     categories: z.array(z.string()).max(8).optional(),
     mode: z.enum(["full", "fingerprint"]).default("full"),
+    /** Take the most popular match for ambiguous names instead of pausing (examples, MCP). */
+    autoResolve: z.boolean().default(false),
   })
   .refine((v) => v.description || v.property, { message: "Describe the property or list its entities." });
 export type ScoutInput = z.input<typeof ScoutInputSchema>;
@@ -139,7 +141,10 @@ async function scoutPipeline(runId: string, state: ScoutState, deps: AgentDeps, 
     ctx.emit("step", { key: "cap", label: "Signal limit", status: "done", detail: `Using the first 10 of ${entities.length} entities (Qloo accepts up to 10 signals).` });
     entities = entities.slice(0, SIGNAL_CAP);
   }
-  const resolution = await resolveEntities(entities, ctx, state.choices);
+  const resolution = await resolveEntities(entities, ctx, state.choices, { auto: input.autoResolve });
+  if (resolution.auto.length) {
+    ctx.emit("step", { key: "auto", label: "Matched by closest name", status: "done", detail: resolution.auto.join("; ") });
+  }
   if (resolution.missing.length) {
     ctx.emit("step", { key: "missing", label: "Not in Qloo", status: "empty", detail: `Skipped, Qloo has no match: ${resolution.missing.join(", ")}` });
   }

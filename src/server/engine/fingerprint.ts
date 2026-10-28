@@ -74,7 +74,8 @@ export async function buildFingerprint(
 
   const tagsTask = (async () => {
     if (options.light) return [];
-    const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 20 });
+    // Taste tags for the lead entities; very large groups make the workflow fail.
+    const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids.slice(0, 5), limit: 20 });
     const tags = parseTags(env).filter(isTasteTag).slice(0, 12);
     if (tags.length && entry) {
       ctx.facts.add({ ledgerIds: [entry.id], label: "Top taste tags", value: tags.slice(0, 5).map((t) => t.name).join(", "), display: tags.slice(0, 5).map((t) => t.name).join(", ") });

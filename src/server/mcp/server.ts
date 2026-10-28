@@ -61,7 +61,7 @@ function buildServer(deps: AgentDeps, options: Options): McpServer {
       inputSchema: { property_name: z.string().min(1), kind: z.enum(PROPERTY_KINDS), entities, market: z.string().default("United States") },
     },
     async (args) => {
-      const { runId, done } = await startScout({ workspace: mcpWorkspace(), mode: "fingerprint", property: { kind: args.kind, name: args.property_name, market: args.market, entities: args.entities } }, deps);
+      const { runId, done } = await startScout({ workspace: mcpWorkspace(), mode: "fingerprint", autoResolve: true, property: { kind: args.kind, name: args.property_name, market: args.market, entities: args.entities } }, deps);
       await done;
       const run = deps.store.get(runId)!;
       const r = run.result as ScoutResult | null;
@@ -90,7 +90,7 @@ function buildServer(deps: AgentDeps, options: Options): McpServer {
       },
     },
     async (args) => {
-      const { runId, done } = await startScout({ workspace: mcpWorkspace(), categories: args.categories, property: { kind: args.kind, name: args.property_name, entities: args.entities, exclusives: args.exclusives } }, deps);
+      const { runId, done } = await startScout({ workspace: mcpWorkspace(), autoResolve: true, categories: args.categories, property: { kind: args.kind, name: args.property_name, entities: args.entities, exclusives: args.exclusives } }, deps);
       await done;
       const run = deps.store.get(runId)!;
       const r = run.result as ScoutResult | null;

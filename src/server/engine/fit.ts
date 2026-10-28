@@ -29,8 +29,10 @@ export function combine(scores: Record<FitComponent, number | null>): { score: n
   return { score: available >= MIN_COMPONENTS && weight > 0 ? total / weight : null, available };
 }
 
-export function verdictFor(score: number | null): Verdict {
-  if (score === null) return "INSUFFICIENT_EVIDENCE";
+/** Verdict from the score as displayed (rounded), so the number and the stamp never disagree. */
+export function verdictFor(raw: number | null): Verdict {
+  if (raw === null) return "INSUFFICIENT_EVIDENCE";
+  const score = Math.round(raw);
   if (score >= THRESHOLDS.pursue) return "PURSUE";
   if (score >= THRESHOLDS.consider) return "CONSIDER";
   return "PASS";

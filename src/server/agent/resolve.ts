@@ -48,7 +48,11 @@ export async function resolveEntities(
     const pick = (c: Candidate) => ({ id: c.id, name: c.name, type: c.type });
     if (exact.length === 1) return { kind: "resolved" as const, entity: pick(exact[0]) };
     const pool = exact.length > 1 ? exact : candidates;
-    const top = [...pool].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))[0];
+    const [top, second] = [...pool].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0));
+    // Namesakes: a popular entity next to obscure ones is the one people mean.
+    if (exact.length > 1 && (top.popularity ?? 0) >= 0.5 && (second?.popularity ?? 0) < (top.popularity ?? 0) * 0.6) {
+      return { kind: "resolved" as const, entity: pick(top) };
+    }
     if (exact.length === 0 && (norm(top.name).includes(norm(input.name)) || norm(input.name).includes(norm(top.name)))) {
       return { kind: "resolved" as const, entity: pick(top) };
     }

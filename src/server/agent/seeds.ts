@@ -6,18 +6,20 @@ const workspace = "demo";
 
 // Example reports shown on the landing page. Offer prices in the diligence examples are invented.
 const scouts: ScoutInput[] = [
-  { workspace, property: { kind: "podcast", name: "This Week in Startups", entities: [{ name: "This Week in Startups", type: "podcast" }, { name: "Jason Calacanis", type: "person" }] } },
+  { workspace, autoResolve: true, property: { kind: "podcast", name: "This Week in Startups", entities: [{ name: "This Week in Startups", type: "podcast" }, { name: "Jason Calacanis", type: "person" }] } },
   {
     workspace,
+    autoResolve: true,
     property: {
       kind: "lineup",
       name: "Coachella 2026",
       exclusives: [{ category: "beverage_soft", holder: "Coca-Cola" }],
-      entities: ["Sabrina Carpenter", "Justin Bieber", "Karol G", "Anyma", "The xx", "The Strokes", "Addison Rae", "KATSEYE"].map((name) => ({ name, type: "artist" as const })),
+      entities: ["Sabrina Carpenter", "Justin Bieber", "Karol G", "Anyma", "The xx", "The Strokes", "Addison Rae"].map((name) => ({ name, type: "artist" as const })),
     },
   },
   {
     workspace,
+    autoResolve: true,
     property: {
       kind: "team",
       name: "Los Angeles Dodgers",
@@ -25,7 +27,7 @@ const scouts: ScoutInput[] = [
       entities: [{ name: "Los Angeles Dodgers", type: "brand" }, ...["Shohei Ohtani", "Mookie Betts", "Freddie Freeman", "Yoshinobu Yamamoto"].map((name) => ({ name, type: "person" as const }))],
     },
   },
-  { workspace, property: { kind: "podcast", name: "Call Her Daddy", entities: [{ name: "Call Her Daddy", type: "podcast" }, { name: "Alex Cooper", type: "person" }] } },
+  { workspace, autoResolve: true, property: { kind: "podcast", name: "Call Her Daddy", entities: [{ name: "Call Her Daddy", type: "podcast" }, { name: "Alex Cooper", type: "person" }] } },
 ];
 
 const diligences: DiligenceInput[] = [
