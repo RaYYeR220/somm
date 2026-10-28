@@ -122,3 +122,23 @@ describe("mcp gateway (official harness, no key)", () => {
     expect(result.error?.code).toMatch(/QLOO_/);
   });
 });
+
+describe("http gateway resilience", () => {
+  it("retries a rate-limited call and then succeeds", async () => {
+    let n = 0;
+    const flaky = async () => {
+      n += 1;
+      return n === 1 ? new Response("{}", { status: 429 }) : new Response(JSON.stringify({ results: { entities: [{ entity_id: "e", name: "x" }] } }), { status: 200 });
+    };
+    const gw = createHttpGateway({ baseUrl: "https://hackathon.api.qloo.com", apiKey: "k", fetch: flaky as typeof fetch, retryDelaysMs: [1, 1] });
+    expect((await gw.call("insights_raw", { "filter.type": "urn:entity:brand" })).status).toBe("ok");
+    expect(n).toBe(2);
+  });
+
+  it("keeps only location and affinity for heatmap cells", async () => {
+    const cell = { location: { latitude: 1, longitude: 2, geohash: "dnq8" }, query: { affinity: 1, affinity_rank: 0.97, popularity: 0.99, entity_brand_affinity: 0.5 } };
+    const gw = createHttpGateway({ baseUrl: "https://hackathon.api.qloo.com", apiKey: "k", fetch: fakeFetch(200, { results: { heatmap: [cell] } }) });
+    const env = await gw.call("insights_raw", { "filter.type": "urn:heatmap" });
+    expect(env.results).toEqual({ heatmap: [{ location: { latitude: 1, longitude: 2, geohash: "dnq8" }, query: { affinity: 1, affinity_rank: 0.97 } }] });
+  });
+});

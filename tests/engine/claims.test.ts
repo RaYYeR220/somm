@@ -68,3 +68,10 @@ describe("checkClaims", () => {
     expect(statusOf("Youth affinity sits at -0.12 [F3].")).toEqual(["kept"]);
   });
 });
+
+describe("marker placement", () => {
+  it("keeps a marker written after the full stop with the sentence it backs", () => {
+    const out = checkClaims("Liquid Death ranks #2 of 10 energy drinks for this audience. [F1] The two audiences share an 81/100 profile match. [F2]", facts, allowed);
+    expect(out.segments.map((s) => s.status)).toEqual(["kept", "kept"]);
+  });
+});

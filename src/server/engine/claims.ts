@@ -92,7 +92,8 @@ export function checkClaims(markdown: string, factList: Fact[], allowedNames: st
       keptLines.push(rawLine);
       return;
     }
-    const sentences = /^\s*#/.test(prefix) ? [body] : body.split(/(?<=[.!?])\s+(?=["“(\[A-Z0-9#−-])/);
+    // A citation written after the full stop ("… 0.92. [F3]") belongs to the sentence before it.
+    const sentences = /^\s*#/.test(prefix) ? [body] : body.split(/(?<=[.!?](?:\s*\[F\d+\])*)\s+(?=["“(A-Z0-9#−-])/);
     const kept: string[] = [];
     for (const sentence of sentences) {
       const verdict = judge(sentence, facts, allowedNames);

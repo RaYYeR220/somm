@@ -74,7 +74,7 @@ export async function buildFingerprint(
 
   const tagsTask = (async () => {
     if (options.light) return [];
-    const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 25 });
+    const { env, entry } = await qloo(ctx, "entity_tags", { entities: ids, limit: 20 });
     const tags = parseTags(env).filter(isTasteTag).slice(0, 12);
     if (tags.length && entry) {
       ctx.facts.add({ ledgerIds: [entry.id], label: "Top taste tags", value: tags.slice(0, 5).map((t) => t.name).join(", "), display: tags.slice(0, 5).map((t) => t.name).join(", ") });
@@ -113,11 +113,8 @@ export async function buildFingerprint(
 
   const geoTask = (async () => {
     // The full heatmap (every cell, not just the top few) comes from Insights directly.
-    const { env, entry } = await qloo(ctx, "insights_raw", heatmapQuery(lead.id, property.market));
+    const { env } = await qloo(ctx, "insights_raw", heatmapQuery(lead.id, property.market));
     const cells = parseHeatmap(env);
-    if (cells.length && entry) {
-      ctx.facts.add({ ledgerIds: [entry.id], label: `Fan concentration cells in ${property.market}`, value: cells.length, display: `${cells.length} high-affinity areas in ${property.market}` });
-    }
     step(ctx, geoStep, cells.length ? "done" : "empty", `${cells.length} cells`);
     return cells;
   })();
