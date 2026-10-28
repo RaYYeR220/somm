@@ -25,7 +25,7 @@ function migrate(db: Db) {
     db.transaction(() => {
       db.exec(sql);
       db.prepare("INSERT INTO migrations (n, at) VALUES (?, ?)").run(n, new Date().toISOString());
-    })();
+    }).immediate();
   });
 }
 

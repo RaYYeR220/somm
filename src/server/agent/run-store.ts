@@ -111,7 +111,7 @@ export function createRunStore(db: Db) {
       const stuck = db.prepare("SELECT id FROM runs WHERE status = 'running'").all() as { id: string }[];
       for (const { id } of stuck) {
         db.prepare("UPDATE runs SET status = 'error', updated_at = ? WHERE id = ?").run(now(), id);
-        append(id, "done", { status: "error", degraded: ["The server restarted while this run was in progress. Start it again."] });
+        append.immediate(id, "done", { status: "error", degraded: ["The server restarted while this run was in progress. Start it again."] });
       }
       return stuck.length;
     },
@@ -119,7 +119,8 @@ export function createRunStore(db: Db) {
       db.prepare("UPDATE runs SET demo = ? WHERE id = ?").run(demo ? 1 : 0, id);
     },
     append(runId: string, kind: RunEventKind, payload: unknown): RunEvent {
-      const event = append(runId, kind, payload);
+      // IMMEDIATE takes the write lock before reading the next seq, so a Litestream checkpoint makes us wait, not fail.
+      const event = append.immediate(runId, kind, payload);
       bus.emit(runId, event);
       return event;
     },

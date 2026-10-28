@@ -66,7 +66,7 @@ export function createLedger(db: Db, runId: string): Ledger {
   });
 
   return {
-    record: (op, input, envelope, transport) => record(op, input, envelope, transport),
+    record: (op, input, envelope, transport) => record.immediate(op, input, envelope, transport),
     all: () => (selectAll.all(runId) as Row[]).map(fromRow),
     get: (id) => {
       const row = selectOne.get(runId, id) as Row | undefined;

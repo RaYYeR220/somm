@@ -1,6 +1,6 @@
 # Reviewing Somm in five minutes
 
-Everything below runs in the browser with no sign-in. Live site: see the repository description.
+Everything below runs in the browser with no sign-in. Live site: **https://somm-494617981995.us-central1.run.app**
 
 ## 1. See a finished report (1 minute)
 

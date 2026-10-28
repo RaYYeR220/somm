@@ -6,7 +6,7 @@
 - **Brands** paste the sponsorship offers they received and get a verdict per offer: pursue, consider, pass or blocked.
 - **Agents** call the same judgment over MCP.
 
-Live: see the link in the repository description. No sign-in; example reports load instantly.
+Live: **https://somm-494617981995.us-central1.run.app** — no sign-in; example reports load instantly.
 
 ## Why it needs Qloo
 
