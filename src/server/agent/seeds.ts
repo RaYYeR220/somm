@@ -10,6 +10,8 @@ const scouts: ScoutInput[] = [
   {
     workspace,
     autoResolve: true,
+    // Fixed categories so the example shows the exclusivity and age gates at work.
+    categories: ["beverage_soft", "energy_drink", "beer", "spirits", "apparel", "beauty", "telecom", "fintech_bank"],
     property: {
       kind: "lineup",
       name: "Coachella 2026",

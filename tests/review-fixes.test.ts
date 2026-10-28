@@ -172,3 +172,28 @@ describe("review fixes", () => {
     expect(store.get(id)!.status).toBe("error");
   });
 });
+
+describe("offers Qloo doesn't know", () => {
+  it("still blocks a competitor conflict and reports insufficient evidence otherwise", async () => {
+    const d = deps((op, input) => (op === "search" && /Ghost Fest|Quiet Pod/.test(String(input.query)) ? empty(op) : fakeQloo(op, input)), {
+      offers: {
+        offers: [
+          { propertyName: "Ghost Fest", kind: "lineup", entities: [{ name: "Ghost Fest", type: "place" }], currentSponsors: ["Red Bull"] },
+          { propertyName: "Quiet Pod", kind: "podcast", entities: [{ name: "Quiet Pod", type: "podcast" }], currentSponsors: [] },
+        ],
+      },
+    });
+    const { runId, done } = await startDiligence({ workspace: "w", brand: { name: "Zap Cola", category: "energy_drink", competitors: ["Red Bull"] }, offersText: "Ghost Fest, partners include Red Bull.\n\nQuiet Pod, two reads." }, d);
+    await done;
+    const r = d.store.get(runId)!.result as DiligenceResult;
+    expect(r.offers.map((o) => o.fit?.verdict)).toEqual(["BLOCKED", "INSUFFICIENT_EVIDENCE"]);
+  });
+});
+
+describe("activation ideas", () => {
+  it("accept more cited facts than shown", async () => {
+    const { IdeasSchema } = await import("@/server/llm/prompts");
+    const parsed = IdeasSchema.parse({ ideas: [{ title: "t", body: "b", facts: ["F1", "F2", "F3", "F4", "F5", "F6"] }] });
+    expect(parsed.ideas[0].facts).toHaveLength(4);
+  });
+});

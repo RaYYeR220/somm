@@ -116,9 +116,20 @@ async function diligencePipeline(input: z.output<typeof DiligenceInputSchema>, d
     const resolution = await resolveEntities(offer.entities, ctx, {}, { auto: true });
     if (resolution.auto.length) review.notes.push(`Matched by closest name: ${resolution.auto.join("; ")}. Check these are the right entities.`);
     if (resolution.missing.length) review.notes.push(`Qloo has no match for: ${resolution.missing.join(", ")}.`);
+    // Competitors named anywhere in the offer's own text count, whatever the model extracted.
+    const named = chunk ? input.brand.competitors.filter((c) => chunkMentions(chunk, c)) : [];
+    const brandSide = { competitors: input.brand.competitors, propertySponsors: [...offer.currentSponsors, ...named] };
     if (!resolution.resolved.length) {
+      // No Qloo data means no score, but conflicts and age rules still apply.
       review.notes.push("Qloo doesn't know this property, so Somm gives no score.");
-      ctx.emit("step", { ...stepInfo, status: "empty", detail: "not in Qloo" });
+      const unknown: Property = { kind: offer.kind, name: offer.propertyName, market: "United States", exclusives: [], agePolicy: "unknown", entities: [{ id: "unknown", name: offer.propertyName, type: "brand" }] };
+      const blank = { property: unknown, tags: [], demographics: null, entityDemographics: [], heatmap: [], crossDomain: {}, momentum: null, facts: [] };
+      const none = { score: null, facts: [] };
+      review.fit = applyGates(
+        { brand, category, components: { affinity: none, reciprocity: none, demographic: none, geo: none, momentum: none }, score: null, verdict: "INSUFFICIENT_EVIDENCE", reasons: [] },
+        { property: unknown, fp: blank, brandSide },
+      );
+      ctx.emit("step", { ...stepInfo, status: "empty", detail: `not in Qloo, ${review.fit.verdict.toLowerCase().replace("_", " ")}` });
       return review;
     }
     const property: Property = { kind: offer.kind, name: offer.propertyName, market: "United States", exclusives: [], agePolicy: "unknown", entities: resolution.resolved.slice(0, 10) };
@@ -142,9 +153,7 @@ async function diligencePipeline(input: z.output<typeof DiligenceInputSchema>, d
         : null;
 
     const fit = await scoreFit({ fp, brand, category, rank }, ctx);
-    // Competitors named anywhere in the offer's own text count, whatever the model extracted.
-    const named = chunk ? input.brand.competitors.filter((c) => chunkMentions(chunk, c)) : [];
-    review.fit = applyGates(fit, { property, fp, brandSide: { competitors: input.brand.competitors, propertySponsors: [...offer.currentSponsors, ...named] } });
+    review.fit = applyGates(fit, { property, fp, brandSide });
     ctx.emit("step", { ...stepInfo, status: "done", detail: review.fit.score === null ? review.fit.verdict : `${review.fit.verdict} · ${review.fit.score}` });
     return review;
   });
